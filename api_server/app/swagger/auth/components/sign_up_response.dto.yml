@@ -1,0 +1,10 @@
+description: 会員登録のレスポンス
+type: object
+properties:
+  errors:
+    type: array
+    items:
+      description: バリデーションエラーメッセージ
+      type: string
+required:
+  - errors
