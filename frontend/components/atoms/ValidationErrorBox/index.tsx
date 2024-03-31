@@ -16,14 +16,12 @@ export const ValidationErrorBox = ({ messages }: Props) => {
 };
 
 const Wrapper = styled.div`
-	width: ${({ theme }) => theme.size.threeQuarters}
-	background-color: ${({ theme }) => theme.color.lightDanger};
-	border-radius: ${({ theme }) => theme.size.p5};
-	padding: ${({ theme }) => theme.size.p10};
+	width: ${({ theme }) => theme.size.full};
+	padding: ${({ theme }) => theme.size.p10} 0;
 `;
 Wrapper.defaultProps = { theme: theme };
 
 const Text = styled.p`
-	color: ${({ theme }) => theme.color.white};
+	color: ${({ theme }) => theme.color.normalDanger};
 `;
 Text.defaultProps = { theme: theme };

@@ -21,7 +21,7 @@ export const NavigationLink = ({
 	href,
 	title,
 	width = 'p140',
-	backgroundColor,
+	backgroundColor = 'normalPrimary',
 	hoveredBackgroundColor = 'palePrimary',
 }: Props) => {
 	return (
