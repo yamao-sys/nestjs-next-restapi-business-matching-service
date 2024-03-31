@@ -3,6 +3,23 @@ info:
   title: Todos Controller Schema
   version: 1.0.0
 paths:
+  /auth/validate_sign_up:
+    post:
+      operationId: validateSignUp
+      description: 会員登録の入力バリデーション
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpDto'
+      responses:
+        '200':
+          description: バリデーションエラーの返却
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateSignUpResponseDto'
   /auth/sign_up:
     post:
       operationId: signUp
@@ -57,6 +74,23 @@ components:
       required:
         - email
         - password
+    ValidateSignUpResponseDto:
+      description: 会員登録の入力値チェックのレスポンス
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            email:
+              type: array
+              items:
+                type: string
+            password:
+              type: array
+              items:
+                type: string
+      required:
+        - errors
     SignUpResponseDto:
       description: 会員登録のレスポンス
       type: object

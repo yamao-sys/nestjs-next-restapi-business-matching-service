@@ -1,0 +1,16 @@
+description: 会員登録の入力値チェックのレスポンス
+type: object
+properties:
+  errors:
+    type: object
+    properties:
+      email:
+        type: array
+        items:
+          type: string
+      password:
+        type: array
+        items:
+          type: string
+required:
+  - errors

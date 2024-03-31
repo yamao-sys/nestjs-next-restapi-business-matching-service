@@ -15,10 +15,29 @@ import { SignInDto } from './dto/sign_in.dto';
 import { SignUpResponseDto } from './dto/sign_up_response.dto';
 import { SignInResponseDto } from './dto/sign_in_response.dto';
 import { format_validation_errors } from 'src/lib/format_validation_errors';
+import { ValidateSignUpResponseDto } from './dto/validate_sign_up_response.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @HttpCode(HttpStatus.OK)
+  @ApiCreatedResponse({
+    type: ValidateSignUpResponseDto,
+    description: '会員登録のバリデーション結果の返却',
+  })
+  @Post('validate_sign_up')
+  async validateSignUp(@Body() signUpDto: SignUpDto) {
+    const user = await this.authService.buildNewUser(signUpDto);
+
+    const validationErrors = await this.authService.validateSignUp(user);
+    const result: { [key: string]: { [key: string]: string[] } } = {};
+    result['errors'] =
+      validationErrors.length > 0
+        ? format_validation_errors(validationErrors)
+        : {};
+    return result;
+  }
 
   @HttpCode(HttpStatus.OK)
   @ApiCreatedResponse({ type: SignUpResponseDto, description: 'sign up完了' })

@@ -1,13 +1,17 @@
 import { ValidationError } from 'class-validator';
 
 export function format_validation_errors(errors: ValidationError[]) {
-  return errors
-    .map((error) => {
-      const messages = [];
-      for (const key in error.constraints) {
-        messages.push(error.constraints[key]);
-      }
-      return messages;
-    })
-    .flat();
+  const result: { [key: string]: Array<string> } = {};
+
+  errors.forEach((error) => {
+    // エラーメッセージを配列に
+    const messages = [];
+    for (const key in error.constraints) {
+      messages.push(error.constraints[key]);
+    }
+    // 戻り値のhashに追加
+    result[error.property] = messages;
+  });
+
+  return result;
 }
