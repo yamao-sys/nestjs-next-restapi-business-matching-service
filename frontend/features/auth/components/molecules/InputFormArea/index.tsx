@@ -1,5 +1,5 @@
 import { ValidationErrorBox } from '@/components/atoms/ValidationErrorBox';
-import { InputForm } from '@/components/molecules/InputForm';
+import { InputForm } from '@/components/atoms/InputForm';
 import { theme } from '@/styles/theme';
 import styled from 'styled-components';
 

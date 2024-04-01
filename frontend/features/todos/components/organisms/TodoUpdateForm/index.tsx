@@ -8,7 +8,7 @@ import { handleApiErrors } from '@/lib/handleApiErrors';
 import { redirectToTopPage } from '@/features/todos/server_actions/redirectToTopPage';
 import { BaseLayout } from '../BaseLayout';
 import { ValidationErrorBox } from '@/components/atoms/ValidationErrorBox';
-import { InputForm } from '@/components/molecules/InputForm';
+import { InputForm } from '@/components/atoms/InputForm';
 import { TextAreaForm } from '@/features/auth/components/atoms/TextAreaForm';
 import { BaseButton } from '@/components/atoms/BaseButton';
 import { ThemeProvider } from 'styled-components';

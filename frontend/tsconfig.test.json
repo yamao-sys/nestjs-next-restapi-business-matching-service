@@ -1,0 +1,8 @@
+{
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		// NOTE: この設定なしだとテスト実行環境でJSXを解釈できずに、SyntaxError等が出る
+		"jsx": "react-jsx"
+	},
+	"include": ["./jest.setup.ts"]
+}

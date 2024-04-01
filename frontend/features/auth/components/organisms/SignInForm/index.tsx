@@ -7,7 +7,7 @@ import { HTTPError } from '@aspida/fetch';
 import { useState } from 'react';
 import { BaseLayout } from '../BaseLayout';
 import { ValidationErrorBox } from '@/components/atoms/ValidationErrorBox';
-import { InputForm } from '@/components/molecules/InputForm';
+import { InputForm } from '@/components/atoms/InputForm';
 import { BaseButton } from '@/components/atoms/BaseButton';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '@/styles/theme';
