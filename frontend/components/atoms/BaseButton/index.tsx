@@ -4,7 +4,7 @@ import { theme } from '@/styles/theme';
 import styled from 'styled-components';
 
 type CssProps = {
-	width?: 'threeQuarters' | 'quarter';
+	width?: 'threeQuarters' | 'quarter' | 'full';
 	backgroundColor?: 'normalPrimary' | 'normalGray';
 	fontSize?: 'p24' | 'p16';
 	hoveredBackgroundColor?: 'subtlePrimary' | 'subtleGray';

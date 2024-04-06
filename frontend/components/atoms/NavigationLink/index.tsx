@@ -43,10 +43,12 @@ const Navigation = styled(Link)<{
 	$backgroundColor: CssProps['backgroundColor'];
 	$hoveredBackgroundColor: CssProps['hoveredBackgroundColor'];
 }>`
+	box-sizing: border-box;
 	display: block;
 	width: ${({ theme, $width }) => theme.size[$width]};
 	height: ${({ theme }) => theme.size.p40};
 	text-align: center;
+	text-decoration: none;
 	padding: ${({ theme }) => theme.size.p10};
 	background-color: ${({ theme, $backgroundColor }) =>
 		$backgroundColor
