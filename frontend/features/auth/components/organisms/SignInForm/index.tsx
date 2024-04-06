@@ -7,9 +7,9 @@ import { HTTPError } from '@aspida/fetch';
 import { useState } from 'react';
 import { BaseLayout } from '../BaseLayout';
 import { ValidationErrorBox } from '@/components/atoms/ValidationErrorBox';
-import { InputForm } from '@/components/atoms/InputForm';
 import { BaseButton } from '@/components/atoms/BaseButton';
-import { ThemeProvider } from 'styled-components';
+import { InputTextFormArea } from '../../molecules/InputTextFormArea';
+import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '@/styles/theme';
 
 export default function SignInForm() {
@@ -23,6 +23,8 @@ export default function SignInForm() {
 		setInputPassword(e.target.value);
 
 	const handleSignIn = async () => {
+		setValidationErrors([]);
+
 		try {
 			const response = await postSignIn({
 				email: inputEmail,
@@ -33,9 +35,6 @@ export default function SignInForm() {
 				setValidationErrors(response.errors);
 				setInputPassword('');
 			} else {
-				window.alert('ログインに成功しました！');
-				setInputEmail('');
-				setInputPassword('');
 				await redirectToTopPage();
 			}
 		} catch (error) {
@@ -51,16 +50,18 @@ export default function SignInForm() {
 		<>
 			<ThemeProvider theme={theme}>
 				<BaseLayout title="ログイン">
-					{!!validationErrors.length && (
-						<ValidationErrorBox messages={validationErrors} />
-					)}
-					<InputForm
+					<ValidationErrorsArea>
+						{!!validationErrors.length && (
+							<ValidationErrorBox messages={validationErrors} />
+						)}
+					</ValidationErrorsArea>
+					<InputTextFormArea
 						name="email"
-						placeholder="例) test@example.com"
+						placeholder="Email"
 						value={inputEmail}
 						onChange={handleChangeInputEmail}
 					/>
-					<InputForm
+					<InputTextFormArea
 						type="password"
 						name="password"
 						placeholder="Password"
@@ -73,3 +74,7 @@ export default function SignInForm() {
 		</>
 	);
 }
+
+const ValidationErrorsArea = styled.p`
+	text-align: center;
+`;

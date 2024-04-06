@@ -3,14 +3,14 @@ import { InputForm } from '@/components/atoms/InputForm';
 import { theme } from '@/styles/theme';
 import styled from 'styled-components';
 
-type Props = JSX.IntrinsicElements['input'] & { validationErrors: String[] };
+type Props = JSX.IntrinsicElements['input'] & { validationErrors?: String[] };
 
 export const InputTextFormArea = ({
 	name,
 	placeholder,
 	value,
 	onChange,
-	validationErrors,
+	validationErrors = [],
 }: Props) => {
 	return (
 		<>
