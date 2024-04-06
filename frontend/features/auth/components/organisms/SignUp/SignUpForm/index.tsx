@@ -10,7 +10,7 @@ import { theme } from '@/styles/theme';
 import { postValidateSignUp } from '@/features/auth/server_actions/postValidateSignUp';
 import { useSignUpContext } from '@/features/auth/contexts/SignUpContext';
 import { useRouter } from 'next/navigation';
-import { InputTextFormArea } from '../../../molecules/InputFormArea';
+import { InputTextFormArea } from '../../../molecules/InputTextFormArea';
 
 export default function SignUpForm() {
 	const { inputEmail, setInputEmail, inputPassword, setInputPassword } =
