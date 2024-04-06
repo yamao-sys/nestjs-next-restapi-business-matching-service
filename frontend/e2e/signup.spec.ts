@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 
+// TODO: APIとの繋ぎこみをどうするか検討してから作り込む(mock? test環境? stagingなどの検証環境?)
 test.describe('/sign_up', () => {
 	test('【正常系】確認画面に遷移できる', async ({ page }) => {
 		await page.goto('/sign_up');
@@ -78,7 +79,24 @@ test.describe('/sign_up', () => {
 	});
 
 	test('【正常系】入力→確認→サンクスの遷移ができる', async ({ page }) => {
-		//
+		await page.goto('/sign_up');
+
+		// フォームへの入力・送信
+		await page
+			.getByPlaceholder('例) test@example.com')
+			.fill('test5@example.com');
+		await page.getByPlaceholder('8文字以上20文字以内').fill('password');
+		await page.getByRole('button').click();
+		await page.waitForURL('http://localhost:3001/sign_up/confirm');
+
+		await page.getByRole('button', { name: '登録する' }).click();
+
+		await page.waitForURL('http://localhost:3001/sign_up/thanks');
+		await page.screenshot({
+			fullPage: true,
+			path: './tests/exsample_test/confirm.png',
+		});
+		await expect(page.getByText('会員登録が完了しました。')).toBeVisible();
 	});
 
 	// test('【異常系】バリデーションエラーがある場合は入力画面でエラーメッセージが表示されること', async ({

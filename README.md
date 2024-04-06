@@ -13,6 +13,10 @@ https://zenn.dev/ignorant_kenji/articles/6f740feabf6f30
 https://kaminashi-developer.hatenablog.jp/entry/2023/12/12/080000
 https://techblog.finatext.com/front-end-testing-strategy-with-roi-82b22eb12811
 
+- E2Eに関して
+	- Page RouterかつCSRではMSWでモックできた。
+	- App RouterではMSW側からモックが難しい → testmodeが登場したが、2024年4月時点ではexperimental かつ 参考文献がまだ少ない...
+
 ### 新規開発の場合
 - 最低限コンポーネントが正しく動作すること
 - コンポーネント同士の協調動作が正しく動作すること
