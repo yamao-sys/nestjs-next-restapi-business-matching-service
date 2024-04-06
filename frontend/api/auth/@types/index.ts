@@ -5,6 +5,14 @@ export type SignUpDto = {
 	password: string;
 };
 
+/** 会員登録の入力値チェックのレスポンス */
+export type ValidateSignUpResponseDto = {
+	errors: {
+		email?: string[] | undefined;
+		password?: string[] | undefined;
+	};
+};
+
 /** 会員登録のレスポンス */
 export type SignUpResponseDto = {
 	errors: string[];

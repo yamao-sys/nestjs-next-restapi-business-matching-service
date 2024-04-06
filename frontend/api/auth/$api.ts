@@ -1,11 +1,13 @@
 import type { AspidaClient, BasicHeaders } from 'aspida';
 import type { Methods as Methods_1bxrhgq } from './auth/sign_in';
 import type { Methods as Methods_1escmss } from './auth/sign_up';
+import type { Methods as Methods_1n9f69v } from './auth/validate_sign_up';
 
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
 	const prefix = (baseURL === undefined ? '' : baseURL).replace(/\/$/, '');
 	const PATH0 = '/auth/sign_in';
 	const PATH1 = '/auth/sign_up';
+	const PATH2 = '/auth/validate_sign_up';
 	const POST = 'POST';
 
 	return {
@@ -71,6 +73,37 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
 						.json()
 						.then((r) => r.body),
 				$path: () => `${prefix}${PATH1}`,
+			},
+			validate_sign_up: {
+				/**
+				 * 会員登録の入力バリデーション
+				 * @returns バリデーションエラーの返却
+				 */
+				post: (option: {
+					body: Methods_1n9f69v['post']['reqBody'];
+					config?: T | undefined;
+				}) =>
+					fetch<
+						Methods_1n9f69v['post']['resBody'],
+						BasicHeaders,
+						Methods_1n9f69v['post']['status']
+					>(prefix, PATH2, POST, option).json(),
+				/**
+				 * 会員登録の入力バリデーション
+				 * @returns バリデーションエラーの返却
+				 */
+				$post: (option: {
+					body: Methods_1n9f69v['post']['reqBody'];
+					config?: T | undefined;
+				}) =>
+					fetch<
+						Methods_1n9f69v['post']['resBody'],
+						BasicHeaders,
+						Methods_1n9f69v['post']['status']
+					>(prefix, PATH2, POST, option)
+						.json()
+						.then((r) => r.body),
+				$path: () => `${prefix}${PATH2}`,
 			},
 		},
 	};

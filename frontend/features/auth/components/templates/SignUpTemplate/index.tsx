@@ -1,4 +1,6 @@
-import SignUpForm from '../../organisms/SignUpForm';
+'use client';
+
+import SignUpForm from '../../organisms/SignUp/SignUpForm';
 
 export default function SignUpTemplate() {
 	return (

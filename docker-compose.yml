@@ -29,11 +29,16 @@ services:
     volumes:
       - ./frontend:/frontend
       - ./api_server/app/swagger:/frontend/swagger
-    command: sh -c "npm run dev"
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    command: sh -c "sh ./bootstrap.sh"
     container_name: frontend
     ports:
       - 3001:3000
+      - 6006:6006
+      - 9323:9323
     env_file: ./frontend/.env.development
+    environment:
+      - DISPLAY=0
     restart: always
     tty: true
     stdin_open: true

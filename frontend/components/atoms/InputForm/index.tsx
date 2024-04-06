@@ -3,23 +3,17 @@
 import { theme } from '@/styles/theme';
 import styled from 'styled-components';
 
-type Props = {
-	type?: string;
-	name: string;
-	placeholder: string;
-	value: string;
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
+type Props = JSX.IntrinsicElements['input'];
 
-export function InputTextForm({
+export const InputForm = ({
 	type = 'text',
 	name,
 	placeholder,
 	value,
 	onChange,
-}: Props) {
+}: Props) => {
 	return (
-		<>
+		<Wrapper>
 			<Input
 				type={type}
 				name={name}
@@ -27,9 +21,14 @@ export function InputTextForm({
 				value={value}
 				onChange={onChange}
 			/>
-		</>
+		</Wrapper>
 	);
-}
+};
+
+const Wrapper = styled.div`
+	width: ${({ theme }) => theme.size.full};
+`;
+Wrapper.defaultProps = { theme: theme };
 
 const Input = styled.input`
 	display: block;
