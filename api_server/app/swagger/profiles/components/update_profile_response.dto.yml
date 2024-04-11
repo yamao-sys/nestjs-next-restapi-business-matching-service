@@ -1,0 +1,46 @@
+description: プロフィール作成のresponse DTO
+type: object
+properties:
+  profile:
+    type: object
+    properties:
+      lastName:
+        type: string
+      firstName:
+        type: string
+      birthday:
+        type: string
+      currentEmployment:
+        type: string
+        enum: [fleelance, fulltime, other]
+      inWorkingCompanyName:
+        type: string
+      tel:
+        type: string
+  errors:
+    type: array
+    items:
+      type: object
+      description: バリデーションエラー
+      properties:
+        key:
+          type: string
+          enum:
+            [
+              lastName,
+              firstName,
+              birthday,
+              currentEmployment,
+              inWorkingCompanyName,
+              tel,
+            ]
+        messages:
+          type: array
+          items:
+            type: string
+      required:
+        - key
+        - messages
+required:
+  - profile
+  - errors

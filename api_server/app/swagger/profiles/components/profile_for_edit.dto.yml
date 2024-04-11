@@ -1,0 +1,23 @@
+description: 編集対象のプロフィール取得レスポンスのDTO
+type: object
+properties:
+  lastName:
+    type: string
+  firstName:
+    type: string
+  birthday:
+    type: string
+  currentEmployment:
+    type: string
+    enum: [fleelance, fulltime, other]
+  inWorkingCompanyName:
+    type: string
+  tel:
+    type: string
+required:
+  - lastName
+  - firstName
+  - birthday
+  - currentEmployment
+  - inWorkingCompanyName
+  - tel
