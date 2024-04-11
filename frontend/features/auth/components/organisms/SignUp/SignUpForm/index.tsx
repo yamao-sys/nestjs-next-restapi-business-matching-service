@@ -10,7 +10,7 @@ import { theme } from '@/styles/theme';
 import { postValidateSignUp } from '@/features/auth/server_actions/postValidateSignUp';
 import { useSignUpContext } from '@/features/auth/contexts/SignUpContext';
 import { useRouter } from 'next/navigation';
-import { InputTextFormArea } from '../../../molecules/InputTextFormArea';
+import { InputFormArea } from '@/components/molecules/InputFormArea';
 
 export default function SignUpForm() {
 	const { inputEmail, setInputEmail, inputPassword, setInputPassword } =
@@ -68,14 +68,15 @@ export default function SignUpForm() {
 		<>
 			<ThemeProvider theme={theme}>
 				<BaseLayout title="会員登録" phase="form">
-					<InputTextFormArea
+					<InputFormArea
+						type="text"
 						name="email"
 						placeholder="例) test@example.com"
 						value={inputEmail}
 						onChange={handleChangeInputEmail}
 						validationErrors={emailValidationErrors}
 					/>
-					<InputTextFormArea
+					<InputFormArea
 						type="password"
 						name="password"
 						placeholder="8文字以上20文字以内"
