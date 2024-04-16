@@ -36,6 +36,7 @@
     "cookie-parser": "^1.4.6",
     "express-openapi-validator": "^5.1.6",
     "mysql2": "^3.9.2",
+    "nest-commander": "^3.12.5",
     "openapi2aspida": "^0.23.2",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
