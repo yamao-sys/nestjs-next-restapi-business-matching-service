@@ -7,6 +7,25 @@ export type ProfileForEditDto = {
 	currentEmployment: 'fleelance' | 'fulltime' | 'other';
 	inWorkingCompanyName: string;
 	tel: string;
+	latestProject: string;
+	currentHourlyWage: number;
+	experiencedDuration:
+		| 'lessThanOneYear'
+		| 'junior'
+		| 'middle'
+		| 'senior'
+		| 'expert';
+	selfPromotion: string;
+	experiencedProfessions: {
+		professionId?: string | undefined;
+		experiencedDuration?:
+			| 'lessThanOneYear'
+			| 'junior'
+			| 'middle'
+			| 'senior'
+			| 'expert'
+			| undefined;
+	}[];
 };
 
 /** TODO作成のrequest DTO */
@@ -17,6 +36,25 @@ export type UpdateProfileDto = {
 	currentEmployment: 'fleelance' | 'fulltime' | 'other';
 	inWorkingCompanyName: string;
 	tel: string;
+	latestProject: string;
+	currentHourlyWage: number;
+	experiencedDuration:
+		| 'lessThanOneYear'
+		| 'junior'
+		| 'middle'
+		| 'senior'
+		| 'expert';
+	selfPromotion: string;
+	experiencedProfessions: {
+		professionId?: string | undefined;
+		experiencedDuration?:
+			| 'lessThanOneYear'
+			| 'junior'
+			| 'middle'
+			| 'senior'
+			| 'expert'
+			| undefined;
+	}[];
 };
 
 /** プロフィール作成のresponse DTO */
@@ -28,16 +66,32 @@ export type UpdateProfileResponseDto = {
 		currentEmployment?: 'fleelance' | 'fulltime' | 'other' | undefined;
 		inWorkingCompanyName?: string | undefined;
 		tel?: string | undefined;
+		latestProject?: string | undefined;
+		currentHourlyWage?: number | undefined;
+		experiencedDuration?:
+			| 'lessThanOneYear'
+			| 'junior'
+			| 'middle'
+			| 'senior'
+			| 'expert'
+			| undefined;
+		selfPromotion?: string | undefined;
+		experiencedProfessions?:
+			| {
+					professionId?: string | undefined;
+					experiencedDuration?:
+						| 'lessThanOneYear'
+						| 'junior'
+						| 'middle'
+						| 'senior'
+						| 'expert'
+						| undefined;
+			  }[]
+			| undefined;
 	};
 
 	errors: {
-		key:
-			| 'lastName'
-			| 'firstName'
-			| 'birthday'
-			| 'currentEmployment'
-			| 'inWorkingCompanyName'
-			| 'tel';
+		key: string;
 		messages: string[];
 	}[];
 };

@@ -1,0 +1,9 @@
+description: 経験スキルのマスタのresponse DTO
+type: object
+properties:
+  professions:
+    type: array
+    items:
+      $ref: './profession.dto.yml'
+required:
+  - professions

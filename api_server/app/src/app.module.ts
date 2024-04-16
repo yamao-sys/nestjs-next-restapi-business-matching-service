@@ -7,6 +7,7 @@ import { typeormConfig } from 'typeorm.config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ProfilesModule } from './profiles/profiles.module';
+import { ExperiencedEntityMastersModule } from './experienced-entity-masters/experienced-entity-masters.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ProfilesModule } from './profiles/profiles.module';
     UsersModule,
     AuthModule,
     ProfilesModule,
+    ExperiencedEntityMastersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
