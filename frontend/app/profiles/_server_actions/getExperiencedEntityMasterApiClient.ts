@@ -1,13 +1,9 @@
 import aspida, { FetchConfig } from '@aspida/fetch';
-import { getAllCookies } from '@/lib/getAllCookies';
-import api from '@/api/profiles/$api';
+import api from '@/api/experienced_entity_masters/$api';
 
-export const getProfileApiClient = (options?: FetchConfig) => {
+export const getExperiencedEntityMasterApiClient = (options?: FetchConfig) => {
 	const baseFetchConditions = {
 		baseURL: process.env.BASE_API_URL,
-		headers: {
-			cookie: getAllCookies(),
-		},
 		throwHttpErrors: true,
 	};
 

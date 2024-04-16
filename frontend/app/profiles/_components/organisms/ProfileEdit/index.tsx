@@ -1,5 +1,6 @@
 'use client';
 
+import { FetchExperiencedEntityMasterResponse } from '@/api/experienced_entity_masters/@types';
 import {
 	ProfileForEditDto,
 	UpdateProfileDto,
@@ -7,8 +8,10 @@ import {
 } from '@/api/profiles/@types';
 import { postUpdateProfile } from '@/app/profiles/_server_actions/postUpdateProfile';
 import { BaseButton } from '@/components/atoms/BaseButton';
+import { ButtonCheckbox } from '@/components/atoms/ButtonCheckbox';
 import { InputFormArea } from '@/components/molecules/InputFormArea';
 import { SelectFormArea } from '@/components/molecules/SelectFormArea';
+import { TextFormArea } from '@/components/molecules/TextFormArea';
 import { ContentWrapper } from '@/components/organisms/ContentWrapper';
 import { getValidationErrorsByKey } from '@/lib/getValidationErrorsByKey';
 import { theme } from '@/styles/theme';
@@ -17,9 +20,10 @@ import styled from 'styled-components';
 
 type Props = {
 	profile: ProfileForEditDto;
+	experiencedEntityMasters: FetchExperiencedEntityMasterResponse;
 };
 
-export const ProfileEdit = ({ profile }: Props) => {
+export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 	const [inputProfile, setInputProfile] = useState<UpdateProfileDto>(profile);
 	const [validationErrors, setValidationErrors] = useState<
 		UpdateProfileResponseDto['errors']
@@ -44,6 +48,32 @@ export const ProfileEdit = ({ profile }: Props) => {
 		setValidationErrors(response.errors);
 	};
 
+	const updateExperiencedProfessions = (professionId: string) => {
+		const existsExperiencedProfession =
+			!!inputProfile.experiencedProfessions.find(
+				(ep) => ep.professionId === professionId,
+			);
+
+		if (existsExperiencedProfession) {
+			const newExperiencedProfessions =
+				inputProfile.experiencedProfessions.filter(
+					(ep) => ep.professionId !== professionId,
+				);
+			updateInputProfile({
+				...inputProfile,
+				experiencedProfessions: newExperiencedProfessions,
+			});
+			return;
+		}
+
+		const newExperiencedProfessions = inputProfile.experiencedProfessions;
+		newExperiencedProfessions.push({ professionId });
+		updateInputProfile({
+			...inputProfile,
+			experiencedProfessions: newExperiencedProfessions,
+		});
+	};
+
 	return (
 		<>
 			<ContentWrapper>
@@ -62,7 +92,7 @@ export const ProfileEdit = ({ profile }: Props) => {
 								type="text"
 								name="last_name"
 								placeholder="山田"
-								value={inputProfile?.lastName ?? ''}
+								value={inputProfile.lastName}
 								onChange={(e) =>
 									updateInputProfile({ lastName: e.target.value })
 								}
@@ -81,7 +111,7 @@ export const ProfileEdit = ({ profile }: Props) => {
 								type="text"
 								name="first_name"
 								placeholder="太郎"
-								value={inputProfile?.firstName ?? ''}
+								value={inputProfile.firstName}
 								onChange={(e) =>
 									updateInputProfile({ firstName: e.target.value })
 								}
@@ -100,7 +130,7 @@ export const ProfileEdit = ({ profile }: Props) => {
 							labelText="生年月日"
 							type="date"
 							name="birthday"
-							value={inputProfile?.birthday ?? ''}
+							value={inputProfile.birthday}
 							onChange={(e) => updateInputProfile({ birthday: e.target.value })}
 							validationErrors={
 								getValidationErrorsByKey(validationErrors, 'birthday') ?? []
@@ -144,7 +174,7 @@ export const ProfileEdit = ({ profile }: Props) => {
 							type="text"
 							name="in_working_company_name"
 							placeholder="フリーランス"
-							value={inputProfile?.inWorkingCompanyName ?? ''}
+							value={inputProfile.inWorkingCompanyName}
 							onChange={(e) =>
 								updateInputProfile({ inWorkingCompanyName: e.target.value })
 							}
@@ -166,10 +196,175 @@ export const ProfileEdit = ({ profile }: Props) => {
 							type="text"
 							name="tel"
 							placeholder="0001111222"
-							value={inputProfile?.tel ?? ''}
+							value={inputProfile.tel}
 							onChange={(e) => updateInputProfile({ tel: e.target.value })}
 							validationErrors={
 								getValidationErrorsByKey(validationErrors, 'tel') ?? []
+							}
+							width="full"
+						/>
+					</ColumnInputArea>
+				</InputArea>
+
+				{/* ご経験・スキル */}
+				<MiddleHeader>ご経験・スキル</MiddleHeader>
+
+				<InputArea>
+					<ColumnInputArea>
+						<InputFormArea
+							labelText="直近の開発実績"
+							type="text"
+							name="latest_project"
+							placeholder="国内最大級のECサイトの開発"
+							value={inputProfile.latestProject}
+							onChange={(e) =>
+								updateInputProfile({ latestProject: e.target.value })
+							}
+							validationErrors={
+								getValidationErrorsByKey(validationErrors, 'latestProject') ??
+								[]
+							}
+							width="full"
+						/>
+					</ColumnInputArea>
+				</InputArea>
+
+				<InputArea>
+					<ColumnInputArea>
+						<InputFormArea
+							labelText="現時間単価"
+							type="text"
+							name="current_hourly_wage"
+							placeholder="5000"
+							value={inputProfile.currentHourlyWage}
+							onChange={(e) =>
+								updateInputProfile({
+									currentHourlyWage: Number(e.target.value),
+								})
+							}
+							validationErrors={
+								getValidationErrorsByKey(
+									validationErrors,
+									'currentHourlyWage',
+								) ?? []
+							}
+							width="full"
+						/>
+					</ColumnInputArea>
+				</InputArea>
+
+				<InputArea>
+					<ColumnInputArea>
+						<SelectFormArea
+							labelText="エンジニア実務経験"
+							defaultValue={inputProfile.experiencedDuration}
+							onChange={(e) =>
+								updateInputProfile({
+									experiencedDuration: e.currentTarget
+										.value as ProfileForEditDto['experiencedDuration'],
+								})
+							}
+							options={[
+								{ value: 'lessThanOneYear', name: '〜1年' },
+								{ value: 'junior', name: '1〜2年' },
+								{ value: 'middle', name: '2〜3年' },
+								{ value: 'senior', name: '3〜5年' },
+								{ value: 'expert', name: '10年〜' },
+							]}
+							validationErrors={
+								getValidationErrorsByKey(
+									validationErrors,
+									'experiencedDuration',
+								) ?? []
+							}
+							width="full"
+						/>
+					</ColumnInputArea>
+				</InputArea>
+
+				{/* <InputArea>
+					<ColumnInputArea>
+						<label>職種</label>
+						<p>3つまで</p>
+						<ExperiencesBox>
+							{experiencedEntityMasters.professions.map((profession) => (
+								<>
+									<ButtonCheckbox
+										key={profession.id}
+										aria-checked={
+											!!inputProfile.experiencedProfessions.find(
+												(ep) => ep.professionId === profession.id,
+											)
+										}
+										onClick={() => updateExperiencedProfessions(profession.id)}
+										title={profession.name}
+									/>
+								</>
+							))}
+						</ExperiencesBox>
+
+						{inputProfile.experiencedProfessions.map((ep) => (
+							<>
+								<SelectFormArea
+									key={ep.professionId}
+									labelText={
+										experiencedEntityMasters.professions.find(
+											(p) => p.id === ep.professionId,
+										)?.name
+									}
+									defaultValue={ep.experiencedDuration}
+									onChange={(e) => {
+										ep.experiencedDuration = e.currentTarget
+											.value as ProfileForEditDto['experiencedDuration'];
+										const index = inputProfile.experiencedProfessions.findIndex(
+											(a) => a.professionId === ep.professionId,
+										);
+
+										const newExperiencedProfessions =
+											inputProfile.experiencedProfessions.map((b, i) => {
+												if (i === index) {
+													return ep;
+												}
+												return b;
+											});
+
+										updateInputProfile({
+											experiencedProfessions: newExperiencedProfessions,
+										});
+									}}
+									options={[
+										{ value: 'lessThanOneYear', name: '〜1年' },
+										{ value: 'junior', name: '1〜2年' },
+										{ value: 'middle', name: '2〜3年' },
+										{ value: 'senior', name: '3〜5年' },
+										{ value: 'expert', name: '10年〜' },
+									]}
+									validationErrors={
+										getValidationErrorsByKey(
+											validationErrors,
+											'experiencedDuration',
+										) ?? []
+									}
+									width="full"
+								/>
+							</>
+						))}
+					</ColumnInputArea>
+				</InputArea> */}
+
+				<InputArea>
+					<ColumnInputArea>
+						<TextFormArea
+							labelText="自己PR"
+							name="self_promotion"
+							placeholder=""
+							value={inputProfile.selfPromotion}
+							onChange={(e) =>
+								updateInputProfile({ selfPromotion: e.target.value })
+							}
+							validationErrors={
+								getValidationErrorsByKey(validationErrors, 'selfPromotion') ??
+								[]
 							}
 							width="full"
 						/>
@@ -198,7 +393,7 @@ const LargeHeader = styled.h1`
 `;
 LargeHeader.defaultProps = { theme: theme };
 
-const MiddleHeader = styled.h1`
+const MiddleHeader = styled.h2`
 	width: ${({ theme }) => theme.size.threeQuarters};
 	padding-bottom: ${({ theme }) => theme.size.p8};
 	font-size: ${({ theme }) => theme.size.p20};
@@ -237,3 +432,20 @@ const ButtonArea = styled.div`
 	width: ${({ theme }) => theme.size.quarter};
 `;
 ButtonArea.defaultProps = { theme: theme };
+
+const ExperiencesBox = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	gap: ${({ theme }) => theme.size.p8};
+`;
+ExperiencesBox.defaultProps = { theme: theme };
+
+const ExperiencedDurationsBox = styled.div`
+	margin-top: ${({ theme }) => theme.size.p8};
+`;
+ExperiencedDurationsBox.defaultProps = { theme: theme };
+
+const ExperiencedDurationsUl = styled.ul`
+	grid-template-columns: repeat(6, 1fr);
+`;
+ExperiencedDurationsUl.defaultProps = { theme: theme };
