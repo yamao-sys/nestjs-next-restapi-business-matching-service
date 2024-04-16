@@ -287,7 +287,7 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 				<InputArea>
 					<ColumnInputArea>
 						<label>職種</label>
-						<p>3つまで</p>
+						{/* <p>3つまで</p> */}
 						<ExperiencesBox>
 							{experiencedEntityMasters.professions.map((profession) => (
 								<div key={profession.id}>
