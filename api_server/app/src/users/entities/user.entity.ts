@@ -8,7 +8,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Profile } from '../../profiles/entities/profile.entity';
+import { Engineer } from '../../engineers/entities/engineer.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -29,6 +29,6 @@ export class User extends BaseEntity {
   @OneToMany(() => Todo, (todo) => todo.user)
   todos?: Todo[];
 
-  @OneToOne(() => Profile, (profile) => profile.user)
-  profile?: Profile;
+  @OneToOne(() => Engineer, (engineer) => engineer.user)
+  engineer?: Engineer;
 }

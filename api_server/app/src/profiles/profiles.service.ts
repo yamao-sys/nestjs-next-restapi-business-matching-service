@@ -1,38 +1,49 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Profile } from './entities/profile.entity';
+import { Engineer } from '../engineers/entities/engineer.entity';
 import { Repository } from 'typeorm';
 import { validate } from 'class-validator';
-import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class ProfilesService {
   constructor(
-    @InjectRepository(Profile)
-    private readonly profileRepository: Repository<Profile>,
+    @InjectRepository(Engineer)
+    private readonly engineerRepository: Repository<Engineer>,
   ) {}
 
-  async findOrInitializeProfile(dto: UpdateProfileDto, userId: string) {
-    const profile = await this.findOne(userId);
-    if (!!profile) {
-      return this.profileRepository.merge(profile, dto);
-    }
+  async findOrInitialize(userId: string) {
+    const engineer = await this.findOne(userId);
+    if (!!engineer) return engineer;
 
-    const newProfile = new Profile();
-    return this.profileRepository.merge(newProfile, { userId, ...dto });
+    const newEnginner = new Engineer(userId);
+    newEnginner.experiencedProfessions = [];
+    return newEnginner;
   }
 
-  async validate(profile: Profile) {
-    return validate(profile);
+  async assignAttributes(engineer: Engineer, params: Partial<Engineer>) {
+    const assignedAttributesEngineer = this.engineerRepository.merge(
+      engineer,
+      params,
+    );
+    assignedAttributesEngineer.experiencedProfessions =
+      params.experiencedProfessions;
+    return assignedAttributesEngineer;
   }
 
-  async save(profile: Profile) {
-    return this.profileRepository.save(profile);
+  async validate(engineer: Engineer) {
+    return validate(engineer);
   }
 
-  findOne(userId: string) {
-    return this.profileRepository.findOneBy({
-      userId,
+  async save(engineer: Engineer) {
+    return this.engineerRepository.save(engineer);
+  }
+
+  async findOne(userId: string) {
+    return await this.engineerRepository.findOne({
+      where: { userId },
+      loadEagerRelations: false,
+      relationLoadStrategy: 'query',
+      relations: ['experiencedProfessions'],
     });
   }
 }

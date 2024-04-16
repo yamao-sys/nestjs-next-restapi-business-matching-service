@@ -14,6 +14,25 @@ properties:
     type: string
   tel:
     type: string
+  latestProject:
+    type: string
+  currentHourlyWage:
+    type: number
+  experiencedDuration:
+    type: string
+    enum: [lessThanOneYear, junior, middle, senior, expert]
+  selfPromotion:
+    type: string
+  experiencedProfessions:
+    type: array
+    items:
+      type: object
+      properties:
+        professionId:
+          type: string
+        experiencedDuration:
+          type: string
+          enum: [lessThanOneYear, junior, middle, senior, expert]
 required:
   - lastName
   - firstName
@@ -21,3 +40,8 @@ required:
   - currentEmployment
   - inWorkingCompanyName
   - tel
+  - latestProject
+  - currentHourlyWage
+  - experiencedDuration
+  - selfPromotion
+  - experiencedProfessions

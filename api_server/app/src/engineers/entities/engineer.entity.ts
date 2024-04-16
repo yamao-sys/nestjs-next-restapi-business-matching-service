@@ -5,10 +5,12 @@ import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { IsTelNumber } from '../validators/is-tel-number';
+import { ExperiencedProfession } from '../../experiences/entities/professions.entity';
 
 export enum CurrentEmployment {
   FLEELANCE = 'fleelance',
@@ -16,15 +18,23 @@ export enum CurrentEmployment {
   OTHER = 'other',
 }
 
-@Entity('profiles')
-export class Profile extends BaseEntity {
+export enum ExperiencedDuration {
+  LESS_THAN_ONE_YEAR = 'lessThanOneYear',
+  JUNIOR = 'junior',
+  MIDDLE = 'middle',
+  SENIOR = 'senior',
+  EXPERT = 'expert',
+}
+
+@Entity('engineers')
+export class Engineer extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id!: string;
 
   @Column({ type: 'bigint', name: 'user_id' })
   userId!: string;
 
-  @OneToOne(() => User, (user) => user.profile, {
+  @OneToOne(() => User, (user) => user.engineer, {
     createForeignKeyConstraints: true,
     persistence: false,
   })
@@ -68,4 +78,48 @@ export class Profile extends BaseEntity {
   @Validate(IsTelNumber)
   @Column()
   tel!: string;
+
+  @Column({ name: 'latest_project' })
+  latestProject!: string;
+
+  @Column({ name: 'current_hourly_wage' })
+  currentHourlyWage!: number;
+
+  @Column({
+    name: 'experienced_duration',
+    type: 'enum',
+    enum: ExperiencedDuration,
+    default: ExperiencedDuration.LESS_THAN_ONE_YEAR,
+  })
+  experiencedDuration!: ExperiencedDuration;
+
+  @Column({ name: 'self_promotion' })
+  selfPromotion!: string;
+
+  @OneToMany(
+    () => ExperiencedProfession,
+    (experiencedProfession) => experiencedProfession.engineer,
+    {
+      cascade: true, // engineerの保存時に一緒に保存する
+    },
+  )
+  experiencedProfessions?: ExperiencedProfession[];
+
+  constructor(userId?: string) {
+    super();
+
+    if (userId) {
+      this.userId = userId;
+    }
+    this.lastName = '';
+    this.firstName = '';
+    this.birthday = '';
+    this.currentEmployment = CurrentEmployment.FLEELANCE;
+    this.inWorkingCompanyName = '';
+    this.tel = '';
+    this.latestProject = '';
+    this.currentHourlyWage = 0;
+    this.experiencedDuration = ExperiencedDuration.LESS_THAN_ONE_YEAR;
+    this.selfPromotion = '';
+  }
 }

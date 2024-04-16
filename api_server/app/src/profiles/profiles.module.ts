@@ -2,11 +2,11 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
 import { ProfilesController } from './profiles.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Profile } from './entities/profile.entity';
+import { Engineer } from '../engineers/entities/engineer.entity';
 import * as OpenApiValidator from 'express-openapi-validator';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Profile])],
+  imports: [TypeOrmModule.forFeature([Engineer])],
   controllers: [ProfilesController],
   providers: [ProfilesService],
 })
