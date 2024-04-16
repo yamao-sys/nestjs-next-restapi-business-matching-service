@@ -1,5 +1,4 @@
 import { ValidationErrorBox } from '@/components/atoms/ValidationErrorBox';
-import { InputForm } from '@/components/atoms/InputForm';
 import { theme } from '@/styles/theme';
 import styled from 'styled-components';
 
@@ -13,7 +12,7 @@ type Props = JSX.IntrinsicElements['textarea'] & {
 } & CssProps;
 
 export const TextFormArea = ({
-	name,
+	id,
 	placeholder,
 	value,
 	onChange,
@@ -24,9 +23,9 @@ export const TextFormArea = ({
 	return (
 		<>
 			<Wrapper $width={width}>
-				{labelText && <Label htmlFor={name}>{labelText}</Label>}
+				{labelText && <Label htmlFor={id}>{labelText}</Label>}
 				<TextArea
-					name={name}
+					id={id}
 					placeholder={placeholder}
 					value={value}
 					onChange={onChange}

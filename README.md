@@ -4,6 +4,18 @@
 ・styled-componentsにおいて、DOMに存在しないattributeをスタイル調整でpropsで使う
 https://styled-components.com/docs/faqs#why-am-i-getting-html-attribute-warnings
 
+## frontend側の新規開発の設計
+- 専属コンポーネントをコロケーションパターンで作成 & Jest, testing-libraryで結合テストで最低限の動作を確保
+	- why
+		- 新規開発時の速さと品質のちょうど良い塩梅
+			- 新規開発の段階で細かく共通コンポーネントに分けると、共通部分の変更が入りやすく、テスト箇所も多くなる
+				- 新規開発の段階ではまだ全体的なUIの決定がこれからのため
+		- 全くテストがないというのはできるだけ避けたい
+			- 結合テストを書いて動作を確保しておけば、後でリファクタリングもしやすい
+			- テストを書くという文化を早期に醸成
+			- E2Eを書いても良いが、結合テストと合わせてどっちもは難しい...
+				- ハッピーパス(典型的なユースケースに沿ったシナリオ)の確認を0→1が終わった段階で書き始めるのが良いか
+
 ## frontend側のテスト方針
 https://rightcode.co.jp/blogs/40957
 https://note.com/cyberz_cto/n/n3ba47e0dcfd2
@@ -14,6 +26,7 @@ https://kaminashi-developer.hatenablog.jp/entry/2023/12/12/080000
 https://techblog.finatext.com/front-end-testing-strategy-with-roi-82b22eb12811
 https://zenn.dev/aldagram_tech/articles/kanna-integration-test
 https://blog.cybozu.io/entry/2023/12/13/123701
+https://gitkado.hatenadiary.jp/entry/20230517/1684250542
 
 - E2Eに関して
 	- Page RouterかつCSRではMSWでモックできた。

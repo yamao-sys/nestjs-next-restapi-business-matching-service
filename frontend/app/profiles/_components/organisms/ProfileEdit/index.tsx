@@ -143,6 +143,7 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 				<InputArea>
 					<ColumnInputArea>
 						<SelectFormArea
+							id="current_employment"
 							labelText="現在の雇用形態"
 							defaultValue={inputProfile.currentEmployment}
 							onChange={(e) =>
@@ -256,6 +257,7 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 				<InputArea>
 					<ColumnInputArea>
 						<SelectFormArea
+							id="experienced_duration"
 							labelText="エンジニア実務経験"
 							defaultValue={inputProfile.experiencedDuration}
 							onChange={(e) =>
@@ -282,15 +284,14 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 					</ColumnInputArea>
 				</InputArea>
 
-				{/* <InputArea>
+				<InputArea>
 					<ColumnInputArea>
 						<label>職種</label>
 						<p>3つまで</p>
 						<ExperiencesBox>
 							{experiencedEntityMasters.professions.map((profession) => (
-								<>
+								<div key={profession.id}>
 									<ButtonCheckbox
-										key={profession.id}
 										aria-checked={
 											!!inputProfile.experiencedProfessions.find(
 												(ep) => ep.professionId === profession.id,
@@ -299,14 +300,15 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 										onClick={() => updateExperiencedProfessions(profession.id)}
 										title={profession.name}
 									/>
-								</>
+								</div>
 							))}
 						</ExperiencesBox>
 
 						{inputProfile.experiencedProfessions.map((ep) => (
-							<>
+							<ExperiencedDurationsBox key={ep.professionId}>
 								<SelectFormArea
 									key={ep.professionId}
+									id={`experienced_duration_${ep.professionId}`}
 									labelText={
 										experiencedEntityMasters.professions.find(
 											(p) => p.id === ep.professionId,
@@ -347,16 +349,16 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 									}
 									width="full"
 								/>
-							</>
+							</ExperiencedDurationsBox>
 						))}
 					</ColumnInputArea>
-				</InputArea> */}
+				</InputArea>
 
 				<InputArea>
 					<ColumnInputArea>
 						<TextFormArea
+							id="self_promotion"
 							labelText="自己PR"
-							name="self_promotion"
 							placeholder=""
 							value={inputProfile.selfPromotion}
 							onChange={(e) =>

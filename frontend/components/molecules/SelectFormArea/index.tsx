@@ -17,7 +17,7 @@ type Props = JSX.IntrinsicElements['select'] &
 	OptionProps & { labelText?: string; validationErrors?: String[] } & CssProps;
 
 export const SelectFormArea = ({
-	name,
+	id,
 	defaultValue,
 	onChange,
 	options,
@@ -28,8 +28,8 @@ export const SelectFormArea = ({
 	return (
 		<>
 			<Wrapper $width={width}>
-				{labelText && <Label htmlFor={name}>{labelText}</Label>}
-				<Select name={name} defaultValue={defaultValue} onChange={onChange}>
+				{labelText && <Label htmlFor={id}>{labelText}</Label>}
+				<Select id={id} defaultValue={defaultValue} onChange={onChange}>
 					<option>--</option>
 					{options.map((option, i) => (
 						<option key={i} value={option.value}>

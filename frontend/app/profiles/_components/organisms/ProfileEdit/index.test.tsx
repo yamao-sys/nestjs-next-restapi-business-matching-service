@@ -23,23 +23,87 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 			currentEmployment: 'fleelance' as 'fleelance' | 'fulltime' | 'other',
 			inWorkingCompanyName: 'test inWorkingCompanyName',
 			tel: '1112222333',
+			latestProject: 'test latestProject',
+			currentHourlyWage: 5000,
+			experiencedDuration: 'expert' as
+				| 'expert'
+				| 'lessThanOneYear'
+				| 'junior'
+				| 'middle'
+				| 'senior',
+			experiencedProfessions: [
+				{
+					professionId: '1',
+					experiencedDuration: 'expert' as
+						| 'lessThanOneYear'
+						| 'junior'
+						| 'middle'
+						| 'senior'
+						| 'expert',
+				},
+			],
+			selfPromotion: 'test selfPromotion',
 		};
-		render(<ProfileEdit profile={profile} />);
+
+		const experiencedEntityMasters = {
+			professions: [
+				{ id: '1', name: 'testProfession1' },
+				{ id: '2', name: 'testProfession2' },
+			],
+		};
+		render(
+			<ProfileEdit
+				profile={profile}
+				experiencedEntityMasters={experiencedEntityMasters}
+			/>,
+		);
 
 		// lastName
 		expect(screen.getByDisplayValue(profile.lastName)).toBeInTheDocument();
+
 		// firstName
 		expect(screen.getByDisplayValue(profile.firstName)).toBeInTheDocument();
+
 		// birthday
 		expect(screen.getByDisplayValue(profile.birthday)).toBeInTheDocument();
+
 		// currentEmployment
-		expect(screen.getByRole('combobox')).toHaveValue('fleelance');
+		expect(
+			screen.getByRole('combobox', { name: '現在の雇用形態' }),
+		).toHaveValue('fleelance');
+
 		// inWorkingCompanyName
 		expect(
 			screen.getByDisplayValue(profile.inWorkingCompanyName),
 		).toBeInTheDocument();
+
 		// tel
 		expect(screen.getByDisplayValue(profile.tel)).toBeInTheDocument();
+
+		// latestProject
+		expect(screen.getByDisplayValue(profile.latestProject)).toBeInTheDocument();
+
+		// currentHourlyWage
+		expect(
+			screen.getByRole('combobox', { name: 'エンジニア実務経験' }),
+		).toHaveValue('expert');
+
+		// experiencedProfessions
+		expect(
+			screen.getByRole('checkbox', { name: 'testProfession1' }),
+		).toHaveAttribute('aria-checked', 'true');
+		expect(
+			screen.queryByRole('combobox', { name: 'testProfession1' }),
+		).toBeInTheDocument();
+		expect(
+			screen.getByRole('checkbox', { name: 'testProfession2' }),
+		).toHaveAttribute('aria-checked', 'false');
+		expect(
+			screen.queryByRole('combobox', { name: 'testProfession2' }),
+		).not.toBeInTheDocument();
+
+		// selfPromotion
+		expect(screen.getByDisplayValue(profile.selfPromotion)).toBeInTheDocument();
 	});
 
 	it('入力がフォームに反映されること', async () => {
@@ -51,30 +115,59 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 			currentEmployment: 'fleelance' as 'fleelance' | 'fulltime' | 'other',
 			inWorkingCompanyName: 'test inWorkingCompanyName',
 			tel: '1112222333',
+			latestProject: 'test latestProject',
+			currentHourlyWage: 5000,
+			experiencedDuration: 'expert' as
+				| 'expert'
+				| 'lessThanOneYear'
+				| 'junior'
+				| 'middle'
+				| 'senior',
+			experiencedProfessions: [
+				{
+					professionId: '1',
+					experiencedDuration: 'expert' as
+						| 'lessThanOneYear'
+						| 'junior'
+						| 'middle'
+						| 'senior'
+						| 'expert',
+				},
+			],
+			selfPromotion: 'test selfPromotion',
 		};
-		render(<ProfileEdit profile={profile} />);
+
+		const experiencedEntityMasters = {
+			professions: [
+				{ id: '1', name: 'testProfession1' },
+				{ id: '2', name: 'testProfession2' },
+			],
+		};
+		render(
+			<ProfileEdit
+				profile={profile}
+				experiencedEntityMasters={experiencedEntityMasters}
+			/>,
+		);
 
 		// lastName
 		const lastNameInput = screen.getByLabelText('姓', { selector: 'input' });
-		expect(lastNameInput).toHaveDisplayValue('test lastName');
 		await event.type(lastNameInput, ' edited');
 		expect(
 			screen.getByLabelText('姓', { selector: 'input' }),
-		).toHaveDisplayValue('test lastName edited');
+		).toHaveDisplayValue(`${profile.lastName} edited`);
 
 		// firstName
 		const firstNameInput = screen.getByLabelText('名', { selector: 'input' });
-		expect(firstNameInput).toHaveDisplayValue('test firstName');
 		await event.type(firstNameInput, ' edited');
 		expect(
 			screen.getByLabelText('名', { selector: 'input' }),
-		).toHaveDisplayValue('test firstName edited');
+		).toHaveDisplayValue(`${profile.firstName} edited`);
 
 		// birthday
 		const birthdayInput = screen.getByLabelText('生年月日', {
 			selector: 'input',
 		});
-		expect(birthdayInput).toBeInTheDocument();
 		fireEvent.change(birthdayInput, {
 			target: { value: '1992-07-08' },
 		});
@@ -83,10 +176,13 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 		).toHaveDisplayValue('1992-07-08');
 
 		// currentEmployment
-		const currentEmploymentInput = screen.getByRole('combobox');
-		expect(currentEmploymentInput).toBeInTheDocument();
+		const currentEmploymentInput = screen.getByRole('combobox', {
+			name: '現在の雇用形態',
+		});
 		await event.selectOptions(currentEmploymentInput, 'fulltime');
-		expect(screen.getByRole('combobox')).toHaveValue('fulltime');
+		expect(
+			screen.getByRole('combobox', { name: '現在の雇用形態' }),
+		).toHaveValue('fulltime');
 
 		// inWorkingCompanyName
 		const inWorkingCompanyNameInput = screen.getByLabelText(
@@ -95,27 +191,82 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 				selector: 'input',
 			},
 		);
-		expect(inWorkingCompanyNameInput).toHaveDisplayValue(
-			'test inWorkingCompanyName',
-		);
 		await event.type(inWorkingCompanyNameInput, ' edited');
 		expect(
 			screen.getByLabelText('稼働中/就業中の会社名', {
 				selector: 'input',
 			}),
-		).toHaveDisplayValue('test inWorkingCompanyName edited');
+		).toHaveDisplayValue(`${profile.inWorkingCompanyName} edited`);
 
 		// tel
 		const telInput = screen.getByLabelText('電話番号', {
 			selector: 'input',
 		});
-		expect(telInput).toHaveDisplayValue('1112222333');
 		await event.type(telInput, '3');
 		expect(
 			screen.getByLabelText('電話番号', {
 				selector: 'input',
 			}),
-		).toHaveDisplayValue('11122223333');
+		).toHaveDisplayValue(`${profile.tel}3`);
+
+		// latestProject
+		const latestProjectInput = screen.getByLabelText('直近の開発実績', {
+			selector: 'input',
+		});
+		await event.type(latestProjectInput, ' edited');
+		expect(
+			screen.getByLabelText('直近の開発実績', { selector: 'input' }),
+		).toHaveDisplayValue(`${profile.latestProject} edited`);
+
+		// currentHourlyWage
+		const currentHourlyWageInput = screen.getByLabelText('現時間単価', {
+			selector: 'input',
+		});
+		await event.type(currentHourlyWageInput, '0');
+		expect(
+			screen.getByLabelText('現時間単価', { selector: 'input' }),
+		).toHaveDisplayValue(`${profile.currentHourlyWage}0`);
+
+		// experiencedDuration
+		const experiencedDurationSelect = screen.getByRole('combobox', {
+			name: 'エンジニア実務経験',
+		});
+		await event.selectOptions(experiencedDurationSelect, 'senior');
+		expect(
+			screen.getByRole('combobox', { name: 'エンジニア実務経験' }),
+		).toHaveValue('senior');
+
+		// experiencedProfessions
+		const experiencedProfession1 = screen.getByRole('checkbox', {
+			name: 'testProfession1',
+		});
+		await event.click(experiencedProfession1);
+		expect(
+			screen.getByRole('checkbox', { name: 'testProfession1' }),
+		).toHaveAttribute('aria-checked', 'false');
+		expect(
+			screen.queryByRole('combobox', { name: 'testProfession1' }),
+		).not.toBeInTheDocument();
+
+		const experiencedProfession2 = screen.getByRole('checkbox', {
+			name: 'testProfession2',
+		});
+		await event.click(experiencedProfession2);
+		expect(
+			screen.getByRole('checkbox', { name: 'testProfession2' }),
+		).toHaveAttribute('aria-checked', 'true');
+		expect(
+			screen.queryByRole('combobox', { name: 'testProfession2' }),
+		).toBeInTheDocument();
+
+		// selfPromotion
+		const selfPromotionInput = screen.getByLabelText('自己PR', {
+			selector: 'textarea',
+		});
+		await event.type(selfPromotionInput, ' edited');
+		expect(
+			screen.getByLabelText('自己PR', { selector: 'textarea' }),
+		).toHaveDisplayValue(`${profile.selfPromotion} edited`);
 	});
 
 	describe('フォームの送信', () => {
@@ -130,6 +281,26 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 						currentEmployment: 'fulltime',
 						inWorkingCompanyName: 'test inWorkingCompanyName edited',
 						tel: '11122223333',
+						latestProject: 'test latestProject',
+						currentHourlyWage: 50000,
+						experiencedDuration: 'senior' as
+							| 'expert'
+							| 'lessThanOneYear'
+							| 'junior'
+							| 'middle'
+							| 'senior',
+						experiencedProfessions: [
+							{
+								professionId: '2',
+								experiencedDuration: 'senior' as
+									| 'lessThanOneYear'
+									| 'junior'
+									| 'middle'
+									| 'senior'
+									| 'expert',
+							},
+						],
+						selfPromotion: 'test selfPromotion edited',
 					},
 					errors: [],
 				});
@@ -148,8 +319,40 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 				currentEmployment: 'fleelance' as 'fleelance' | 'fulltime' | 'other',
 				inWorkingCompanyName: 'test inWorkingCompanyName',
 				tel: '1112222333',
+				latestProject: 'test latestProject',
+				currentHourlyWage: 5000,
+				experiencedDuration: 'expert' as
+					| 'expert'
+					| 'lessThanOneYear'
+					| 'junior'
+					| 'middle'
+					| 'senior',
+				experiencedProfessions: [
+					{
+						professionId: '1',
+						experiencedDuration: 'expert' as
+							| 'lessThanOneYear'
+							| 'junior'
+							| 'middle'
+							| 'senior'
+							| 'expert',
+					},
+				],
+				selfPromotion: 'test selfPromotion',
 			};
-			render(<ProfileEdit profile={profile} />);
+
+			const experiencedEntityMasters = {
+				professions: [
+					{ id: '1', name: 'testProfession1' },
+					{ id: '2', name: 'testProfession2' },
+				],
+			};
+			render(
+				<ProfileEdit
+					profile={profile}
+					experiencedEntityMasters={experiencedEntityMasters}
+				/>,
+			);
 
 			// lastName
 			const lastNameInput = screen.getByLabelText('姓', { selector: 'input' });
@@ -168,7 +371,9 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 			});
 
 			// currentEmployment
-			const currentEmploymentInput = screen.getByRole('combobox');
+			const currentEmploymentInput = screen.getByRole('combobox', {
+				name: '現在の雇用形態',
+			});
 			await event.selectOptions(currentEmploymentInput, 'fulltime');
 
 			// inWorkingCompanyName
@@ -182,11 +387,51 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 			const telInput = screen.getByLabelText('電話番号', { selector: 'input' });
 			await event.type(telInput, '3');
 
+			// latestProject
+			const latestProjectInput = screen.getByLabelText('直近の開発実績', {
+				selector: 'input',
+			});
+			await event.type(latestProjectInput, ' edited');
+
+			// currentHourlyWage
+			const currentHourlyWageInput = screen.getByLabelText('現時間単価', {
+				selector: 'input',
+			});
+			await event.type(currentHourlyWageInput, '0');
+
+			// experiencedDuration
+			const experiencedDurationSelect = screen.getByRole('combobox', {
+				name: 'エンジニア実務経験',
+			});
+			await event.selectOptions(experiencedDurationSelect, 'senior');
+
+			// experiencedProfessions
+			const experiencedProfession1 = screen.getByRole('checkbox', {
+				name: 'testProfession1',
+			});
+			await event.click(experiencedProfession1);
+
+			const experiencedProfession2 = screen.getByRole('checkbox', {
+				name: 'testProfession2',
+			});
+			await event.click(experiencedProfession2);
+
+			// selfPromotion
+			const selfPromotionInput = screen.getByLabelText('自己PR', {
+				selector: 'textarea',
+			});
+			await event.type(selfPromotionInput, ' edited');
+
 			const submitButton = screen.getByRole('button', { name: '保存する' });
 			await event.click(submitButton);
 
 			await waitFor(() => {
 				expect(postUpdateProfileSpy).toHaveBeenCalled();
+			});
+			await waitFor(() => {
+				expect(
+					screen.getByText('プロフィールの更新に成功しました！'),
+				).toBeInTheDocument();
 			});
 		});
 
@@ -202,6 +447,11 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 							currentEmployment: 'fulltime',
 							inWorkingCompanyName: '',
 							tel: '',
+							latestProject: '',
+							currentHourlyWage: 0,
+							experiencedDuration: 'expert',
+							experiencedProfessions: [],
+							selfPromotion: '',
 						},
 						errors: [
 							{
@@ -240,8 +490,30 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 					currentEmployment: 'fleelance' as 'fleelance' | 'fulltime' | 'other',
 					inWorkingCompanyName: '',
 					tel: '',
+					latestProject: '',
+					currentHourlyWage: 0,
+					experiencedDuration: 'expert' as
+						| 'expert'
+						| 'lessThanOneYear'
+						| 'junior'
+						| 'middle'
+						| 'senior',
+					experiencedProfessions: [],
+					selfPromotion: '',
 				};
-				render(<ProfileEdit profile={profile} />);
+
+				const experiencedEntityMasters = {
+					professions: [
+						{ id: '1', name: 'testProfession1' },
+						{ id: '2', name: 'testProfession2' },
+					],
+				};
+				render(
+					<ProfileEdit
+						profile={profile}
+						experiencedEntityMasters={experiencedEntityMasters}
+					/>,
+				);
 
 				const submitButton = screen.getByRole('button', { name: '保存する' });
 				await event.click(submitButton);
@@ -262,91 +534,6 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 						),
 					).toBeInTheDocument();
 					expect(screen.getByText('電話番号は必須です。')).toBeInTheDocument();
-				});
-			});
-		});
-
-		describe('バリデーションエラーなしの場合', () => {
-			beforeEach(() => {
-				postUpdateProfileSpy = jest
-					.spyOn(PostUpdateProfile, 'postUpdateProfile')
-					.mockResolvedValue({
-						profile: {
-							lastName: 'test lastName edited',
-							firstName: 'test firstName edited',
-							birthday: '1992-07-08',
-							currentEmployment: 'fulltime',
-							inWorkingCompanyName: 'test inWorkingCompanyName edited',
-							tel: '11122223333',
-						},
-						errors: [],
-					});
-			});
-
-			it('更新成功のメッセージと共に更新内容がフォームに反映されること', async () => {
-				const event = userEvent.setup();
-				const profile = {
-					lastName: '',
-					firstName: '',
-					birthday: '',
-					currentEmployment: 'fleelance' as 'fleelance' | 'fulltime' | 'other',
-					inWorkingCompanyName: '',
-					tel: '',
-				};
-				render(<ProfileEdit profile={profile} />);
-
-				// lastName
-				const lastNameInput = screen.getByLabelText('姓', {
-					selector: 'input',
-				});
-				await event.type(lastNameInput, 'test lastName edited');
-
-				// firstName
-				const firstNameInput = screen.getByLabelText('名', {
-					selector: 'input',
-				});
-				await event.type(firstNameInput, 'test firstName edited');
-
-				// birthday
-				const birthdayInput = screen.getByLabelText('生年月日', {
-					selector: 'input',
-				});
-				fireEvent.change(birthdayInput, {
-					target: { value: '1992-07-08' },
-				});
-
-				// currentEmployment
-				const currentEmploymentInput = screen.getByRole('combobox');
-				await event.selectOptions(currentEmploymentInput, 'fulltime');
-
-				// inWorkingCompanyName
-				const inWorkingCompanyNameInput = screen.getByLabelText(
-					'稼働中/就業中の会社名',
-					{
-						selector: 'input',
-					},
-				);
-				await event.type(
-					inWorkingCompanyNameInput,
-					'test inWorkingCompanyName edited',
-				);
-
-				// tel
-				const telInput = screen.getByLabelText('電話番号', {
-					selector: 'input',
-				});
-				await event.type(telInput, '11122223333');
-
-				const submitButton = screen.getByRole('button', { name: '保存する' });
-				await event.click(submitButton);
-
-				await waitFor(() => {
-					expect(postUpdateProfileSpy).toHaveBeenCalled();
-				});
-				await waitFor(() => {
-					expect(
-						screen.getByText('プロフィールの更新に成功しました！'),
-					).toBeInTheDocument();
 				});
 			});
 		});
