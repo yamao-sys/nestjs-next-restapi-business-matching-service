@@ -4,6 +4,7 @@ import {
   ExperiencedDuration,
 } from '../../engineers/entities/engineer.entity';
 import { ExperiencedProfession } from 'src/experiences/entities/professions.entity';
+import { ExperiencedProgrammingLanguage } from 'src/experiences/entities/programming-languages.entity';
 
 export class UpdateProfileResponseDto {
   lastName: string;
@@ -17,6 +18,7 @@ export class UpdateProfileResponseDto {
   experiencedDuration: ExperiencedDuration;
   selfPromotion: string;
   experiencedProfessions: ExperiencedProfession[];
+  experiencedProgrammingLanguages: ExperiencedProgrammingLanguage[];
   @ApiProperty({
     example: ['姓は必須です。'],
   })

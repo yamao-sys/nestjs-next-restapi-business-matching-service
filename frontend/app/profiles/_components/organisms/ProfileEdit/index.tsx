@@ -74,6 +74,35 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 		});
 	};
 
+	const updateExperiencedProgrammingLanguages = (
+		programmingLanguageId: string,
+	) => {
+		const existsExperiencedProgrammingLanguage =
+			!!inputProfile.experiencedProgrammingLanguages.find(
+				(ep) => ep.programmingLanguageId === programmingLanguageId,
+			);
+
+		if (existsExperiencedProgrammingLanguage) {
+			const newExperiencedProgrammingLanguages =
+				inputProfile.experiencedProgrammingLanguages.filter(
+					(ep) => ep.programmingLanguageId !== programmingLanguageId,
+				);
+			updateInputProfile({
+				...inputProfile,
+				experiencedProgrammingLanguages: newExperiencedProgrammingLanguages,
+			});
+			return;
+		}
+
+		const newExperiencedProgrammingLanguages =
+			inputProfile.experiencedProgrammingLanguages;
+		newExperiencedProgrammingLanguages.push({ programmingLanguageId });
+		updateInputProfile({
+			...inputProfile,
+			experiencedProgrammingLanguages: newExperiencedProgrammingLanguages,
+		});
+	};
+
 	return (
 		<>
 			<ContentWrapper>
@@ -308,7 +337,7 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 							<ExperiencedDurationsBox key={ep.professionId}>
 								<SelectFormArea
 									key={ep.professionId}
-									id={`experienced_duration_${ep.professionId}`}
+									id={`experienced_profession_duration_${ep.professionId}`}
 									labelText={
 										experiencedEntityMasters.professions.find(
 											(p) => p.id === ep.professionId,
@@ -332,6 +361,87 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 
 										updateInputProfile({
 											experiencedProfessions: newExperiencedProfessions,
+										});
+									}}
+									options={[
+										{ value: 'lessThanOneYear', name: '〜1年' },
+										{ value: 'junior', name: '1〜2年' },
+										{ value: 'middle', name: '2〜3年' },
+										{ value: 'senior', name: '3〜5年' },
+										{ value: 'expert', name: '10年〜' },
+									]}
+									validationErrors={
+										getValidationErrorsByKey(
+											validationErrors,
+											'experiencedDuration',
+										) ?? []
+									}
+									width="full"
+								/>
+							</ExperiencedDurationsBox>
+						))}
+					</ColumnInputArea>
+				</InputArea>
+
+				<InputArea>
+					<ColumnInputArea>
+						<label>開発言語</label>
+						<ExperiencesBox>
+							{experiencedEntityMasters.programmingLanguages.map(
+								(programmingLanguage) => (
+									<div key={programmingLanguage.id}>
+										<ButtonCheckbox
+											aria-checked={
+												!!inputProfile.experiencedProgrammingLanguages.find(
+													(ep) =>
+														ep.programmingLanguageId === programmingLanguage.id,
+												)
+											}
+											onClick={() =>
+												updateExperiencedProgrammingLanguages(
+													programmingLanguage.id,
+												)
+											}
+											title={programmingLanguage.name}
+										/>
+									</div>
+								),
+							)}
+						</ExperiencesBox>
+
+						{inputProfile.experiencedProgrammingLanguages.map((ep) => (
+							<ExperiencedDurationsBox key={ep.programmingLanguageId}>
+								<SelectFormArea
+									key={ep.programmingLanguageId}
+									id={`experienced_programming_language_duration_${ep.programmingLanguageId}`}
+									labelText={
+										experiencedEntityMasters.programmingLanguages.find(
+											(p) => p.id === ep.programmingLanguageId,
+										)?.name
+									}
+									defaultValue={ep.experiencedDuration}
+									onChange={(e) => {
+										ep.experiencedDuration = e.currentTarget
+											.value as ProfileForEditDto['experiencedDuration'];
+										const index =
+											inputProfile.experiencedProgrammingLanguages.findIndex(
+												(a) =>
+													a.programmingLanguageId === ep.programmingLanguageId,
+											);
+
+										const newExperiencedProgrammingLanguages =
+											inputProfile.experiencedProgrammingLanguages.map(
+												(b, i) => {
+													if (i === index) {
+														return ep;
+													}
+													return b;
+												},
+											);
+
+										updateInputProfile({
+											experiencedProgrammingLanguages:
+												newExperiencedProgrammingLanguages,
 										});
 									}}
 									options={[

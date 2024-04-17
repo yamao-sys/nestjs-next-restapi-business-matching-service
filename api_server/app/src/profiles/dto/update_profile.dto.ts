@@ -3,6 +3,7 @@ import {
   CurrentEmployment,
   ExperiencedDuration,
 } from '../../engineers/entities/engineer.entity';
+import { ExperiencedProgrammingLanguage } from 'src/experiences/entities/programming-languages.entity';
 
 export class UpdateProfileDto {
   lastName: string;
@@ -16,4 +17,5 @@ export class UpdateProfileDto {
   experiencedDuration: ExperiencedDuration;
   selfPromotion: string;
   experiencedProfessions: ExperiencedProfession[];
+  experiencedProgrammingLanguages: ExperiencedProgrammingLanguage[];
 }

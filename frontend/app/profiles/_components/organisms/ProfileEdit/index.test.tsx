@@ -42,6 +42,17 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 						| 'expert',
 				},
 			],
+			experiencedProgrammingLanguages: [
+				{
+					programmingLanguageId: '1',
+					experiencedDuration: 'expert' as
+						| 'lessThanOneYear'
+						| 'junior'
+						| 'middle'
+						| 'senior'
+						| 'expert',
+				},
+			],
 			selfPromotion: 'test selfPromotion',
 		};
 
@@ -49,6 +60,10 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 			professions: [
 				{ id: '1', name: 'testProfession1' },
 				{ id: '2', name: 'testProfession2' },
+			],
+			programmingLanguages: [
+				{ id: '1', name: 'testProgrammingLanguage1' },
+				{ id: '2', name: 'testProgrammingLanguage2' },
 			],
 		};
 		render(
@@ -102,6 +117,20 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 			screen.queryByRole('combobox', { name: 'testProfession2' }),
 		).not.toBeInTheDocument();
 
+		// experiencedProgrammingLanguages
+		expect(
+			screen.getByRole('checkbox', { name: 'testProgrammingLanguage1' }),
+		).toHaveAttribute('aria-checked', 'true');
+		expect(
+			screen.queryByRole('combobox', { name: 'testProgrammingLanguage1' }),
+		).toBeInTheDocument();
+		expect(
+			screen.getByRole('checkbox', { name: 'testProgrammingLanguage2' }),
+		).toHaveAttribute('aria-checked', 'false');
+		expect(
+			screen.queryByRole('combobox', { name: 'testProgrammingLanguage2' }),
+		).not.toBeInTheDocument();
+
 		// selfPromotion
 		expect(screen.getByDisplayValue(profile.selfPromotion)).toBeInTheDocument();
 	});
@@ -134,6 +163,17 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 						| 'expert',
 				},
 			],
+			experiencedProgrammingLanguages: [
+				{
+					programmingLanguageId: '1',
+					experiencedDuration: 'expert' as
+						| 'lessThanOneYear'
+						| 'junior'
+						| 'middle'
+						| 'senior'
+						| 'expert',
+				},
+			],
 			selfPromotion: 'test selfPromotion',
 		};
 
@@ -141,6 +181,10 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 			professions: [
 				{ id: '1', name: 'testProfession1' },
 				{ id: '2', name: 'testProfession2' },
+			],
+			programmingLanguages: [
+				{ id: '1', name: 'testProgrammingLanguage1' },
+				{ id: '2', name: 'testProgrammingLanguage2' },
 			],
 		};
 		render(
@@ -259,6 +303,29 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 			screen.queryByRole('combobox', { name: 'testProfession2' }),
 		).toBeInTheDocument();
 
+		// experiencedProgrammingLanguages
+		const experiencedProgrammingLanguage1 = screen.getByRole('checkbox', {
+			name: 'testProgrammingLanguage1',
+		});
+		await event.click(experiencedProgrammingLanguage1);
+		expect(
+			screen.getByRole('checkbox', { name: 'testProgrammingLanguage1' }),
+		).toHaveAttribute('aria-checked', 'false');
+		expect(
+			screen.queryByRole('combobox', { name: 'testProgrammingLanguage1' }),
+		).not.toBeInTheDocument();
+
+		const experiencedProgrammingLanguage2 = screen.getByRole('checkbox', {
+			name: 'testProgrammingLanguage2',
+		});
+		await event.click(experiencedProgrammingLanguage2);
+		expect(
+			screen.getByRole('checkbox', { name: 'testProgrammingLanguage2' }),
+		).toHaveAttribute('aria-checked', 'true');
+		expect(
+			screen.queryByRole('combobox', { name: 'testProgrammingLanguage2' }),
+		).toBeInTheDocument();
+
 		// selfPromotion
 		const selfPromotionInput = screen.getByLabelText('自己PR', {
 			selector: 'textarea',
@@ -292,6 +359,17 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 						experiencedProfessions: [
 							{
 								professionId: '2',
+								experiencedDuration: 'senior' as
+									| 'lessThanOneYear'
+									| 'junior'
+									| 'middle'
+									| 'senior'
+									| 'expert',
+							},
+						],
+						experiencedProgrammingLanguages: [
+							{
+								programmingLanguageId: '2',
 								experiencedDuration: 'senior' as
 									| 'lessThanOneYear'
 									| 'junior'
@@ -338,6 +416,17 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 							| 'expert',
 					},
 				],
+				experiencedProgrammingLanguages: [
+					{
+						programmingLanguageId: '1',
+						experiencedDuration: 'expert' as
+							| 'lessThanOneYear'
+							| 'junior'
+							| 'middle'
+							| 'senior'
+							| 'expert',
+					},
+				],
 				selfPromotion: 'test selfPromotion',
 			};
 
@@ -345,6 +434,10 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 				professions: [
 					{ id: '1', name: 'testProfession1' },
 					{ id: '2', name: 'testProfession2' },
+				],
+				programmingLanguages: [
+					{ id: '1', name: 'testProgrammingLanguage1' },
+					{ id: '2', name: 'testProgrammingLanguage2' },
 				],
 			};
 			render(
@@ -416,6 +509,17 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 			});
 			await event.click(experiencedProfession2);
 
+			// experiencedProgrammingLanguages
+			const experiencedProgrammingLanguage1 = screen.getByRole('checkbox', {
+				name: 'testProgrammingLanguage1',
+			});
+			await event.click(experiencedProgrammingLanguage1);
+
+			const experiencedProgrammingLanguage2 = screen.getByRole('checkbox', {
+				name: 'testProgrammingLanguage2',
+			});
+			await event.click(experiencedProgrammingLanguage2);
+
 			// selfPromotion
 			const selfPromotionInput = screen.getByLabelText('自己PR', {
 				selector: 'textarea',
@@ -451,6 +555,7 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 							currentHourlyWage: 0,
 							experiencedDuration: 'expert',
 							experiencedProfessions: [],
+							experiencedProgrammingLanguages: [],
 							selfPromotion: '',
 						},
 						errors: [
@@ -499,6 +604,7 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 						| 'middle'
 						| 'senior',
 					experiencedProfessions: [],
+					experiencedProgrammingLanguages: [],
 					selfPromotion: '',
 				};
 
@@ -506,6 +612,10 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 					professions: [
 						{ id: '1', name: 'testProfession1' },
 						{ id: '2', name: 'testProfession2' },
+					],
+					programmingLanguages: [
+						{ id: '1', name: 'testProgrammingLanguage1' },
+						{ id: '2', name: 'testProgrammingLanguage2' },
 					],
 				};
 				render(

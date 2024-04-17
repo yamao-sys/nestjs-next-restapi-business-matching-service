@@ -65,18 +65,16 @@ export type UpdateProfileDto = {
 			| 'expert'
 			| undefined;
 	}[];
-	experiencedProgrammingLanguages?:
-		| {
-				programmingLanguageId?: string | undefined;
-				experiencedDuration?:
-					| 'lessThanOneYear'
-					| 'junior'
-					| 'middle'
-					| 'senior'
-					| 'expert'
-					| undefined;
-		  }[]
-		| undefined;
+	experiencedProgrammingLanguages: {
+		programmingLanguageId?: string | undefined;
+		experiencedDuration?:
+			| 'lessThanOneYear'
+			| 'junior'
+			| 'middle'
+			| 'senior'
+			| 'expert'
+			| undefined;
+	}[];
 };
 
 /** プロフィール作成のresponse DTO */

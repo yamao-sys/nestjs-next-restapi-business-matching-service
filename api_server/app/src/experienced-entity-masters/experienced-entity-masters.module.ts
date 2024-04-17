@@ -4,9 +4,10 @@ import { ExperiencedEntityMastersController } from './experienced-entity-masters
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Profession } from '../professions/entities/profession.entity';
 import * as OpenApiValidator from 'express-openapi-validator';
+import { ProgrammingLanguage } from '../programming-languages/entities/programming-languages.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Profession])],
+  imports: [TypeOrmModule.forFeature([Profession, ProgrammingLanguage])],
   controllers: [ExperiencedEntityMastersController],
   providers: [ExperiencedEntityMastersService],
 })

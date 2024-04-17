@@ -17,6 +17,7 @@ export class ProfilesService {
 
     const newEnginner = new Engineer(userId);
     newEnginner.experiencedProfessions = [];
+    newEnginner.experiencedProgrammingLanguages = [];
     return newEnginner;
   }
 
@@ -27,6 +28,8 @@ export class ProfilesService {
     );
     assignedAttributesEngineer.experiencedProfessions =
       params.experiencedProfessions;
+    assignedAttributesEngineer.experiencedProgrammingLanguages =
+      params.experiencedProgrammingLanguages;
     return assignedAttributesEngineer;
   }
 
@@ -42,8 +45,8 @@ export class ProfilesService {
     return await this.engineerRepository.findOne({
       where: { userId },
       loadEagerRelations: false,
-      relationLoadStrategy: 'query',
-      relations: ['experiencedProfessions'],
+      relationLoadStrategy: 'query', // JOINせず個別にSQL発行
+      relations: ['experiencedProfessions', 'experiencedProgrammingLanguages'],
     });
   }
 }
