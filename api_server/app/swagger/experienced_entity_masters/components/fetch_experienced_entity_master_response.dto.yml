@@ -5,5 +5,10 @@ properties:
     type: array
     items:
       $ref: './profession.dto.yml'
+  programmingLanguages:
+    type: array
+    items:
+      $ref: './programming_language.dto.yml'
 required:
   - professions
+  - programmingLanguages

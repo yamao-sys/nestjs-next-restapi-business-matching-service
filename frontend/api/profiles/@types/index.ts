@@ -26,6 +26,16 @@ export type ProfileForEditDto = {
 			| 'expert'
 			| undefined;
 	}[];
+	experiencedProgrammingLanguages: {
+		programmingLanguageId?: string | undefined;
+		experiencedDuration?:
+			| 'lessThanOneYear'
+			| 'junior'
+			| 'middle'
+			| 'senior'
+			| 'expert'
+			| undefined;
+	}[];
 };
 
 /** TODO作成のrequest DTO */
@@ -55,6 +65,18 @@ export type UpdateProfileDto = {
 			| 'expert'
 			| undefined;
 	}[];
+	experiencedProgrammingLanguages?:
+		| {
+				programmingLanguageId?: string | undefined;
+				experiencedDuration?:
+					| 'lessThanOneYear'
+					| 'junior'
+					| 'middle'
+					| 'senior'
+					| 'expert'
+					| undefined;
+		  }[]
+		| undefined;
 };
 
 /** プロフィール作成のresponse DTO */
@@ -79,6 +101,18 @@ export type UpdateProfileResponseDto = {
 		experiencedProfessions?:
 			| {
 					professionId?: string | undefined;
+					experiencedDuration?:
+						| 'lessThanOneYear'
+						| 'junior'
+						| 'middle'
+						| 'senior'
+						| 'expert'
+						| undefined;
+			  }[]
+			| undefined;
+		experiencedProgrammingLanguages?:
+			| {
+					programmingLanguageId?: string | undefined;
 					experiencedDuration?:
 						| 'lessThanOneYear'
 						| 'junior'

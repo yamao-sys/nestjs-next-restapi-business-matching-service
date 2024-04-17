@@ -170,6 +170,21 @@ components:
                   - middle
                   - senior
                   - expert
+        experiencedProgrammingLanguages:
+          type: array
+          items:
+            type: object
+            properties:
+              programmingLanguageId:
+                type: string
+              experiencedDuration:
+                type: string
+                enum:
+                  - lessThanOneYear
+                  - junior
+                  - middle
+                  - senior
+                  - expert
       required:
         - lastName
         - firstName
@@ -182,6 +197,7 @@ components:
         - experiencedDuration
         - selfPromotion
         - experiencedProfessions
+        - experiencedProgrammingLanguages
     UpdateProfileDto:
       description: TODO作成のrequest DTO
       type: object
@@ -231,6 +247,21 @@ components:
                   - middle
                   - senior
                   - expert
+        experiencedProgrammingLanguages:
+          type: array
+          items:
+            type: object
+            properties:
+              programmingLanguageId:
+                type: string
+              experiencedDuration:
+                type: string
+                enum:
+                  - lessThanOneYear
+                  - junior
+                  - middle
+                  - senior
+                  - expert
       required:
         - lastName
         - firstName
@@ -243,6 +274,7 @@ components:
         - experiencedDuration
         - selfPromotion
         - experiencedProfessions
+        - experiencedProgrammingLanguages
     UpdateProfileResponseDto:
       description: プロフィール作成のresponse DTO
       type: object
@@ -286,6 +318,21 @@ components:
                 type: object
                 properties:
                   professionId:
+                    type: string
+                  experiencedDuration:
+                    type: string
+                    enum:
+                      - lessThanOneYear
+                      - junior
+                      - middle
+                      - senior
+                      - expert
+            experiencedProgrammingLanguages:
+              type: array
+              items:
+                type: object
+                properties:
+                  programmingLanguageId:
                     type: string
                   experiencedDuration:
                     type: string

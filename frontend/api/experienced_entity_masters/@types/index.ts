@@ -5,9 +5,18 @@ export type FetchExperiencedEntityMasterResponse = {
 		id: string;
 		name: string;
 	}[];
+	programmingLanguages: {
+		id: string;
+		name: string;
+	}[];
 };
 
 export type Profession = {
+	id: string;
+	name: string;
+};
+
+export type ProgrammingLanguage = {
 	id: string;
 	name: string;
 };

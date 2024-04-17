@@ -33,6 +33,16 @@ properties:
         experiencedDuration:
           type: string
           enum: [lessThanOneYear, junior, middle, senior, expert]
+  experiencedProgrammingLanguages:
+    type: array
+    items:
+      type: object
+      properties:
+        programmingLanguageId:
+          type: string
+        experiencedDuration:
+          type: string
+          enum: [lessThanOneYear, junior, middle, senior, expert]
 required:
   - lastName
   - firstName
@@ -45,3 +55,4 @@ required:
   - experiencedDuration
   - selfPromotion
   - experiencedProfessions
+  - experiencedProgrammingLanguages
