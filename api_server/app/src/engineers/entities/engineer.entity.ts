@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { IsTelNumber } from '../validators/is-tel-number';
 import { ExperiencedProfession } from '../../experiences/entities/professions.entity';
+import { ExperiencedProgrammingLanguage } from '../../experiences/entities/programming-languages.entity';
 
 export enum CurrentEmployment {
   FLEELANCE = 'fleelance',
@@ -104,6 +105,16 @@ export class Engineer extends BaseEntity {
     },
   )
   experiencedProfessions?: ExperiencedProfession[];
+
+  @OneToMany(
+    () => ExperiencedProgrammingLanguage,
+    (experiencedProgrammingLanguages) =>
+      experiencedProgrammingLanguages.engineer,
+    {
+      cascade: true, // engineerの保存時に一緒に保存する
+    },
+  )
+  experiencedProgrammingLanguages?: ExperiencedProgrammingLanguage[];
 
   constructor(userId?: string) {
     super();
