@@ -87,6 +87,16 @@ https://qiita.com/Leech/items/5cd1e83253d0179b0cec
 https://stackoverflow.com/questions/67872622/jest-spyon-not-working-on-index-file-cannot-redefine-property
 https://qiita.com/m-yo-biz/items/e9b6298d111ff6d03a5e
 
+## NestJSのテスト
+https://blog.koh.dev/2022-07-02-jest-speedup/
+https://zenn.dev/naonao70/articles/5167d8c18c81e2#%E3%83%86%E3%82%B9%E3%83%88%E3%82%B3%E3%83%BC%E3%83%89
+https://developer.dip-net.co.jp/entry/2022/07/11/NestJS_x_Jest_x_TypeORM%E3%81%A7Unit~E2E%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E8%A1%8C%E3%81%86
+https://qiita.com/suzuki0430/items/e4f8cabc61fc1fd41dcc
+https://qiita.com/piggydev/items/a34321afb163588a9a7e
+
+## NestJSの環境変数の設定
+https://for.kobayashiii.dev/articles/yun50wtl9rc
+
 ## コマンド類
 NestJSでresource(controller, service, module, entity)を一式作成する
 ```

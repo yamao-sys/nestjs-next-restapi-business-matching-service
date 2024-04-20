@@ -1,16 +1,11 @@
-export default (): void => {
-  console.log('Setup test environment');
+import * as dotenv from 'dotenv';
+import * as path from 'path';
 
-  process.env.NODE_ENV = 'test';
-  process.env.DB_CONNECTION = 'mysql';
-  process.env.DB_HOST ||= 'db';
-  process.env.DB_PORT = '3306';
-  process.env.DB_USERNAME = 'root';
-  process.env.DB_PASSWORD = 'root';
-  process.env.DB_NAME = 'nestjs_next_restapi_business_matching_service_test';
-  process.env.SYNCHRONIZE = 'true';
-  process.env.MIGRATIONS_RUN = 'false';
-  process.env.DROP_SCHEMA = 'true';
-  process.env.JWT_SECRET =
-    'd43c3a6876a003dcae605b95a0389f370c4bd613c8d5c55532b47be38266e266';
-};
+const testEnv = dotenv.config({
+  path: path.join(process.cwd(), 'src/envs/.env.test'),
+});
+
+// 環境変数をtest環境に上書き
+Object.assign(process.env, {
+  ...testEnv.parsed,
+});

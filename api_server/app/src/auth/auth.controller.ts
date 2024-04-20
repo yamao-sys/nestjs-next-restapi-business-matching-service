@@ -14,7 +14,7 @@ import { SignUpDto } from './dto/sign_up.dto';
 import { SignInDto } from './dto/sign_in.dto';
 import { SignUpResponseDto } from './dto/sign_up_response.dto';
 import { SignInResponseDto } from './dto/sign_in_response.dto';
-import { format_validation_errors } from 'src/lib/format_validation_errors';
+import { format_validation_errors } from '../lib/format_validation_errors';
 import { ValidateSignUpResponseDto } from './dto/validate_sign_up_response.dto';
 
 @Controller('auth')
@@ -52,8 +52,9 @@ export class AuthController {
 
     try {
       await this.authService.signUp(user);
-      return { errors: [] };
+      return { errors: {} };
     } catch (error) {
+      console.log(error);
       throw new HttpException(
         'Internal Server Error',
         HttpStatus.INTERNAL_SERVER_ERROR,

@@ -2,9 +2,15 @@ description: 会員登録のレスポンス
 type: object
 properties:
   errors:
-    type: array
-    items:
-      description: バリデーションエラーメッセージ
-      type: string
+    type: object
+    properties:
+      email:
+        type: array
+        items:
+          type: string
+      password:
+        type: array
+        items:
+          type: string
 required:
   - errors
