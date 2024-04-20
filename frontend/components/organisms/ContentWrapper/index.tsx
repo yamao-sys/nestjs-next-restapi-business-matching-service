@@ -20,6 +20,7 @@ const Wrapper = styled.div`
 	justify-content: center;
 	align-items: center;
 	margin-top: ${({ theme }) => theme.size.p40};
+	margin-bottom: ${({ theme }) => theme.size.p40};
 	gap: ${({ theme }) => theme.size.p30};
 `;
 Wrapper.defaultProps = { theme: theme };

@@ -1,0 +1,58 @@
+description: TODO作成のrequest DTO
+type: object
+properties:
+  lastName:
+    type: string
+  firstName:
+    type: string
+  birthday:
+    type: string
+  currentEmployment:
+    type: string
+    enum: [fleelance, fulltime, other]
+  inWorkingCompanyName:
+    type: string
+  tel:
+    type: string
+  latestProject:
+    type: string
+  currentHourlyWage:
+    type: number
+  experiencedDuration:
+    type: string
+    enum: [lessThanOneYear, junior, middle, senior, expert]
+  selfPromotion:
+    type: string
+  experiencedProfessions:
+    type: array
+    items:
+      type: object
+      properties:
+        professionId:
+          type: string
+        experiencedDuration:
+          type: string
+          enum: [lessThanOneYear, junior, middle, senior, expert]
+  experiencedProgrammingLanguages:
+    type: array
+    items:
+      type: object
+      properties:
+        programmingLanguageId:
+          type: string
+        experiencedDuration:
+          type: string
+          enum: [lessThanOneYear, junior, middle, senior, expert]
+required:
+  - lastName
+  - firstName
+  - birthday
+  - currentEmployment
+  - inWorkingCompanyName
+  - tel
+  - latestProject
+  - currentHourlyWage
+  - experiencedDuration
+  - selfPromotion
+  - experiencedProfessions
+  - experiencedProgrammingLanguages

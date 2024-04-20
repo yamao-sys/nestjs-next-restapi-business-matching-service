@@ -11,6 +11,7 @@ export const datasourceOptions: DataSourceOptions = {
   entities: [join(__dirname, '/src/**/*.entity.{ts,js}')],
   migrations: [join(__dirname, '/migrations/*.{ts,js}')],
   synchronize: JSON.parse(process.env.SYNCHRONIZE),
+  dropSchema: process.env.NODE_ENV === 'test',
   logging: false,
 };
 

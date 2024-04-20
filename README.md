@@ -4,6 +4,18 @@
 ・styled-componentsにおいて、DOMに存在しないattributeをスタイル調整でpropsで使う
 https://styled-components.com/docs/faqs#why-am-i-getting-html-attribute-warnings
 
+## frontend側の新規開発の設計
+- 専属コンポーネントをコロケーションパターンで作成 & Jest, testing-libraryで結合テストで最低限の動作を確保
+	- why
+		- 新規開発時の速さと品質のちょうど良い塩梅
+			- 新規開発の段階で細かく共通コンポーネントに分けると、共通部分の変更が入りやすく、テスト箇所も多くなる
+				- 新規開発の段階ではまだ全体的なUIの決定がこれからのため
+		- 全くテストがないというのはできるだけ避けたい
+			- 結合テストを書いて動作を確保しておけば、後でリファクタリングもしやすい
+			- テストを書くという文化を早期に醸成
+			- E2Eを書いても良いが、結合テストと合わせてどっちもは難しい...
+				- ハッピーパス(典型的なユースケースに沿ったシナリオ)の確認を0→1が終わった段階で書き始めるのが良いか
+
 ## frontend側のテスト方針
 https://rightcode.co.jp/blogs/40957
 https://note.com/cyberz_cto/n/n3ba47e0dcfd2
@@ -12,10 +24,16 @@ https://meetup-jp.toast.com/1771
 https://zenn.dev/ignorant_kenji/articles/6f740feabf6f30
 https://kaminashi-developer.hatenablog.jp/entry/2023/12/12/080000
 https://techblog.finatext.com/front-end-testing-strategy-with-roi-82b22eb12811
+https://zenn.dev/aldagram_tech/articles/kanna-integration-test
+https://blog.cybozu.io/entry/2023/12/13/123701
+https://gitkado.hatenadiary.jp/entry/20230517/1684250542
 
 - E2Eに関して
 	- Page RouterかつCSRではMSWでモックできた。
 	- App RouterではMSW側からモックが難しい → testmodeが登場したが、2024年4月時点ではexperimental かつ 参考文献がまだ少ない...
+	- 実行時間・メンテナンスコスト・信頼性の軸で結合テストとのバランスを考えることが大事
+		- 結合テストをできるだけ厚くするのがコスパ良い
+		- E2Eは結合テストでは補足が難しい部分、ハッピーパス(基本的なシナリオに沿った動作)を実装する
 
 ### 新規開発の場合
 - 最低限コンポーネントが正しく動作すること
@@ -68,3 +86,38 @@ https://qiita.com/s_karuta/items/ee211251d944e72b2517#jestspyon%E3%82%92%E3%81%A
 https://qiita.com/Leech/items/5cd1e83253d0179b0cec
 https://stackoverflow.com/questions/67872622/jest-spyon-not-working-on-index-file-cannot-redefine-property
 https://qiita.com/m-yo-biz/items/e9b6298d111ff6d03a5e
+
+## NestJSのテスト
+https://blog.koh.dev/2022-07-02-jest-speedup/
+https://zenn.dev/naonao70/articles/5167d8c18c81e2#%E3%83%86%E3%82%B9%E3%83%88%E3%82%B3%E3%83%BC%E3%83%89
+https://developer.dip-net.co.jp/entry/2022/07/11/NestJS_x_Jest_x_TypeORM%E3%81%A7Unit~E2E%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E8%A1%8C%E3%81%86
+https://qiita.com/suzuki0430/items/e4f8cabc61fc1fd41dcc
+https://qiita.com/piggydev/items/a34321afb163588a9a7e
+
+## NestJSの環境変数の設定
+https://for.kobayashiii.dev/articles/yun50wtl9rc
+
+## コマンド類
+NestJSでresource(controller, service, module, entity)を一式作成する
+```
+nest g resource [name]
+```
+
+マイグレーション作成
+```
+npx ts-node ./node_modules/.bin/typeorm migration:generate -d ./data-source.ts ./migrations/
+```
+
+マイグレーション実行
+```
+npx ts-node ./node_modules/.bin/typeorm migration:run -d ./data-source.ts
+```
+
+バックエンドコンテナ内でCLIのバッチを実行する
+```
+npx ts-node src/commands/cli.ts <commandName> <args>
+```
+
+エラーハンドリング
+これ試す
+https://qiita.com/H-goto16/items/49cc54d53bcd9102316d

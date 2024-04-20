@@ -13,13 +13,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { TodosService } from './todos.service';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { JwtPayload } from 'src/interfaces/jwt-payload.interface';
+import { AuthGuard } from '../auth/auth.guard';
+import { JwtPayload } from '../interfaces/jwt-payload.interface';
 import { ApiCreatedResponse } from '@nestjs/swagger';
 import { CreateTodoDto } from './dto/create_todo.dto';
 import { UpdateTodoDto } from './dto/update_todo.dto';
 import { CreateTodoResponseDto } from './dto/create_todo_response.dto';
-import { format_validation_errors } from 'src/lib/format_validation_errors';
+import { format_validation_errors } from '../lib/format_validation_errors';
 import { FetchAllTodosResponseDto } from './dto/find_all_todos_response.dto';
 import { FetchTodoResponseDto } from './dto/fetch_todo_response.dto';
 import { UpdateTodoResponseDto } from './dto/update_todo_response.dto';

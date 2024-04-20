@@ -1,0 +1,70 @@
+openapi: 3.0.0
+info:
+  title: Profiles Controller Schema
+  version: 1.0.0
+paths:
+  /experiencedEntityMasters:
+    get:
+      operationId: fetchExperiencedEntityMasters
+      description: 経験スキルのマスタの取得
+      parameters: []
+      responses:
+        '200':
+          description: 経験スキルのマスタの取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchExperiencedEntityMasterResponse'
+components:
+  schemas:
+    FetchExperiencedEntityMasterResponse:
+      description: 経験スキルのマスタのresponse DTO
+      type: object
+      properties:
+        professions:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+            required:
+              - id
+              - name
+        programmingLanguages:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+            required:
+              - id
+              - name
+      required:
+        - professions
+        - programmingLanguages
+    Profession:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+    ProgrammingLanguage:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name

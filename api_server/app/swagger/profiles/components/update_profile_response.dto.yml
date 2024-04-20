@@ -1,0 +1,66 @@
+description: プロフィール作成のresponse DTO
+type: object
+properties:
+  profile:
+    type: object
+    properties:
+      lastName:
+        type: string
+      firstName:
+        type: string
+      birthday:
+        type: string
+      currentEmployment:
+        type: string
+        enum: [fleelance, fulltime, other]
+      inWorkingCompanyName:
+        type: string
+      tel:
+        type: string
+      latestProject:
+        type: string
+      currentHourlyWage:
+        type: number
+      experiencedDuration:
+        type: string
+        enum: [lessThanOneYear, junior, middle, senior, expert]
+      selfPromotion:
+        type: string
+      experiencedProfessions:
+        type: array
+        items:
+          type: object
+          properties:
+            professionId:
+              type: string
+            experiencedDuration:
+              type: string
+              enum: [lessThanOneYear, junior, middle, senior, expert]
+      experiencedProgrammingLanguages:
+        type: array
+        items:
+          type: object
+          properties:
+            programmingLanguageId:
+              type: string
+            experiencedDuration:
+              type: string
+              enum: [lessThanOneYear, junior, middle, senior, expert]
+  errors:
+    type: array
+    items:
+      type: object
+      description: バリデーションエラー
+      properties:
+        key:
+          type: string
+        messages:
+          type: array
+          items:
+            type: string
+      required:
+        - key
+        - messages
+required:
+  - profile
+  - errors

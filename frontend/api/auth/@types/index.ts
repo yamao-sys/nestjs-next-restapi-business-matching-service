@@ -15,7 +15,10 @@ export type ValidateSignUpResponseDto = {
 
 /** 会員登録のレスポンス */
 export type SignUpResponseDto = {
-	errors: string[];
+	errors: {
+		email?: string[] | undefined;
+		password?: string[] | undefined;
+	};
 };
 
 /** Sign in params. */

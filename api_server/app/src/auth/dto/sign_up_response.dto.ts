@@ -4,5 +4,5 @@ export class SignUpResponseDto {
   @ApiProperty({
     example: ['メールアドレスは必須です。', 'パスワードは必須です。'],
   })
-  errors: Array<string>;
+  errors: { email?: Array<string>; password?: Array<string> };
 }

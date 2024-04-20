@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 
 import * as bcrypt from 'bcrypt';
-import { JwtPayload } from 'src/interfaces/jwt-payload.interface';
+import { JwtPayload } from '../interfaces/jwt-payload.interface';
 import { SignUpDto } from './dto/sign_up.dto';
 import { SignInDto } from './dto/sign_in.dto';
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../users/entities/user.entity';
 import { validate } from 'class-validator';
 
 @Injectable()

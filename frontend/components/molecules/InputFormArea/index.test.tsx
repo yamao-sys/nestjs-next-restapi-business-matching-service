@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { InputTextFormArea } from '.';
+import { InputFormArea } from '.';
 
-describe('feature/auth/components/molecules/InputTextFormArea', () => {
+describe('feature/auth/components/molecules/InputFormArea', () => {
 	// describe('unit test', () => {
 	// });
 
@@ -12,7 +12,8 @@ describe('feature/auth/components/molecules/InputTextFormArea', () => {
 			const inputMessages = ['test message1', 'test message2'];
 
 			render(
-				<InputTextFormArea
+				<InputFormArea
+					type="text"
 					name="test name"
 					placeholder="test placeholder"
 					value="test value"
@@ -26,6 +27,9 @@ describe('feature/auth/components/molecules/InputTextFormArea', () => {
 				'test placeholder',
 			) as HTMLInputElement;
 			expect(inputElement).toBeInTheDocument();
+
+			// NOTE: 上記<input>タグのtypeがpropsで受け取った値であることを確認
+			expect(inputElement).toHaveProperty('type', 'text');
 
 			// NOTE: 上記<input>タグのname, valueがpropsで受け取った値であることを確認
 			expect(inputElement).toHaveProperty('name', 'test name');

@@ -4,4 +4,4 @@ WORKDIR /api_server/app
 # コンテナの/appにコピー
 COPY ./package*.json ./
 
-CMD sh -c "npm install && npm run start:dev"
+CMD sh -c "npm install && npm install -g @nestjs/cli && npm run start:dev"

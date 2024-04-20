@@ -8,9 +8,9 @@ import { useState } from 'react';
 import { BaseLayout } from '../BaseLayout';
 import { ValidationErrorBox } from '@/components/atoms/ValidationErrorBox';
 import { BaseButton } from '@/components/atoms/BaseButton';
-import { InputTextFormArea } from '../../molecules/InputTextFormArea';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '@/styles/theme';
+import { InputFormArea } from '@/components/molecules/InputFormArea';
 
 export default function SignInForm() {
 	const [inputEmail, setInputEmail] = useState('');
@@ -55,13 +55,14 @@ export default function SignInForm() {
 							<ValidationErrorBox messages={validationErrors} />
 						)}
 					</ValidationErrorsArea>
-					<InputTextFormArea
+					<InputFormArea
+						type="text"
 						name="email"
 						placeholder="Email"
 						value={inputEmail}
 						onChange={handleChangeInputEmail}
 					/>
-					<InputTextFormArea
+					<InputFormArea
 						type="password"
 						name="password"
 						placeholder="Password"

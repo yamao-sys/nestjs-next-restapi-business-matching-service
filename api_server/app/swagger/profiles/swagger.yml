@@ -1,0 +1,362 @@
+openapi: 3.0.0
+info:
+  title: Profiles Controller Schema
+  version: 1.0.0
+paths:
+  /profiles:
+    post:
+      operationId: createProfile
+      description: ログインユーザのプロフィールを更新
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileDto'
+      responses:
+        '201':
+          description: プロフィールの更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProfileResponseDto'
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                description: バリデーションエラー
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  message:
+                    type: array
+                    items:
+                      description: TODO取得時のレスポンスのDTO
+                      type: string
+                  error:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+                  - error
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                description: 認証エラー
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  message:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+    get:
+      operationId: findForProfileEdit
+      description: 編集対象となるログインユーザのプロフィールを取得
+      parameters: []
+      responses:
+        '200':
+          description: プロフィールの取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileForEditDto'
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                description: バリデーションエラー
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  message:
+                    type: array
+                    items:
+                      description: TODO取得時のレスポンスのDTO
+                      type: string
+                  error:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+                  - error
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                description: 認証エラー
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  message:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+        '404':
+          description: Not Foundエラー
+          content:
+            application/json:
+              schema:
+                description: Not Foundエラー
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  message:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+components:
+  schemas:
+    ProfileForEditDto:
+      description: 編集対象のプロフィール取得レスポンスのDTO
+      type: object
+      properties:
+        lastName:
+          type: string
+        firstName:
+          type: string
+        birthday:
+          type: string
+        currentEmployment:
+          type: string
+          enum:
+            - fleelance
+            - fulltime
+            - other
+        inWorkingCompanyName:
+          type: string
+        tel:
+          type: string
+        latestProject:
+          type: string
+        currentHourlyWage:
+          type: number
+        experiencedDuration:
+          type: string
+          enum:
+            - lessThanOneYear
+            - junior
+            - middle
+            - senior
+            - expert
+        selfPromotion:
+          type: string
+        experiencedProfessions:
+          type: array
+          items:
+            type: object
+            properties:
+              professionId:
+                type: string
+              experiencedDuration:
+                type: string
+                enum:
+                  - lessThanOneYear
+                  - junior
+                  - middle
+                  - senior
+                  - expert
+        experiencedProgrammingLanguages:
+          type: array
+          items:
+            type: object
+            properties:
+              programmingLanguageId:
+                type: string
+              experiencedDuration:
+                type: string
+                enum:
+                  - lessThanOneYear
+                  - junior
+                  - middle
+                  - senior
+                  - expert
+      required:
+        - lastName
+        - firstName
+        - birthday
+        - currentEmployment
+        - inWorkingCompanyName
+        - tel
+        - latestProject
+        - currentHourlyWage
+        - experiencedDuration
+        - selfPromotion
+        - experiencedProfessions
+        - experiencedProgrammingLanguages
+    UpdateProfileDto:
+      description: TODO作成のrequest DTO
+      type: object
+      properties:
+        lastName:
+          type: string
+        firstName:
+          type: string
+        birthday:
+          type: string
+        currentEmployment:
+          type: string
+          enum:
+            - fleelance
+            - fulltime
+            - other
+        inWorkingCompanyName:
+          type: string
+        tel:
+          type: string
+        latestProject:
+          type: string
+        currentHourlyWage:
+          type: number
+        experiencedDuration:
+          type: string
+          enum:
+            - lessThanOneYear
+            - junior
+            - middle
+            - senior
+            - expert
+        selfPromotion:
+          type: string
+        experiencedProfessions:
+          type: array
+          items:
+            type: object
+            properties:
+              professionId:
+                type: string
+              experiencedDuration:
+                type: string
+                enum:
+                  - lessThanOneYear
+                  - junior
+                  - middle
+                  - senior
+                  - expert
+        experiencedProgrammingLanguages:
+          type: array
+          items:
+            type: object
+            properties:
+              programmingLanguageId:
+                type: string
+              experiencedDuration:
+                type: string
+                enum:
+                  - lessThanOneYear
+                  - junior
+                  - middle
+                  - senior
+                  - expert
+      required:
+        - lastName
+        - firstName
+        - birthday
+        - currentEmployment
+        - inWorkingCompanyName
+        - tel
+        - latestProject
+        - currentHourlyWage
+        - experiencedDuration
+        - selfPromotion
+        - experiencedProfessions
+        - experiencedProgrammingLanguages
+    UpdateProfileResponseDto:
+      description: プロフィール作成のresponse DTO
+      type: object
+      properties:
+        profile:
+          type: object
+          properties:
+            lastName:
+              type: string
+            firstName:
+              type: string
+            birthday:
+              type: string
+            currentEmployment:
+              type: string
+              enum:
+                - fleelance
+                - fulltime
+                - other
+            inWorkingCompanyName:
+              type: string
+            tel:
+              type: string
+            latestProject:
+              type: string
+            currentHourlyWage:
+              type: number
+            experiencedDuration:
+              type: string
+              enum:
+                - lessThanOneYear
+                - junior
+                - middle
+                - senior
+                - expert
+            selfPromotion:
+              type: string
+            experiencedProfessions:
+              type: array
+              items:
+                type: object
+                properties:
+                  professionId:
+                    type: string
+                  experiencedDuration:
+                    type: string
+                    enum:
+                      - lessThanOneYear
+                      - junior
+                      - middle
+                      - senior
+                      - expert
+            experiencedProgrammingLanguages:
+              type: array
+              items:
+                type: object
+                properties:
+                  programmingLanguageId:
+                    type: string
+                  experiencedDuration:
+                    type: string
+                    enum:
+                      - lessThanOneYear
+                      - junior
+                      - middle
+                      - senior
+                      - expert
+        errors:
+          type: array
+          items:
+            type: object
+            description: バリデーションエラー
+            properties:
+              key:
+                type: string
+              messages:
+                type: array
+                items:
+                  type: string
+            required:
+              - key
+              - messages
+      required:
+        - profile
+        - errors

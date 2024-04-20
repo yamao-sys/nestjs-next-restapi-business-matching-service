@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: Profiles Controller Schema
+  version: 1.0.0
+
+paths:
+  /profiles:
+    post:
+      operationId: createProfile
+      description: ログインユーザのプロフィールを更新
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileDto'
+      responses:
+        '201':
+          description: プロフィールの更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProfileResponseDto'
+        '400':
+          $ref: '../errors.yml#responses/400'
+        '401':
+          $ref: '../errors.yml#responses/401'
+    get:
+      operationId: findForProfileEdit
+      description: 編集対象となるログインユーザのプロフィールを取得
+      parameters: []
+      responses:
+        '200':
+          description: プロフィールの取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileForEditDto'
+        '400':
+          $ref: '../errors.yml#responses/400'
+        '401':
+          $ref: '../errors.yml#responses/401'
+        '404':
+          $ref: '../errors.yml#responses/404'
+
+components:
+  schemas:
+    ProfileForEditDto:
+      $ref: './components/profile_for_edit.dto.yml'
+    UpdateProfileDto:
+      $ref: './components/update_profile.dto.yml'
+    UpdateProfileResponseDto:
+      $ref: './components/update_profile_response.dto.yml'

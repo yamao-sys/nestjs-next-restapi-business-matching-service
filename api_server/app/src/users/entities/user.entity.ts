@@ -5,8 +5,10 @@ import {
   Column,
   Entity,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Engineer } from '../../engineers/entities/engineer.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -26,4 +28,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Todo, (todo) => todo.user)
   todos?: Todo[];
+
+  @OneToOne(() => Engineer, (engineer) => engineer.user)
+  engineer?: Engineer;
 }
