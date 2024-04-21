@@ -1,5 +1,12 @@
 # nestjs-next-restapi-business-matching-service
 
+## 目的
+- フロントエンドのコンポーネント設計、状態管理、テスト方針の検証
+	- 開発速度を保ちつつ、品質の安定性とのバランスを考えた設計・テスト方針の検証
+- バックエンドのNestJS, TypeORMのキャッチアップ、テスト方針の検証
+
+上記を目的に一般的なWebシステム(エージェントサービス)を模した開発を行う
+
 ## 参考
 ・styled-componentsにおいて、DOMに存在しないattributeをスタイル調整でpropsで使う
 https://styled-components.com/docs/faqs#why-am-i-getting-html-attribute-warnings
