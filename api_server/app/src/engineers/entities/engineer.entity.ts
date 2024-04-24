@@ -12,6 +12,7 @@ import {
 import { IsTelNumber } from '../validators/is-tel-number';
 import { ExperiencedProfession } from '../../experiences/entities/professions.entity';
 import { ExperiencedProgrammingLanguage } from '../../experiences/entities/programming-languages.entity';
+import { SkillSheet } from '../../skillsheets/entities/skillsheet.entity';
 
 export enum CurrentEmployment {
   FLEELANCE = 'fleelance',
@@ -115,6 +116,11 @@ export class Engineer extends BaseEntity {
     },
   )
   experiencedProgrammingLanguages?: ExperiencedProgrammingLanguage[];
+
+  @OneToOne(() => SkillSheet, (skillsheet) => skillsheet.engineer, {
+    cascade: true, // engineerの保存時に一緒に保存する
+  })
+  skillsheet?: SkillSheet;
 
   constructor(userId?: string) {
     super();

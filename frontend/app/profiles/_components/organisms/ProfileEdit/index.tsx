@@ -24,7 +24,7 @@ type Props = {
 };
 
 export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
-	const [inputProfile, setInputProfile] = useState<UpdateProfileDto>(profile);
+	const [inputProfile, setInputProfile] = useState<ProfileForEditDto>(profile);
 	const [validationErrors, setValidationErrors] = useState<
 		UpdateProfileResponseDto['errors']
 	>([]);
@@ -101,6 +101,22 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 			...inputProfile,
 			experiencedProgrammingLanguages: newExperiencedProgrammingLanguages,
 		});
+	};
+
+	const updateSkillSheet = (fileInput: File) => {
+		let reader: FileReader | null = new FileReader();
+		reader.onloadend = () => {
+			// base64のデータを生成し、入力値としてセットする。
+			const base64 = reader && reader.result;
+			if (base64 && typeof base64 === 'string') {
+				updateInputProfile({
+					...inputProfile,
+					skillsheetName: fileInput.name,
+					skillsheetData: base64,
+				});
+			}
+		};
+		reader.readAsDataURL(fileInput);
 	};
 
 	return (
@@ -461,6 +477,29 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 								/>
 							</ExperiencedDurationsBox>
 						))}
+					</ColumnInputArea>
+				</InputArea>
+
+				<InputArea>
+					<ColumnInputArea>
+						{inputProfile.skillsheetName && (
+							<a
+								href={inputProfile.skillsheetData}
+								download={inputProfile.skillsheetName}
+							>
+								{inputProfile.skillsheetName}
+							</a>
+						)}
+						<label htmlFor="skillsheet">スキルシート</label>
+						<input
+							id="skillsheet"
+							type="file"
+							onChange={(e) => {
+								if (!e.target.files) return;
+
+								updateSkillSheet(e.target.files[0]);
+							}}
+						/>
 					</ColumnInputArea>
 				</InputArea>
 

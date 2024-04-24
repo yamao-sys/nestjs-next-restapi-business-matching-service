@@ -36,6 +36,8 @@ export type ProfileForEditDto = {
 			| 'expert'
 			| undefined;
 	}[];
+	skillsheetName?: string | undefined;
+	skillsheetData?: string | undefined;
 };
 
 /** TODO作成のrequest DTO */
@@ -75,6 +77,8 @@ export type UpdateProfileDto = {
 			| 'expert'
 			| undefined;
 	}[];
+	skillsheetName?: string | undefined;
+	skillsheetData?: string | undefined;
 };
 
 /** プロフィール作成のresponse DTO */
@@ -120,6 +124,8 @@ export type UpdateProfileResponseDto = {
 						| undefined;
 			  }[]
 			| undefined;
+		skillsheetName?: string | undefined;
+		skillsheetData?: string | undefined;
 	};
 
 	errors: {

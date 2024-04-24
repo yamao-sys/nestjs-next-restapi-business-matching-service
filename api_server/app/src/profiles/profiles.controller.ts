@@ -7,6 +7,7 @@ import {
   HttpException,
   HttpStatus,
   UseGuards,
+  // UseInterceptors,
 } from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
 import { ApiCreatedResponse } from '@nestjs/swagger';
@@ -16,6 +17,8 @@ import { UpdateProfileResponseDto } from './dto/update_profile_response.dto';
 import formatValidationErrors from '../lib/formatValidationErrors';
 import { UpdateProfileDto } from './dto/update_profile.dto';
 import { AuthGuard } from '../auth/auth.guard';
+// import { FileInterceptor } from '@nestjs/platform-express';
+import { getObject } from 'src/lib/awsService';
 
 @UseGuards(AuthGuard)
 @Controller('profiles')
@@ -33,10 +36,19 @@ export class ProfilesController {
       ...data
     } = await this.profilesService.findOrInitialize(req.user.userId);
 
-    return data;
+    if (!data.skillsheet?.filePath) return data;
+
+    // スキルシートが存在していれば、ファイル名とデータ(Base64)を含めて返す
+    const skillsheetData = await getObject(data.skillsheet?.filePath);
+    return {
+      ...data,
+      skillsheetName: data.skillsheet?.fileName,
+      skillsheetData,
+    };
   }
 
   @Post()
+  // @UseInterceptors(FileInterceptor('file'))
   @ApiCreatedResponse({
     type: UpdateProfileResponseDto,
     description: 'プロフィールの更新成功',
@@ -53,6 +65,7 @@ export class ProfilesController {
       dto,
     );
 
+    // TODO: ファイルバリデーションもこの中に入れる
     const validationErrors = await this.profilesService.validate(
       assignProfilesEngineer,
     );
@@ -67,8 +80,22 @@ export class ProfilesController {
       const {
         id: {},
         ...data
-      } = await this.profilesService.save(assignProfilesEngineer);
-      return { profile: data, errors: [] };
+      } = await this.profilesService.save(assignProfilesEngineer, {
+        skillsheetName: dto?.skillsheetName,
+        skillsheetData: dto?.skillsheetData,
+      });
+      if (!data.skillsheet?.filePath) return { profile: data, errors: [] };
+
+      // スキルシートが存在していれば、ファイル名とデータ(Base64)を含めて返す
+      const skillsheetData = await getObject(data.skillsheet?.filePath);
+      return {
+        profile: {
+          ...data,
+          skillsheetName: data.skillsheet?.fileName,
+          skillsheetData,
+        },
+        errors: [],
+      };
     } catch (error) {
       console.log(error);
       throw new HttpException(
