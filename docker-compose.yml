@@ -23,6 +23,14 @@ services:
     volumes:
       - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./mysql:/var/lib/mysql
+  localstack:
+    image: localstack/localstack:latest
+    ports:
+      - 4567:4566
+    environment:
+      - SERVICES=s3
+    volumes:
+      - ./localstack:/etc/localstack/init/ready.d
   frontend:
     build:
       context: ./frontend

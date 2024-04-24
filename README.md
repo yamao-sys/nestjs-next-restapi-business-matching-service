@@ -125,6 +125,29 @@ npx ts-node ./node_modules/.bin/typeorm migration:run -d ./data-source.ts
 npx ts-node src/commands/cli.ts <commandName> <args>
 ```
 
+localstack
+```
+
+```
+
 エラーハンドリング
 これ試す
 https://qiita.com/H-goto16/items/49cc54d53bcd9102316d
+
+localstack
+https://dennie.tokyo/it/?p=4019
+https://dennie.tokyo/it/?p=4024
+https://qiita.com/y-u-t-a/items/712e98e2298bdbe1a66c#s3-%E3%83%90%E3%82%B1%E3%83%83%E3%83%88%E5%86%85%E3%81%AE%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E4%B8%80%E8%A6%A7%E5%8F%96%E5%BE%97
+https://qiita.com/hamu3864kA/items/3472c2f5230f88ecdbb7
+
+Node.js localstack s3操作
+https://qiita.com/taisuke101700/items/d7efaca27b33adf29833
+https://stackoverflow.com/questions/74378854/localstack-aws-s3-javascript-error-getaddrinfo-enotfound-bucketname-localhost
+
+ファイルアップロードを伴うWebAPIの設計パターン
+https://techblog.imagemagic.jp/2023/06/12/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%A2%E3%83%83%E3%83%97%E3%83%AD%E3%83%BC%E3%83%89%E3%82%92%E4%BC%B4%E3%81%86webapi%E3%81%AE%E8%A8%AD%E8%A8%88%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E3%82%92/
+
+→ 今回はファイルアップロード箇所が限定的 & ファイルサイズも〜数百KBなのでBase64でJSONで扱う
+
+ファイルダウンロード
+https://qiita.com/hamu3864kA/items/3472c2f5230f88ecdbb7

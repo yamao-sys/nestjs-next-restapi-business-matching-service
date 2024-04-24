@@ -185,6 +185,11 @@ components:
                   - middle
                   - senior
                   - expert
+        skillsheetName:
+          type: string
+        skillsheetData:
+          type: string
+          format: bite
       required:
         - lastName
         - firstName
@@ -262,6 +267,11 @@ components:
                   - middle
                   - senior
                   - expert
+        skillsheetName:
+          type: string
+        skillsheetData:
+          type: string
+          format: bite
       required:
         - lastName
         - firstName
@@ -342,6 +352,11 @@ components:
                       - middle
                       - senior
                       - expert
+            skillsheetName:
+              type: string
+            skillsheetData:
+              type: string
+              format: bite
         errors:
           type: array
           items:

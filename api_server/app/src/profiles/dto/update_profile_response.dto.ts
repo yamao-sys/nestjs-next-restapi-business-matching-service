@@ -19,6 +19,8 @@ export class UpdateProfileResponseDto {
   selfPromotion: string;
   experiencedProfessions: ExperiencedProfession[];
   experiencedProgrammingLanguages: ExperiencedProgrammingLanguage[];
+  skillsheetName?: string;
+  skillsheetData?: string;
   @ApiProperty({
     example: ['姓は必須です。'],
   })

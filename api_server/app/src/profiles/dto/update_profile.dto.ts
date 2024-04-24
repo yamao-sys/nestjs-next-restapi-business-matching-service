@@ -18,4 +18,6 @@ export class UpdateProfileDto {
   selfPromotion: string;
   experiencedProfessions: ExperiencedProfession[];
   experiencedProgrammingLanguages: ExperiencedProgrammingLanguage[];
+  skillsheetName?: string;
+  skillsheetData?: string;
 }
