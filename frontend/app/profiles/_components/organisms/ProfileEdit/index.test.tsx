@@ -135,6 +135,73 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 		expect(screen.getByDisplayValue(profile.selfPromotion)).toBeInTheDocument();
 	});
 
+	describe('編集対象のプロフィールにスキルシート関連のデータがあるとき', () => {
+		it('スキルシートのダウンロードリンクが表示されること', async () => {
+			const profile = {
+				lastName: 'test lastName',
+				firstName: 'test firstName',
+				birthday: '1992-07-07',
+				currentEmployment: 'fleelance' as 'fleelance' | 'fulltime' | 'other',
+				inWorkingCompanyName: 'test inWorkingCompanyName',
+				tel: '1112222333',
+				latestProject: 'test latestProject',
+				currentHourlyWage: 5000,
+				experiencedDuration: 'expert' as
+					| 'expert'
+					| 'lessThanOneYear'
+					| 'junior'
+					| 'middle'
+					| 'senior',
+				experiencedProfessions: [
+					{
+						professionId: '1',
+						experiencedDuration: 'expert' as
+							| 'lessThanOneYear'
+							| 'junior'
+							| 'middle'
+							| 'senior'
+							| 'expert',
+					},
+				],
+				experiencedProgrammingLanguages: [
+					{
+						programmingLanguageId: '1',
+						experiencedDuration: 'expert' as
+							| 'lessThanOneYear'
+							| 'junior'
+							| 'middle'
+							| 'senior'
+							| 'expert',
+					},
+				],
+				selfPromotion: 'test selfPromotion',
+				skillsheetName: 'test_skillsheet_name.txt',
+				skillsheetData: 'test_skillsheet_content',
+			};
+
+			const experiencedEntityMasters = {
+				professions: [
+					{ id: '1', name: 'testProfession1' },
+					{ id: '2', name: 'testProfession2' },
+				],
+				programmingLanguages: [
+					{ id: '1', name: 'testProgrammingLanguage1' },
+					{ id: '2', name: 'testProgrammingLanguage2' },
+				],
+			};
+			render(
+				<ProfileEdit
+					profile={profile}
+					experiencedEntityMasters={experiencedEntityMasters}
+				/>,
+			);
+
+			expect(
+				screen.getByRole('link', { name: 'test_skillsheet_name.txt' }),
+			).toBeInTheDocument();
+		});
+	});
+
 	it('入力がフォームに反映されること', async () => {
 		const event = userEvent.setup();
 		const profile = {
@@ -334,6 +401,15 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 		expect(
 			screen.getByLabelText('自己PR', { selector: 'textarea' }),
 		).toHaveDisplayValue(`${profile.selfPromotion} edited`);
+
+		// skillsheet
+		const file = new File(['a', 'b', 'c'], 'test.csv', { type: 'text/csv' });
+		event.upload(screen.getByLabelText('スキルシート'), file);
+		await waitFor(() =>
+			expect(screen.getByLabelText('スキルシート')).toHaveValue(
+				'C:\\fakepath\\test.csv',
+			),
+		);
 	});
 
 	describe('フォームの送信', () => {
@@ -536,6 +612,140 @@ describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
 				expect(
 					screen.getByText('プロフィールの更新に成功しました！'),
 				).toBeInTheDocument();
+			});
+		});
+
+		describe('スキルシートの入力がある場合', () => {
+			beforeEach(() => {
+				postUpdateProfileSpy = jest
+					.spyOn(PostUpdateProfile, 'postUpdateProfile')
+					.mockResolvedValue({
+						profile: {
+							lastName: 'test lastName',
+							firstName: 'test firstName',
+							birthday: '1992-07-08',
+							currentEmployment: 'fulltime',
+							inWorkingCompanyName: 'test inWorkingCompanyName',
+							tel: '11122223333',
+							latestProject: 'test latestProject',
+							currentHourlyWage: 50000,
+							experiencedDuration: 'senior' as
+								| 'expert'
+								| 'lessThanOneYear'
+								| 'junior'
+								| 'middle'
+								| 'senior',
+							experiencedProfessions: [
+								{
+									professionId: '2',
+									experiencedDuration: 'senior' as
+										| 'lessThanOneYear'
+										| 'junior'
+										| 'middle'
+										| 'senior'
+										| 'expert',
+								},
+							],
+							experiencedProgrammingLanguages: [
+								{
+									programmingLanguageId: '2',
+									experiencedDuration: 'senior' as
+										| 'lessThanOneYear'
+										| 'junior'
+										| 'middle'
+										| 'senior'
+										| 'expert',
+								},
+							],
+							selfPromotion: 'test selfPromotion',
+							skillsheetName: 'test.csv',
+							skillsheetData: 'a,b,c',
+						},
+						errors: [],
+					});
+			});
+
+			it('フォームが送信されること', async () => {
+				const event = userEvent.setup();
+				const profile = {
+					lastName: 'test lastName',
+					firstName: 'test firstName',
+					birthday: '1992-07-07',
+					currentEmployment: 'fleelance' as 'fleelance' | 'fulltime' | 'other',
+					inWorkingCompanyName: 'test inWorkingCompanyName',
+					tel: '1112222333',
+					latestProject: 'test latestProject',
+					currentHourlyWage: 5000,
+					experiencedDuration: 'expert' as
+						| 'expert'
+						| 'lessThanOneYear'
+						| 'junior'
+						| 'middle'
+						| 'senior',
+					experiencedProfessions: [
+						{
+							professionId: '1',
+							experiencedDuration: 'expert' as
+								| 'lessThanOneYear'
+								| 'junior'
+								| 'middle'
+								| 'senior'
+								| 'expert',
+						},
+					],
+					experiencedProgrammingLanguages: [
+						{
+							programmingLanguageId: '1',
+							experiencedDuration: 'expert' as
+								| 'lessThanOneYear'
+								| 'junior'
+								| 'middle'
+								| 'senior'
+								| 'expert',
+						},
+					],
+					selfPromotion: 'test selfPromotion',
+				};
+
+				const experiencedEntityMasters = {
+					professions: [
+						{ id: '1', name: 'testProfession1' },
+						{ id: '2', name: 'testProfession2' },
+					],
+					programmingLanguages: [
+						{ id: '1', name: 'testProgrammingLanguage1' },
+						{ id: '2', name: 'testProgrammingLanguage2' },
+					],
+				};
+				render(
+					<ProfileEdit
+						profile={profile}
+						experiencedEntityMasters={experiencedEntityMasters}
+					/>,
+				);
+
+				// skillsheet
+				const file = new File(['a', 'b', 'c'], 'test.csv', {
+					type: 'text/csv',
+				});
+				event.upload(screen.getByLabelText('スキルシート'), file);
+				await waitFor(() =>
+					expect(screen.getByLabelText('スキルシート')).toHaveValue(
+						'C:\\fakepath\\test.csv',
+					),
+				);
+
+				const submitButton = screen.getByRole('button', { name: '保存する' });
+				await event.click(submitButton);
+
+				await waitFor(() => {
+					expect(postUpdateProfileSpy).toHaveBeenCalled();
+				});
+				await waitFor(() => {
+					expect(
+						screen.getByText('プロフィールの更新に成功しました！'),
+					).toBeInTheDocument();
+				});
 			});
 		});
 
