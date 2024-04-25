@@ -43,9 +43,9 @@ properties:
         experiencedDuration:
           type: string
           enum: [lessThanOneYear, junior, middle, senior, expert]
-  skillsheetName?:
+  skillsheetName:
     type: string
-  skillsheetData?:
+  skillsheetData:
     type: string
 required:
   - lastName
