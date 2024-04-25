@@ -46,11 +46,10 @@ properties:
             experiencedDuration:
               type: string
               enum: [lessThanOneYear, junior, middle, senior, expert]
-      skillsheetName?:
+      skillsheetName:
         type: string
-      skillsheetData?:
+      skillsheetData:
         type: string
-        format: bite
   errors:
     type: array
     items:

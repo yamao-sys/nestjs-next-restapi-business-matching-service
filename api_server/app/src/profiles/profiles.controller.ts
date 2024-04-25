@@ -18,7 +18,7 @@ import formatValidationErrors from '../lib/formatValidationErrors';
 import { UpdateProfileDto } from './dto/update_profile.dto';
 import { AuthGuard } from '../auth/auth.guard';
 // import { FileInterceptor } from '@nestjs/platform-express';
-import { getObject } from 'src/lib/awsService';
+import { getObject } from '../lib/awsService';
 
 @UseGuards(AuthGuard)
 @Controller('profiles')
@@ -62,7 +62,14 @@ export class ProfilesController {
     );
     const assignProfilesEngineer = await this.profilesService.assignAttributes(
       engineer,
-      dto,
+      !dto.skillsheetName
+        ? dto
+        : {
+            // スキルシート以外の入力値を渡す
+            skillsheetName: {},
+            skillsheetData: {},
+            ...dto,
+          },
     );
 
     // TODO: ファイルバリデーションもこの中に入れる

@@ -189,7 +189,6 @@ components:
           type: string
         skillsheetData:
           type: string
-          format: bite
       required:
         - lastName
         - firstName
@@ -271,7 +270,6 @@ components:
           type: string
         skillsheetData:
           type: string
-          format: bite
       required:
         - lastName
         - firstName
@@ -356,7 +354,6 @@ components:
               type: string
             skillsheetData:
               type: string
-              format: bite
         errors:
           type: array
           items:

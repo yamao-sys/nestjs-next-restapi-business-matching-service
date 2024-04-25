@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Engineer } from '../engineers/entities/engineer.entity';
 import { Repository } from 'typeorm';
 import { validate } from 'class-validator';
-import { putObject } from 'src/lib/awsService';
-import { SkillSheet } from 'src/skillsheets/entities/skillsheet.entity';
+import { putObject } from '../lib/awsService';
+import { SkillSheet } from '../skillsheets/entities/skillsheet.entity';
 
 @Injectable()
 export class ProfilesService {
@@ -24,26 +24,15 @@ export class ProfilesService {
     return newEnginner;
   }
 
-  async assignAttributes(
-    engineer: Engineer,
-    params: Partial<Engineer> & {
-      skillsheetName?: string;
-      skillsheetData?: string;
-    },
-  ) {
-    const {
-      skillsheetName: {},
-      skillsheetData: {},
-      ...data
-    } = params;
+  async assignAttributes(engineer: Engineer, params: Partial<Engineer>) {
     const assignedAttributesEngineer = this.engineerRepository.merge(
       engineer,
-      data,
+      params,
     );
     assignedAttributesEngineer.experiencedProfessions =
-      data.experiencedProfessions;
+      params.experiencedProfessions;
     assignedAttributesEngineer.experiencedProgrammingLanguages =
-      data.experiencedProgrammingLanguages;
+      params.experiencedProgrammingLanguages;
     return assignedAttributesEngineer;
   }
 
@@ -57,6 +46,9 @@ export class ProfilesService {
   ) {
     const savedEngineer = await this.engineerRepository.save(engineer);
     // スキルシートの更新がなければそのままreturn
+    if (!skillsheetParams?.skillsheetName) {
+      return savedEngineer;
+    }
     if (
       savedEngineer.skillsheet?.fileName === skillsheetParams?.skillsheetName
     ) {
@@ -64,7 +56,7 @@ export class ProfilesService {
     }
 
     // ファイルアップロード
-    const skillsheetPath = `${savedEngineer.userId}/skillsheet/`;
+    const skillsheetPath = `${savedEngineer.userId}/skillsheet`;
     if (skillsheetParams.skillsheetData) {
       putObject(skillsheetPath, skillsheetParams.skillsheetData);
     }
@@ -74,7 +66,6 @@ export class ProfilesService {
     }
     savedEngineer.skillsheet.fileName = skillsheetParams.skillsheetName;
     savedEngineer.skillsheet.filePath = skillsheetPath;
-    console.log(savedEngineer.skillsheet);
     return await this.engineerRepository.save(savedEngineer);
   }
 
