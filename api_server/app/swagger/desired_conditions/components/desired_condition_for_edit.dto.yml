@@ -1,0 +1,2 @@
+description: 編集対象の希望条件取得レスポンスのDTO
+$ref: './desired_condition.dto.yml'

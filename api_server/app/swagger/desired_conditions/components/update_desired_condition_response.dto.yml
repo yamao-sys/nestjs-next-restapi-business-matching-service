@@ -1,0 +1,23 @@
+description: プロフィール作成のresponse DTO
+type: object
+properties:
+  desiredCondition:
+    $ref: './desired_condition.dto.yml'
+  errors:
+    type: array
+    items:
+      type: object
+      description: バリデーションエラー
+      properties:
+        key:
+          type: string
+        messages:
+          type: array
+          items:
+            type: string
+      required:
+        - key
+        - messages
+required:
+  - desiredCondition
+  - errors

@@ -1,0 +1,2 @@
+description: 希望条件更新のrequest DTO
+$ref: './desired_condition.dto.yml'
