@@ -1,0 +1,80 @@
+type: object
+properties:
+  jobSeekingStatus:
+    type: string
+    enum: [notSeeking, seeking]
+  expectedStartTimings:
+    type: string
+    enum:
+      [
+        not_setted,
+        immediately,
+        withinMonth,
+        withinNextMonth,
+        withinTwoMonths,
+        withinThreeMonths,
+        withinFourMonths,
+        withinFiveMonths,
+        withinSixMonths,
+        anytime,
+      ]
+  minWorkingTimes:
+    type: string
+    enum:
+      [
+        not_setted,
+        oneDayToAWeek,
+        twoDaysToAWeek,
+        threeDaysToAWeek,
+        fourDaysToAWeek,
+        fiveDaysToAWeek,
+      ]
+  maxWorkingTimes:
+    type: string
+    enum:
+      [
+        not_setted,
+        oneDayToAWeek,
+        twoDaysToAWeek,
+        threeDaysToAWeek,
+        fourDaysToAWeek,
+        fiveDaysToAWeek,
+      ]
+  workingTimeZone:
+    type: string
+    enum: [not_setted, daytimeWorkday, morningNightWorkdayOrHoliday, anytime]
+  remortWork:
+    type: string
+    enum: [not_setted, noDetailed, office, partRemort, remortMain, fullRemort]
+  remarks:
+    type: string
+  desiredPriorityConditions:
+    type: array
+    items:
+      type: object
+      properties:
+        priority:
+          type: number
+        condition:
+          type: string
+          enum:
+            [
+              not_setted,
+              revenue,
+              remort,
+              working_date,
+              industry,
+              skill,
+              experience,
+              want_to_acquire_skill,
+              company_scale,
+            ]
+required:
+  - jobSeekingStatus
+  - expectedStartTimings
+  - minWorkingTimes
+  - maxWorkingTimes
+  - workingTimeZone
+  - remortWork
+  - remarks
+  - desiredPriorityConditions

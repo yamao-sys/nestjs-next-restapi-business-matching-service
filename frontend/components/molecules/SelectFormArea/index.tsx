@@ -30,7 +30,6 @@ export const SelectFormArea = ({
 			<Wrapper $width={width}>
 				{labelText && <Label htmlFor={id}>{labelText}</Label>}
 				<Select id={id} defaultValue={defaultValue} onChange={onChange}>
-					<option>--</option>
 					{options.map((option, i) => (
 						<option key={i} value={option.value}>
 							{option.name}

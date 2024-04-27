@@ -1,0 +1,402 @@
+openapi: 3.0.0
+info:
+  title: Desired Conditions Controller Schema
+  version: 1.0.0
+paths:
+  /desiredConditions:
+    post:
+      operationId: updateDesiredCondition
+      description: ログインユーザの希望条件を更新
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDesiredConditionDto'
+      responses:
+        '201':
+          description: 希望条件の更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateDesiredConditionResponseDto'
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                description: バリデーションエラー
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  message:
+                    type: array
+                    items:
+                      description: TODO取得時のレスポンスのDTO
+                      type: string
+                  error:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+                  - error
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                description: 認証エラー
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  message:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+    get:
+      operationId: findForDesiredConditionEdit
+      description: 編集対象となるログインユーザの希望条件を取得
+      parameters: []
+      responses:
+        '200':
+          description: 希望条件の取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DesiredConditionForEditDto'
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                description: バリデーションエラー
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  message:
+                    type: array
+                    items:
+                      description: TODO取得時のレスポンスのDTO
+                      type: string
+                  error:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+                  - error
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                description: 認証エラー
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  message:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+        '404':
+          description: Not Foundエラー
+          content:
+            application/json:
+              schema:
+                description: Not Foundエラー
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  message:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+components:
+  schemas:
+    DesiredConditionForEditDto:
+      description: 編集対象の希望条件取得レスポンスのDTO
+      type: object
+      properties:
+        jobSeekingStatus:
+          type: string
+          enum:
+            - notSeeking
+            - seeking
+        expectedStartTimings:
+          type: string
+          enum:
+            - not_setted
+            - immediately
+            - withinMonth
+            - withinNextMonth
+            - withinTwoMonths
+            - withinThreeMonths
+            - withinFourMonths
+            - withinFiveMonths
+            - withinSixMonths
+            - anytime
+        minWorkingTimes:
+          type: string
+          enum:
+            - not_setted
+            - oneDayToAWeek
+            - twoDaysToAWeek
+            - threeDaysToAWeek
+            - fourDaysToAWeek
+            - fiveDaysToAWeek
+        maxWorkingTimes:
+          type: string
+          enum:
+            - not_setted
+            - oneDayToAWeek
+            - twoDaysToAWeek
+            - threeDaysToAWeek
+            - fourDaysToAWeek
+            - fiveDaysToAWeek
+        workingTimeZone:
+          type: string
+          enum:
+            - not_setted
+            - daytimeWorkday
+            - morningNightWorkdayOrHoliday
+            - anytime
+        remortWork:
+          type: string
+          enum:
+            - not_setted
+            - noDetailed
+            - office
+            - partRemort
+            - remortMain
+            - fullRemort
+        remarks:
+          type: string
+        desiredPriorityConditions:
+          type: array
+          items:
+            type: object
+            properties:
+              priority:
+                type: number
+              condition:
+                type: string
+                enum:
+                  - not_setted
+                  - revenue
+                  - remort
+                  - working_date
+                  - industry
+                  - skill
+                  - experience
+                  - want_to_acquire_skill
+                  - company_scale
+      required:
+        - jobSeekingStatus
+        - expectedStartTimings
+        - minWorkingTimes
+        - maxWorkingTimes
+        - workingTimeZone
+        - remortWork
+        - remarks
+        - desiredPriorityConditions
+    UpdateDesiredConditionDto:
+      description: 希望条件更新のrequest DTO
+      type: object
+      properties:
+        jobSeekingStatus:
+          type: string
+          enum:
+            - notSeeking
+            - seeking
+        expectedStartTimings:
+          type: string
+          enum:
+            - not_setted
+            - immediately
+            - withinMonth
+            - withinNextMonth
+            - withinTwoMonths
+            - withinThreeMonths
+            - withinFourMonths
+            - withinFiveMonths
+            - withinSixMonths
+            - anytime
+        minWorkingTimes:
+          type: string
+          enum:
+            - not_setted
+            - oneDayToAWeek
+            - twoDaysToAWeek
+            - threeDaysToAWeek
+            - fourDaysToAWeek
+            - fiveDaysToAWeek
+        maxWorkingTimes:
+          type: string
+          enum:
+            - not_setted
+            - oneDayToAWeek
+            - twoDaysToAWeek
+            - threeDaysToAWeek
+            - fourDaysToAWeek
+            - fiveDaysToAWeek
+        workingTimeZone:
+          type: string
+          enum:
+            - not_setted
+            - daytimeWorkday
+            - morningNightWorkdayOrHoliday
+            - anytime
+        remortWork:
+          type: string
+          enum:
+            - not_setted
+            - noDetailed
+            - office
+            - partRemort
+            - remortMain
+            - fullRemort
+        remarks:
+          type: string
+        desiredPriorityConditions:
+          type: array
+          items:
+            type: object
+            properties:
+              priority:
+                type: number
+              condition:
+                type: string
+                enum:
+                  - not_setted
+                  - revenue
+                  - remort
+                  - working_date
+                  - industry
+                  - skill
+                  - experience
+                  - want_to_acquire_skill
+                  - company_scale
+      required:
+        - jobSeekingStatus
+        - expectedStartTimings
+        - minWorkingTimes
+        - maxWorkingTimes
+        - workingTimeZone
+        - remortWork
+        - remarks
+        - desiredPriorityConditions
+    UpdateDesiredConditionResponseDto:
+      description: プロフィール作成のresponse DTO
+      type: object
+      properties:
+        desiredCondition:
+          type: object
+          properties:
+            jobSeekingStatus:
+              type: string
+              enum:
+                - notSeeking
+                - seeking
+            expectedStartTimings:
+              type: string
+              enum:
+                - not_setted
+                - immediately
+                - withinMonth
+                - withinNextMonth
+                - withinTwoMonths
+                - withinThreeMonths
+                - withinFourMonths
+                - withinFiveMonths
+                - withinSixMonths
+                - anytime
+            minWorkingTimes:
+              type: string
+              enum:
+                - not_setted
+                - oneDayToAWeek
+                - twoDaysToAWeek
+                - threeDaysToAWeek
+                - fourDaysToAWeek
+                - fiveDaysToAWeek
+            maxWorkingTimes:
+              type: string
+              enum:
+                - not_setted
+                - oneDayToAWeek
+                - twoDaysToAWeek
+                - threeDaysToAWeek
+                - fourDaysToAWeek
+                - fiveDaysToAWeek
+            workingTimeZone:
+              type: string
+              enum:
+                - not_setted
+                - daytimeWorkday
+                - morningNightWorkdayOrHoliday
+                - anytime
+            remortWork:
+              type: string
+              enum:
+                - not_setted
+                - noDetailed
+                - office
+                - partRemort
+                - remortMain
+                - fullRemort
+            remarks:
+              type: string
+            desiredPriorityConditions:
+              type: array
+              items:
+                type: object
+                properties:
+                  priority:
+                    type: number
+                  condition:
+                    type: string
+                    enum:
+                      - not_setted
+                      - revenue
+                      - remort
+                      - working_date
+                      - industry
+                      - skill
+                      - experience
+                      - want_to_acquire_skill
+                      - company_scale
+          required:
+            - jobSeekingStatus
+            - expectedStartTimings
+            - minWorkingTimes
+            - maxWorkingTimes
+            - workingTimeZone
+            - remortWork
+            - remarks
+            - desiredPriorityConditions
+        errors:
+          type: array
+          items:
+            type: object
+            description: バリデーションエラー
+            properties:
+              key:
+                type: string
+              messages:
+                type: array
+                items:
+                  type: string
+            required:
+              - key
+              - messages
+      required:
+        - desiredCondition
+        - errors
