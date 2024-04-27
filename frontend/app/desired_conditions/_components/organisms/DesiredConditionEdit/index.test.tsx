@@ -1,861 +1,374 @@
-// import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-// import { ProfileEdit } from '.';
-// import userEvent from '@testing-library/user-event';
-// import * as PostUpdateProfile from '@/app/profiles/_server_actions/postUpdateProfile';
-
-// jest.mock('../../../_server_actions/postUpdateProfile', () => {
-// 	const postUpdateProfile = jest.requireActual(
-// 		'../../../_server_actions/postUpdateProfile',
-// 	);
-// 	return {
-// 		__esModule: true,
-// 		...postUpdateProfile,
-// 	};
-// });
-// let postUpdateProfileSpy: jest.SpyInstance<unknown>;
-
-// describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
-// 	it('propsで受け取ったprofileをもとにフォームが初期表示されること', () => {
-// 		const profile = {
-// 			lastName: 'test lastName',
-// 			firstName: 'test firstName',
-// 			birthday: '1992-07-07',
-// 			currentEmployment: 'fleelance' as 'fleelance' | 'fulltime' | 'other',
-// 			inWorkingCompanyName: 'test inWorkingCompanyName',
-// 			tel: '1112222333',
-// 			latestProject: 'test latestProject',
-// 			currentHourlyWage: 5000,
-// 			experiencedDuration: 'expert' as
-// 				| 'expert'
-// 				| 'lessThanOneYear'
-// 				| 'junior'
-// 				| 'middle'
-// 				| 'senior',
-// 			experiencedProfessions: [
-// 				{
-// 					professionId: '1',
-// 					experiencedDuration: 'expert' as
-// 						| 'lessThanOneYear'
-// 						| 'junior'
-// 						| 'middle'
-// 						| 'senior'
-// 						| 'expert',
-// 				},
-// 			],
-// 			experiencedProgrammingLanguages: [
-// 				{
-// 					programmingLanguageId: '1',
-// 					experiencedDuration: 'expert' as
-// 						| 'lessThanOneYear'
-// 						| 'junior'
-// 						| 'middle'
-// 						| 'senior'
-// 						| 'expert',
-// 				},
-// 			],
-// 			selfPromotion: 'test selfPromotion',
-// 		};
-
-// 		const experiencedEntityMasters = {
-// 			professions: [
-// 				{ id: '1', name: 'testProfession1' },
-// 				{ id: '2', name: 'testProfession2' },
-// 			],
-// 			programmingLanguages: [
-// 				{ id: '1', name: 'testProgrammingLanguage1' },
-// 				{ id: '2', name: 'testProgrammingLanguage2' },
-// 			],
-// 		};
-// 		render(
-// 			<ProfileEdit
-// 				profile={profile}
-// 				experiencedEntityMasters={experiencedEntityMasters}
-// 			/>,
-// 		);
-
-// 		// lastName
-// 		expect(screen.getByDisplayValue(profile.lastName)).toBeInTheDocument();
-
-// 		// firstName
-// 		expect(screen.getByDisplayValue(profile.firstName)).toBeInTheDocument();
-
-// 		// birthday
-// 		expect(screen.getByDisplayValue(profile.birthday)).toBeInTheDocument();
-
-// 		// currentEmployment
-// 		expect(
-// 			screen.getByRole('combobox', { name: '現在の雇用形態' }),
-// 		).toHaveValue('fleelance');
-
-// 		// inWorkingCompanyName
-// 		expect(
-// 			screen.getByDisplayValue(profile.inWorkingCompanyName),
-// 		).toBeInTheDocument();
-
-// 		// tel
-// 		expect(screen.getByDisplayValue(profile.tel)).toBeInTheDocument();
-
-// 		// latestProject
-// 		expect(screen.getByDisplayValue(profile.latestProject)).toBeInTheDocument();
-
-// 		// currentHourlyWage
-// 		expect(
-// 			screen.getByRole('combobox', { name: 'エンジニア実務経験' }),
-// 		).toHaveValue('expert');
-
-// 		// experiencedProfessions
-// 		expect(
-// 			screen.getByRole('checkbox', { name: 'testProfession1' }),
-// 		).toHaveAttribute('aria-checked', 'true');
-// 		expect(
-// 			screen.queryByRole('combobox', { name: 'testProfession1' }),
-// 		).toBeInTheDocument();
-// 		expect(
-// 			screen.getByRole('checkbox', { name: 'testProfession2' }),
-// 		).toHaveAttribute('aria-checked', 'false');
-// 		expect(
-// 			screen.queryByRole('combobox', { name: 'testProfession2' }),
-// 		).not.toBeInTheDocument();
-
-// 		// experiencedProgrammingLanguages
-// 		expect(
-// 			screen.getByRole('checkbox', { name: 'testProgrammingLanguage1' }),
-// 		).toHaveAttribute('aria-checked', 'true');
-// 		expect(
-// 			screen.queryByRole('combobox', { name: 'testProgrammingLanguage1' }),
-// 		).toBeInTheDocument();
-// 		expect(
-// 			screen.getByRole('checkbox', { name: 'testProgrammingLanguage2' }),
-// 		).toHaveAttribute('aria-checked', 'false');
-// 		expect(
-// 			screen.queryByRole('combobox', { name: 'testProgrammingLanguage2' }),
-// 		).not.toBeInTheDocument();
-
-// 		// selfPromotion
-// 		expect(screen.getByDisplayValue(profile.selfPromotion)).toBeInTheDocument();
-// 	});
-
-// 	describe('編集対象のプロフィールにスキルシート関連のデータがあるとき', () => {
-// 		it('スキルシートのダウンロードリンクが表示されること', async () => {
-// 			const profile = {
-// 				lastName: 'test lastName',
-// 				firstName: 'test firstName',
-// 				birthday: '1992-07-07',
-// 				currentEmployment: 'fleelance' as 'fleelance' | 'fulltime' | 'other',
-// 				inWorkingCompanyName: 'test inWorkingCompanyName',
-// 				tel: '1112222333',
-// 				latestProject: 'test latestProject',
-// 				currentHourlyWage: 5000,
-// 				experiencedDuration: 'expert' as
-// 					| 'expert'
-// 					| 'lessThanOneYear'
-// 					| 'junior'
-// 					| 'middle'
-// 					| 'senior',
-// 				experiencedProfessions: [
-// 					{
-// 						professionId: '1',
-// 						experiencedDuration: 'expert' as
-// 							| 'lessThanOneYear'
-// 							| 'junior'
-// 							| 'middle'
-// 							| 'senior'
-// 							| 'expert',
-// 					},
-// 				],
-// 				experiencedProgrammingLanguages: [
-// 					{
-// 						programmingLanguageId: '1',
-// 						experiencedDuration: 'expert' as
-// 							| 'lessThanOneYear'
-// 							| 'junior'
-// 							| 'middle'
-// 							| 'senior'
-// 							| 'expert',
-// 					},
-// 				],
-// 				selfPromotion: 'test selfPromotion',
-// 				skillsheetName: 'test_skillsheet_name.txt',
-// 				skillsheetData: 'test_skillsheet_content',
-// 			};
-
-// 			const experiencedEntityMasters = {
-// 				professions: [
-// 					{ id: '1', name: 'testProfession1' },
-// 					{ id: '2', name: 'testProfession2' },
-// 				],
-// 				programmingLanguages: [
-// 					{ id: '1', name: 'testProgrammingLanguage1' },
-// 					{ id: '2', name: 'testProgrammingLanguage2' },
-// 				],
-// 			};
-// 			render(
-// 				<ProfileEdit
-// 					profile={profile}
-// 					experiencedEntityMasters={experiencedEntityMasters}
-// 				/>,
-// 			);
-
-// 			expect(
-// 				screen.getByRole('link', { name: 'test_skillsheet_name.txt' }),
-// 			).toBeInTheDocument();
-// 		});
-// 	});
-
-// 	it('入力がフォームに反映されること', async () => {
-// 		const event = userEvent.setup();
-// 		const profile = {
-// 			lastName: 'test lastName',
-// 			firstName: 'test firstName',
-// 			birthday: '1992-07-07',
-// 			currentEmployment: 'fleelance' as 'fleelance' | 'fulltime' | 'other',
-// 			inWorkingCompanyName: 'test inWorkingCompanyName',
-// 			tel: '1112222333',
-// 			latestProject: 'test latestProject',
-// 			currentHourlyWage: 5000,
-// 			experiencedDuration: 'expert' as
-// 				| 'expert'
-// 				| 'lessThanOneYear'
-// 				| 'junior'
-// 				| 'middle'
-// 				| 'senior',
-// 			experiencedProfessions: [
-// 				{
-// 					professionId: '1',
-// 					experiencedDuration: 'expert' as
-// 						| 'lessThanOneYear'
-// 						| 'junior'
-// 						| 'middle'
-// 						| 'senior'
-// 						| 'expert',
-// 				},
-// 			],
-// 			experiencedProgrammingLanguages: [
-// 				{
-// 					programmingLanguageId: '1',
-// 					experiencedDuration: 'expert' as
-// 						| 'lessThanOneYear'
-// 						| 'junior'
-// 						| 'middle'
-// 						| 'senior'
-// 						| 'expert',
-// 				},
-// 			],
-// 			selfPromotion: 'test selfPromotion',
-// 		};
-
-// 		const experiencedEntityMasters = {
-// 			professions: [
-// 				{ id: '1', name: 'testProfession1' },
-// 				{ id: '2', name: 'testProfession2' },
-// 			],
-// 			programmingLanguages: [
-// 				{ id: '1', name: 'testProgrammingLanguage1' },
-// 				{ id: '2', name: 'testProgrammingLanguage2' },
-// 			],
-// 		};
-// 		render(
-// 			<ProfileEdit
-// 				profile={profile}
-// 				experiencedEntityMasters={experiencedEntityMasters}
-// 			/>,
-// 		);
-
-// 		// lastName
-// 		const lastNameInput = screen.getByLabelText('姓', { selector: 'input' });
-// 		await event.type(lastNameInput, ' edited');
-// 		expect(
-// 			screen.getByLabelText('姓', { selector: 'input' }),
-// 		).toHaveDisplayValue(`${profile.lastName} edited`);
-
-// 		// firstName
-// 		const firstNameInput = screen.getByLabelText('名', { selector: 'input' });
-// 		await event.type(firstNameInput, ' edited');
-// 		expect(
-// 			screen.getByLabelText('名', { selector: 'input' }),
-// 		).toHaveDisplayValue(`${profile.firstName} edited`);
-
-// 		// birthday
-// 		const birthdayInput = screen.getByLabelText('生年月日', {
-// 			selector: 'input',
-// 		});
-// 		fireEvent.change(birthdayInput, {
-// 			target: { value: '1992-07-08' },
-// 		});
-// 		expect(
-// 			screen.getByLabelText('生年月日', { selector: 'input' }),
-// 		).toHaveDisplayValue('1992-07-08');
-
-// 		// currentEmployment
-// 		const currentEmploymentInput = screen.getByRole('combobox', {
-// 			name: '現在の雇用形態',
-// 		});
-// 		await event.selectOptions(currentEmploymentInput, 'fulltime');
-// 		expect(
-// 			screen.getByRole('combobox', { name: '現在の雇用形態' }),
-// 		).toHaveValue('fulltime');
-
-// 		// inWorkingCompanyName
-// 		const inWorkingCompanyNameInput = screen.getByLabelText(
-// 			'稼働中/就業中の会社名',
-// 			{
-// 				selector: 'input',
-// 			},
-// 		);
-// 		await event.type(inWorkingCompanyNameInput, ' edited');
-// 		expect(
-// 			screen.getByLabelText('稼働中/就業中の会社名', {
-// 				selector: 'input',
-// 			}),
-// 		).toHaveDisplayValue(`${profile.inWorkingCompanyName} edited`);
-
-// 		// tel
-// 		const telInput = screen.getByLabelText('電話番号', {
-// 			selector: 'input',
-// 		});
-// 		await event.type(telInput, '3');
-// 		expect(
-// 			screen.getByLabelText('電話番号', {
-// 				selector: 'input',
-// 			}),
-// 		).toHaveDisplayValue(`${profile.tel}3`);
-
-// 		// latestProject
-// 		const latestProjectInput = screen.getByLabelText('直近の開発実績', {
-// 			selector: 'input',
-// 		});
-// 		await event.type(latestProjectInput, ' edited');
-// 		expect(
-// 			screen.getByLabelText('直近の開発実績', { selector: 'input' }),
-// 		).toHaveDisplayValue(`${profile.latestProject} edited`);
-
-// 		// currentHourlyWage
-// 		const currentHourlyWageInput = screen.getByLabelText('現時間単価', {
-// 			selector: 'input',
-// 		});
-// 		await event.type(currentHourlyWageInput, '0');
-// 		expect(
-// 			screen.getByLabelText('現時間単価', { selector: 'input' }),
-// 		).toHaveDisplayValue(`${profile.currentHourlyWage}0`);
-
-// 		// experiencedDuration
-// 		const experiencedDurationSelect = screen.getByRole('combobox', {
-// 			name: 'エンジニア実務経験',
-// 		});
-// 		await event.selectOptions(experiencedDurationSelect, 'senior');
-// 		expect(
-// 			screen.getByRole('combobox', { name: 'エンジニア実務経験' }),
-// 		).toHaveValue('senior');
-
-// 		// experiencedProfessions
-// 		const experiencedProfession1 = screen.getByRole('checkbox', {
-// 			name: 'testProfession1',
-// 		});
-// 		await event.click(experiencedProfession1);
-// 		expect(
-// 			screen.getByRole('checkbox', { name: 'testProfession1' }),
-// 		).toHaveAttribute('aria-checked', 'false');
-// 		expect(
-// 			screen.queryByRole('combobox', { name: 'testProfession1' }),
-// 		).not.toBeInTheDocument();
-
-// 		const experiencedProfession2 = screen.getByRole('checkbox', {
-// 			name: 'testProfession2',
-// 		});
-// 		await event.click(experiencedProfession2);
-// 		expect(
-// 			screen.getByRole('checkbox', { name: 'testProfession2' }),
-// 		).toHaveAttribute('aria-checked', 'true');
-// 		expect(
-// 			screen.queryByRole('combobox', { name: 'testProfession2' }),
-// 		).toBeInTheDocument();
-
-// 		// experiencedProgrammingLanguages
-// 		const experiencedProgrammingLanguage1 = screen.getByRole('checkbox', {
-// 			name: 'testProgrammingLanguage1',
-// 		});
-// 		await event.click(experiencedProgrammingLanguage1);
-// 		expect(
-// 			screen.getByRole('checkbox', { name: 'testProgrammingLanguage1' }),
-// 		).toHaveAttribute('aria-checked', 'false');
-// 		expect(
-// 			screen.queryByRole('combobox', { name: 'testProgrammingLanguage1' }),
-// 		).not.toBeInTheDocument();
-
-// 		const experiencedProgrammingLanguage2 = screen.getByRole('checkbox', {
-// 			name: 'testProgrammingLanguage2',
-// 		});
-// 		await event.click(experiencedProgrammingLanguage2);
-// 		expect(
-// 			screen.getByRole('checkbox', { name: 'testProgrammingLanguage2' }),
-// 		).toHaveAttribute('aria-checked', 'true');
-// 		expect(
-// 			screen.queryByRole('combobox', { name: 'testProgrammingLanguage2' }),
-// 		).toBeInTheDocument();
-
-// 		// selfPromotion
-// 		const selfPromotionInput = screen.getByLabelText('自己PR', {
-// 			selector: 'textarea',
-// 		});
-// 		await event.type(selfPromotionInput, ' edited');
-// 		expect(
-// 			screen.getByLabelText('自己PR', { selector: 'textarea' }),
-// 		).toHaveDisplayValue(`${profile.selfPromotion} edited`);
-
-// 		// skillsheet
-// 		const file = new File(['a', 'b', 'c'], 'test.csv', { type: 'text/csv' });
-// 		event.upload(screen.getByLabelText('スキルシート'), file);
-// 		await waitFor(() =>
-// 			expect(screen.getByLabelText('スキルシート')).toHaveValue(
-// 				'C:\\fakepath\\test.csv',
-// 			),
-// 		);
-// 	});
-
-// 	describe('フォームの送信', () => {
-// 		beforeEach(() => {
-// 			postUpdateProfileSpy = jest
-// 				.spyOn(PostUpdateProfile, 'postUpdateProfile')
-// 				.mockResolvedValue({
-// 					profile: {
-// 						lastName: 'test lastName edited',
-// 						firstName: 'test firstName edited',
-// 						birthday: '1992-07-08',
-// 						currentEmployment: 'fulltime',
-// 						inWorkingCompanyName: 'test inWorkingCompanyName edited',
-// 						tel: '11122223333',
-// 						latestProject: 'test latestProject',
-// 						currentHourlyWage: 50000,
-// 						experiencedDuration: 'senior' as
-// 							| 'expert'
-// 							| 'lessThanOneYear'
-// 							| 'junior'
-// 							| 'middle'
-// 							| 'senior',
-// 						experiencedProfessions: [
-// 							{
-// 								professionId: '2',
-// 								experiencedDuration: 'senior' as
-// 									| 'lessThanOneYear'
-// 									| 'junior'
-// 									| 'middle'
-// 									| 'senior'
-// 									| 'expert',
-// 							},
-// 						],
-// 						experiencedProgrammingLanguages: [
-// 							{
-// 								programmingLanguageId: '2',
-// 								experiencedDuration: 'senior' as
-// 									| 'lessThanOneYear'
-// 									| 'junior'
-// 									| 'middle'
-// 									| 'senior'
-// 									| 'expert',
-// 							},
-// 						],
-// 						selfPromotion: 'test selfPromotion edited',
-// 					},
-// 					errors: [],
-// 				});
-// 		});
-
-// 		afterEach(() => {
-// 			postUpdateProfileSpy.mockRestore();
-// 		});
-
-// 		it('フォームが送信されること', async () => {
-// 			const event = userEvent.setup();
-// 			const profile = {
-// 				lastName: 'test lastName',
-// 				firstName: 'test firstName',
-// 				birthday: '1992-07-07',
-// 				currentEmployment: 'fleelance' as 'fleelance' | 'fulltime' | 'other',
-// 				inWorkingCompanyName: 'test inWorkingCompanyName',
-// 				tel: '1112222333',
-// 				latestProject: 'test latestProject',
-// 				currentHourlyWage: 5000,
-// 				experiencedDuration: 'expert' as
-// 					| 'expert'
-// 					| 'lessThanOneYear'
-// 					| 'junior'
-// 					| 'middle'
-// 					| 'senior',
-// 				experiencedProfessions: [
-// 					{
-// 						professionId: '1',
-// 						experiencedDuration: 'expert' as
-// 							| 'lessThanOneYear'
-// 							| 'junior'
-// 							| 'middle'
-// 							| 'senior'
-// 							| 'expert',
-// 					},
-// 				],
-// 				experiencedProgrammingLanguages: [
-// 					{
-// 						programmingLanguageId: '1',
-// 						experiencedDuration: 'expert' as
-// 							| 'lessThanOneYear'
-// 							| 'junior'
-// 							| 'middle'
-// 							| 'senior'
-// 							| 'expert',
-// 					},
-// 				],
-// 				selfPromotion: 'test selfPromotion',
-// 			};
-
-// 			const experiencedEntityMasters = {
-// 				professions: [
-// 					{ id: '1', name: 'testProfession1' },
-// 					{ id: '2', name: 'testProfession2' },
-// 				],
-// 				programmingLanguages: [
-// 					{ id: '1', name: 'testProgrammingLanguage1' },
-// 					{ id: '2', name: 'testProgrammingLanguage2' },
-// 				],
-// 			};
-// 			render(
-// 				<ProfileEdit
-// 					profile={profile}
-// 					experiencedEntityMasters={experiencedEntityMasters}
-// 				/>,
-// 			);
-
-// 			// lastName
-// 			const lastNameInput = screen.getByLabelText('姓', { selector: 'input' });
-// 			await event.type(lastNameInput, ' edited');
-
-// 			// firstName
-// 			const firstNameInput = screen.getByLabelText('名', { selector: 'input' });
-// 			await event.type(firstNameInput, ' edited');
-
-// 			// birthday
-// 			const birthdayInput = screen.getByLabelText('生年月日', {
-// 				selector: 'input',
-// 			});
-// 			fireEvent.change(birthdayInput, {
-// 				target: { value: '1992-07-08' },
-// 			});
-
-// 			// currentEmployment
-// 			const currentEmploymentInput = screen.getByRole('combobox', {
-// 				name: '現在の雇用形態',
-// 			});
-// 			await event.selectOptions(currentEmploymentInput, 'fulltime');
-
-// 			// inWorkingCompanyName
-// 			const inWorkingCompanyNameInput = screen.getByLabelText(
-// 				'稼働中/就業中の会社名',
-// 				{ selector: 'input' },
-// 			);
-// 			await event.type(inWorkingCompanyNameInput, ' edited');
-
-// 			// tel
-// 			const telInput = screen.getByLabelText('電話番号', { selector: 'input' });
-// 			await event.type(telInput, '3');
-
-// 			// latestProject
-// 			const latestProjectInput = screen.getByLabelText('直近の開発実績', {
-// 				selector: 'input',
-// 			});
-// 			await event.type(latestProjectInput, ' edited');
-
-// 			// currentHourlyWage
-// 			const currentHourlyWageInput = screen.getByLabelText('現時間単価', {
-// 				selector: 'input',
-// 			});
-// 			await event.type(currentHourlyWageInput, '0');
-
-// 			// experiencedDuration
-// 			const experiencedDurationSelect = screen.getByRole('combobox', {
-// 				name: 'エンジニア実務経験',
-// 			});
-// 			await event.selectOptions(experiencedDurationSelect, 'senior');
-
-// 			// experiencedProfessions
-// 			const experiencedProfession1 = screen.getByRole('checkbox', {
-// 				name: 'testProfession1',
-// 			});
-// 			await event.click(experiencedProfession1);
-
-// 			const experiencedProfession2 = screen.getByRole('checkbox', {
-// 				name: 'testProfession2',
-// 			});
-// 			await event.click(experiencedProfession2);
-
-// 			// experiencedProgrammingLanguages
-// 			const experiencedProgrammingLanguage1 = screen.getByRole('checkbox', {
-// 				name: 'testProgrammingLanguage1',
-// 			});
-// 			await event.click(experiencedProgrammingLanguage1);
-
-// 			const experiencedProgrammingLanguage2 = screen.getByRole('checkbox', {
-// 				name: 'testProgrammingLanguage2',
-// 			});
-// 			await event.click(experiencedProgrammingLanguage2);
-
-// 			// selfPromotion
-// 			const selfPromotionInput = screen.getByLabelText('自己PR', {
-// 				selector: 'textarea',
-// 			});
-// 			await event.type(selfPromotionInput, ' edited');
-
-// 			const submitButton = screen.getByRole('button', { name: '保存する' });
-// 			await event.click(submitButton);
-
-// 			await waitFor(() => {
-// 				expect(postUpdateProfileSpy).toHaveBeenCalled();
-// 			});
-// 			await waitFor(() => {
-// 				expect(
-// 					screen.getByText('プロフィールの更新に成功しました！'),
-// 				).toBeInTheDocument();
-// 			});
-// 		});
-
-// 		describe('スキルシートの入力がある場合', () => {
-// 			beforeEach(() => {
-// 				postUpdateProfileSpy = jest
-// 					.spyOn(PostUpdateProfile, 'postUpdateProfile')
-// 					.mockResolvedValue({
-// 						profile: {
-// 							lastName: 'test lastName',
-// 							firstName: 'test firstName',
-// 							birthday: '1992-07-08',
-// 							currentEmployment: 'fulltime',
-// 							inWorkingCompanyName: 'test inWorkingCompanyName',
-// 							tel: '11122223333',
-// 							latestProject: 'test latestProject',
-// 							currentHourlyWage: 50000,
-// 							experiencedDuration: 'senior' as
-// 								| 'expert'
-// 								| 'lessThanOneYear'
-// 								| 'junior'
-// 								| 'middle'
-// 								| 'senior',
-// 							experiencedProfessions: [
-// 								{
-// 									professionId: '2',
-// 									experiencedDuration: 'senior' as
-// 										| 'lessThanOneYear'
-// 										| 'junior'
-// 										| 'middle'
-// 										| 'senior'
-// 										| 'expert',
-// 								},
-// 							],
-// 							experiencedProgrammingLanguages: [
-// 								{
-// 									programmingLanguageId: '2',
-// 									experiencedDuration: 'senior' as
-// 										| 'lessThanOneYear'
-// 										| 'junior'
-// 										| 'middle'
-// 										| 'senior'
-// 										| 'expert',
-// 								},
-// 							],
-// 							selfPromotion: 'test selfPromotion',
-// 							skillsheetName: 'test.csv',
-// 							skillsheetData: 'a,b,c',
-// 						},
-// 						errors: [],
-// 					});
-// 			});
-
-// 			it('フォームが送信されること', async () => {
-// 				const event = userEvent.setup();
-// 				const profile = {
-// 					lastName: 'test lastName',
-// 					firstName: 'test firstName',
-// 					birthday: '1992-07-07',
-// 					currentEmployment: 'fleelance' as 'fleelance' | 'fulltime' | 'other',
-// 					inWorkingCompanyName: 'test inWorkingCompanyName',
-// 					tel: '1112222333',
-// 					latestProject: 'test latestProject',
-// 					currentHourlyWage: 5000,
-// 					experiencedDuration: 'expert' as
-// 						| 'expert'
-// 						| 'lessThanOneYear'
-// 						| 'junior'
-// 						| 'middle'
-// 						| 'senior',
-// 					experiencedProfessions: [
-// 						{
-// 							professionId: '1',
-// 							experiencedDuration: 'expert' as
-// 								| 'lessThanOneYear'
-// 								| 'junior'
-// 								| 'middle'
-// 								| 'senior'
-// 								| 'expert',
-// 						},
-// 					],
-// 					experiencedProgrammingLanguages: [
-// 						{
-// 							programmingLanguageId: '1',
-// 							experiencedDuration: 'expert' as
-// 								| 'lessThanOneYear'
-// 								| 'junior'
-// 								| 'middle'
-// 								| 'senior'
-// 								| 'expert',
-// 						},
-// 					],
-// 					selfPromotion: 'test selfPromotion',
-// 				};
-
-// 				const experiencedEntityMasters = {
-// 					professions: [
-// 						{ id: '1', name: 'testProfession1' },
-// 						{ id: '2', name: 'testProfession2' },
-// 					],
-// 					programmingLanguages: [
-// 						{ id: '1', name: 'testProgrammingLanguage1' },
-// 						{ id: '2', name: 'testProgrammingLanguage2' },
-// 					],
-// 				};
-// 				render(
-// 					<ProfileEdit
-// 						profile={profile}
-// 						experiencedEntityMasters={experiencedEntityMasters}
-// 					/>,
-// 				);
-
-// 				// skillsheet
-// 				const file = new File(['a', 'b', 'c'], 'test.csv', {
-// 					type: 'text/csv',
-// 				});
-// 				event.upload(screen.getByLabelText('スキルシート'), file);
-// 				await waitFor(() =>
-// 					expect(screen.getByLabelText('スキルシート')).toHaveValue(
-// 						'C:\\fakepath\\test.csv',
-// 					),
-// 				);
-
-// 				const submitButton = screen.getByRole('button', { name: '保存する' });
-// 				await event.click(submitButton);
-
-// 				await waitFor(() => {
-// 					expect(postUpdateProfileSpy).toHaveBeenCalled();
-// 				});
-// 				await waitFor(() => {
-// 					expect(
-// 						screen.getByText('プロフィールの更新に成功しました！'),
-// 					).toBeInTheDocument();
-// 				});
-// 			});
-// 		});
-
-// 		describe('バリデーションありの場合', () => {
-// 			beforeEach(() => {
-// 				postUpdateProfileSpy = jest
-// 					.spyOn(PostUpdateProfile, 'postUpdateProfile')
-// 					.mockResolvedValue({
-// 						profile: {
-// 							lastName: '',
-// 							firstName: '',
-// 							birthday: '',
-// 							currentEmployment: 'fulltime',
-// 							inWorkingCompanyName: '',
-// 							tel: '',
-// 							latestProject: '',
-// 							currentHourlyWage: 0,
-// 							experiencedDuration: 'expert',
-// 							experiencedProfessions: [],
-// 							experiencedProgrammingLanguages: [],
-// 							selfPromotion: '',
-// 						},
-// 						errors: [
-// 							{
-// 								key: 'lastName',
-// 								messages: ['姓は必須です。'],
-// 							},
-// 							{
-// 								key: 'firstName',
-// 								messages: ['名は必須です。'],
-// 							},
-// 							{
-// 								key: 'birthday',
-// 								messages: ['生年月は必須です。'],
-// 							},
-// 							{
-// 								key: 'inWorkingCompanyName',
-// 								messages: ['稼働中/勤務中の会社は必須です。'],
-// 							},
-// 							{
-// 								key: 'tel',
-// 								messages: [
-// 									'電話番号は0001111222の形式で入力をお願いします。',
-// 									'電話番号は必須です。',
-// 								],
-// 							},
-// 						],
-// 					});
-// 			});
-
-// 			it('エラーメッセージが表示されること', async () => {
-// 				const event = userEvent.setup();
-// 				const profile = {
-// 					lastName: '',
-// 					firstName: '',
-// 					birthday: '',
-// 					currentEmployment: 'fleelance' as 'fleelance' | 'fulltime' | 'other',
-// 					inWorkingCompanyName: '',
-// 					tel: '',
-// 					latestProject: '',
-// 					currentHourlyWage: 0,
-// 					experiencedDuration: 'expert' as
-// 						| 'expert'
-// 						| 'lessThanOneYear'
-// 						| 'junior'
-// 						| 'middle'
-// 						| 'senior',
-// 					experiencedProfessions: [],
-// 					experiencedProgrammingLanguages: [],
-// 					selfPromotion: '',
-// 				};
-
-// 				const experiencedEntityMasters = {
-// 					professions: [
-// 						{ id: '1', name: 'testProfession1' },
-// 						{ id: '2', name: 'testProfession2' },
-// 					],
-// 					programmingLanguages: [
-// 						{ id: '1', name: 'testProgrammingLanguage1' },
-// 						{ id: '2', name: 'testProgrammingLanguage2' },
-// 					],
-// 				};
-// 				render(
-// 					<ProfileEdit
-// 						profile={profile}
-// 						experiencedEntityMasters={experiencedEntityMasters}
-// 					/>,
-// 				);
-
-// 				const submitButton = screen.getByRole('button', { name: '保存する' });
-// 				await event.click(submitButton);
-
-// 				await waitFor(() => {
-// 					expect(postUpdateProfileSpy).toHaveBeenCalled();
-// 				});
-// 				await waitFor(() => {
-// 					expect(screen.getByText('姓は必須です。')).toBeInTheDocument();
-// 					expect(screen.getByText('名は必須です。')).toBeInTheDocument();
-// 					expect(screen.getByText('生年月は必須です。')).toBeInTheDocument();
-// 					expect(
-// 						screen.getByText('稼働中/勤務中の会社は必須です。'),
-// 					).toBeInTheDocument();
-// 					expect(
-// 						screen.getByText(
-// 							'電話番号は0001111222の形式で入力をお願いします。',
-// 						),
-// 					).toBeInTheDocument();
-// 					expect(screen.getByText('電話番号は必須です。')).toBeInTheDocument();
-// 				});
-// 			});
-// 		});
-// 	});
-// });
+import { DesiredConditionForEditDto } from '@/api/desired_conditions/@types';
+import { render, screen, waitFor } from '@testing-library/react';
+import { DesiredConditionEdit } from '.';
+import userEvent from '@testing-library/user-event';
+import * as PostUpdateDesiredCondition from '@/app/desired_conditions/_server_actions/postUpdateDesiredCondition';
+
+jest.mock('../../../_server_actions/postUpdateDesiredCondition', () => {
+	const postUpdateDesiredCondition = jest.requireActual(
+		'../../../_server_actions/postUpdateDesiredCondition',
+	);
+	return {
+		__esModule: true,
+		...postUpdateDesiredCondition,
+	};
+});
+let postUpdateDesiredConditionSpy: jest.SpyInstance<unknown>;
+
+describe('frontend/app/profiles/_components/organisms/DesiredConditionEdit', () => {
+	it('propsで受け取ったprofileをもとにフォームが初期表示されること', () => {
+		const desiredCondition = {
+			jobSeekingStatus:
+				'seeking' as DesiredConditionForEditDto['jobSeekingStatus'],
+			expectedStartTimings:
+				'not_setted' as DesiredConditionForEditDto['expectedStartTimings'],
+			minWorkingTimes:
+				'not_setted' as DesiredConditionForEditDto['minWorkingTimes'],
+			maxWorkingTimes:
+				'not_setted' as DesiredConditionForEditDto['maxWorkingTimes'],
+			workingTimeZone:
+				'not_setted' as DesiredConditionForEditDto['workingTimeZone'],
+			remortWork: 'not_setted' as DesiredConditionForEditDto['remortWork'],
+			remarks: 'test_remarks',
+			desiredPriorityConditions: [
+				{
+					priority: 1,
+					condition:
+						'revenue' as DesiredConditionForEditDto['desiredPriorityConditions'][0]['condition'],
+				},
+				{
+					priority: 2,
+					condition:
+						'remort' as DesiredConditionForEditDto['desiredPriorityConditions'][0]['condition'],
+				},
+			],
+		};
+
+		render(<DesiredConditionEdit desiredCondition={desiredCondition} />);
+
+		// jobSeekingStatus
+		expect(
+			screen.getByRole('combobox', { name: '案件お探し状況' }),
+		).toHaveValue('seeking');
+
+		// expectedStartTimings
+		expect(
+			screen.getByRole('combobox', { name: 'ご希望の稼働開始時期' }),
+		).toHaveValue('not_setted');
+
+		// minWorkingTimes
+		expect(
+			screen.getByRole('combobox', { name: '稼働時間（最小）' }),
+		).toHaveValue('not_setted');
+
+		// maxWorkingTimes
+		expect(
+			screen.getByRole('combobox', { name: '稼働時間（最大）' }),
+		).toHaveValue('not_setted');
+
+		// workingTimeZone
+		expect(screen.getByRole('combobox', { name: '稼働時間帯' })).toHaveValue(
+			'not_setted',
+		);
+
+		// remortWork
+		expect(
+			screen.getByRole('combobox', { name: 'リモートのご希望' }),
+		).toHaveValue('not_setted');
+
+		// desiredPriorityConditions
+		expect(
+			screen.getByRole('combobox', { name: '優先順位(1番目)' }),
+		).toHaveValue('revenue');
+		expect(
+			screen.getByRole('combobox', { name: '優先順位(2番目)' }),
+		).toHaveValue('remort');
+		expect(
+			screen.getByRole('combobox', { name: '優先順位(3番目)' }),
+		).toHaveValue('not_setted');
+
+		// remarks
+		expect(
+			screen.getByLabelText('その他ご希望', { selector: 'textarea' }),
+		).toHaveDisplayValue('test_remarks');
+	});
+
+	it('入力がフォームに反映されること', async () => {
+		const event = userEvent.setup();
+		const desiredCondition = {
+			jobSeekingStatus:
+				'seeking' as DesiredConditionForEditDto['jobSeekingStatus'],
+			expectedStartTimings:
+				'not_setted' as DesiredConditionForEditDto['expectedStartTimings'],
+			minWorkingTimes:
+				'not_setted' as DesiredConditionForEditDto['minWorkingTimes'],
+			maxWorkingTimes:
+				'not_setted' as DesiredConditionForEditDto['maxWorkingTimes'],
+			workingTimeZone:
+				'not_setted' as DesiredConditionForEditDto['workingTimeZone'],
+			remortWork: 'not_setted' as DesiredConditionForEditDto['remortWork'],
+			remarks: 'test_remarks',
+			desiredPriorityConditions: [
+				{
+					priority: 1,
+					condition:
+						'revenue' as DesiredConditionForEditDto['desiredPriorityConditions'][0]['condition'],
+				},
+				{
+					priority: 2,
+					condition:
+						'remort' as DesiredConditionForEditDto['desiredPriorityConditions'][0]['condition'],
+				},
+			],
+		};
+
+		render(<DesiredConditionEdit desiredCondition={desiredCondition} />);
+
+		// jobSeekingStatus
+		const jobSeekingStatusInput = screen.getByRole('combobox', {
+			name: '案件お探し状況',
+		});
+		await event.selectOptions(jobSeekingStatusInput, 'notSeeking');
+		expect(
+			screen.getByRole('combobox', { name: '案件お探し状況' }),
+		).toHaveValue('notSeeking');
+
+		// expectedStartTimings
+		const expectedStartTimingsInput = screen.getByRole('combobox', {
+			name: 'ご希望の稼働開始時期',
+		});
+		await event.selectOptions(expectedStartTimingsInput, 'immediately');
+		expect(
+			screen.getByRole('combobox', { name: 'ご希望の稼働開始時期' }),
+		).toHaveValue('immediately');
+
+		// minWorkingTimes
+		const minWorkingTimesInput = screen.getByRole('combobox', {
+			name: '稼働時間（最小）',
+		});
+		await event.selectOptions(minWorkingTimesInput, 'oneDayToAWeek');
+		expect(
+			screen.getByRole('combobox', { name: '稼働時間（最小）' }),
+		).toHaveValue('oneDayToAWeek');
+
+		// maxWorkingTimes
+		const maxWorkingTimesInput = screen.getByRole('combobox', {
+			name: '稼働時間（最大）',
+		});
+		await event.selectOptions(maxWorkingTimesInput, 'fiveDaysToAWeek');
+		expect(
+			screen.getByRole('combobox', { name: '稼働時間（最大）' }),
+		).toHaveValue('fiveDaysToAWeek');
+
+		// workingTimeZone
+		const workingTimeZoneInput = screen.getByRole('combobox', {
+			name: '稼働時間帯',
+		});
+		await event.selectOptions(workingTimeZoneInput, 'daytimeWorkday');
+		expect(screen.getByRole('combobox', { name: '稼働時間帯' })).toHaveValue(
+			'daytimeWorkday',
+		);
+
+		// remortWork
+		const remortWorkInput = screen.getByRole('combobox', {
+			name: 'リモートのご希望',
+		});
+		await event.selectOptions(remortWorkInput, 'noDetailed');
+		expect(
+			screen.getByRole('combobox', { name: 'リモートのご希望' }),
+		).toHaveValue('noDetailed');
+
+		// desiredPriorityConditions
+		const firstDesiredPriorityConditionInput = screen.getByRole('combobox', {
+			name: '優先順位(1番目)',
+		});
+		await event.selectOptions(
+			firstDesiredPriorityConditionInput,
+			'working_date',
+		);
+		expect(
+			screen.getByRole('combobox', { name: '優先順位(1番目)' }),
+		).toHaveValue('working_date');
+
+		const secondDesiredPriorityConditionInput = screen.getByRole('combobox', {
+			name: '優先順位(2番目)',
+		});
+		await event.selectOptions(secondDesiredPriorityConditionInput, 'industry');
+		expect(
+			screen.getByRole('combobox', { name: '優先順位(2番目)' }),
+		).toHaveValue('industry');
+
+		const thirdDesiredPriorityConditionInput = screen.getByRole('combobox', {
+			name: '優先順位(3番目)',
+		});
+		await event.selectOptions(thirdDesiredPriorityConditionInput, 'skill');
+		expect(
+			screen.getByRole('combobox', { name: '優先順位(3番目)' }),
+		).toHaveValue('skill');
+
+		// remarks
+		const remarksInput = screen.getByLabelText('その他ご希望', {
+			selector: 'textarea',
+		});
+		await event.type(remarksInput, '_edited');
+		expect(
+			screen.getByLabelText('その他ご希望', { selector: 'textarea' }),
+		).toHaveDisplayValue('test_remarks_edited');
+	});
+
+	describe('フォームの送信', () => {
+		beforeEach(() => {
+			postUpdateDesiredConditionSpy = jest
+				.spyOn(PostUpdateDesiredCondition, 'postUpdateDesiredCondition')
+				.mockResolvedValue({
+					desiredCondition: {
+						jobSeekingStatus:
+							'notSeeking' as DesiredConditionForEditDto['jobSeekingStatus'],
+						expectedStartTimings:
+							'immediately' as DesiredConditionForEditDto['expectedStartTimings'],
+						minWorkingTimes:
+							'oneDayToAWeek' as DesiredConditionForEditDto['minWorkingTimes'],
+						maxWorkingTimes:
+							'fiveDaysToAWeek' as DesiredConditionForEditDto['maxWorkingTimes'],
+						workingTimeZone:
+							'daytimeWorkday' as DesiredConditionForEditDto['workingTimeZone'],
+						remortWork:
+							'noDetailed' as DesiredConditionForEditDto['remortWork'],
+						remarks: 'test_remarks_edited',
+						desiredPriorityConditions: [
+							{
+								priority: 1,
+								condition:
+									'working_date' as DesiredConditionForEditDto['desiredPriorityConditions'][0]['condition'],
+							},
+							{
+								priority: 2,
+								condition:
+									'industry' as DesiredConditionForEditDto['desiredPriorityConditions'][0]['condition'],
+							},
+							{
+								priority: 3,
+								condition:
+									'skill' as DesiredConditionForEditDto['desiredPriorityConditions'][0]['condition'],
+							},
+						],
+					},
+					errors: [],
+				});
+		});
+
+		it('フォームが送信されること', async () => {
+			const event = userEvent.setup();
+			const desiredCondition = {
+				jobSeekingStatus:
+					'seeking' as DesiredConditionForEditDto['jobSeekingStatus'],
+				expectedStartTimings:
+					'not_setted' as DesiredConditionForEditDto['expectedStartTimings'],
+				minWorkingTimes:
+					'not_setted' as DesiredConditionForEditDto['minWorkingTimes'],
+				maxWorkingTimes:
+					'not_setted' as DesiredConditionForEditDto['maxWorkingTimes'],
+				workingTimeZone:
+					'not_setted' as DesiredConditionForEditDto['workingTimeZone'],
+				remortWork: 'not_setted' as DesiredConditionForEditDto['remortWork'],
+				remarks: 'test_remarks',
+				desiredPriorityConditions: [
+					{
+						priority: 1,
+						condition:
+							'revenue' as DesiredConditionForEditDto['desiredPriorityConditions'][0]['condition'],
+					},
+					{
+						priority: 2,
+						condition:
+							'remort' as DesiredConditionForEditDto['desiredPriorityConditions'][0]['condition'],
+					},
+				],
+			};
+
+			render(<DesiredConditionEdit desiredCondition={desiredCondition} />);
+
+			// jobSeekingStatus
+			const jobSeekingStatusInput = screen.getByRole('combobox', {
+				name: '案件お探し状況',
+			});
+			await event.selectOptions(jobSeekingStatusInput, 'notSeeking');
+
+			// expectedStartTimings
+			const expectedStartTimingsInput = screen.getByRole('combobox', {
+				name: 'ご希望の稼働開始時期',
+			});
+			await event.selectOptions(expectedStartTimingsInput, 'immediately');
+
+			// minWorkingTimes
+			const minWorkingTimesInput = screen.getByRole('combobox', {
+				name: '稼働時間（最小）',
+			});
+			await event.selectOptions(minWorkingTimesInput, 'oneDayToAWeek');
+
+			// maxWorkingTimes
+			const maxWorkingTimesInput = screen.getByRole('combobox', {
+				name: '稼働時間（最大）',
+			});
+			await event.selectOptions(maxWorkingTimesInput, 'fiveDaysToAWeek');
+
+			// workingTimeZone
+			const workingTimeZoneInput = screen.getByRole('combobox', {
+				name: '稼働時間帯',
+			});
+			await event.selectOptions(workingTimeZoneInput, 'daytimeWorkday');
+
+			// remortWork
+			const remortWorkInput = screen.getByRole('combobox', {
+				name: 'リモートのご希望',
+			});
+			await event.selectOptions(remortWorkInput, 'noDetailed');
+
+			// desiredPriorityConditions
+			const firstDesiredPriorityConditionInput = screen.getByRole('combobox', {
+				name: '優先順位(1番目)',
+			});
+			await event.selectOptions(
+				firstDesiredPriorityConditionInput,
+				'working_date',
+			);
+
+			const secondDesiredPriorityConditionInput = screen.getByRole('combobox', {
+				name: '優先順位(2番目)',
+			});
+			await event.selectOptions(
+				secondDesiredPriorityConditionInput,
+				'industry',
+			);
+
+			const thirdDesiredPriorityConditionInput = screen.getByRole('combobox', {
+				name: '優先順位(3番目)',
+			});
+			await event.selectOptions(thirdDesiredPriorityConditionInput, 'skill');
+
+			// remarks
+			const remarksInput = screen.getByLabelText('その他ご希望', {
+				selector: 'textarea',
+			});
+			await event.type(remarksInput, '_edited');
+
+			// 保存ボタンの押下
+			const submitButton = screen.getByRole('button', { name: '保存する' });
+			await event.click(submitButton);
+
+			await waitFor(() => {
+				expect(postUpdateDesiredConditionSpy).toHaveBeenCalled();
+			});
+			await waitFor(() => {
+				expect(
+					screen.getByText('希望条件の更新に成功しました！'),
+				).toBeInTheDocument();
+			});
+		});
+
+		// TODO: バリデーションチェックを実装次第、追加する
+		// describe('バリデーションありの場合', () => {
+		// 	it('エラーメッセージが表示されること', async () => {});
+		// });
+	});
+});

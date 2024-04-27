@@ -261,7 +261,7 @@ export const DesiredConditionEdit = ({ desiredCondition }: Props) => {
 					<ColumnInputArea>
 						<SelectFormArea
 							id="remort_work"
-							labelText="稼働時間帯"
+							labelText="リモートのご希望"
 							defaultValue={inputDesiredCondition.remortWork}
 							onChange={(e) =>
 								updateInputDesiredCondition({
