@@ -23,6 +23,10 @@ describe('ProfilesController (e2e)', () => {
   let programmingLanguage: ProgrammingLanguage;
 
   beforeAll(async () => {
+    await datasource.initialize();
+  });
+
+  beforeEach(async () => {
     moduleFixture = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -30,18 +34,14 @@ describe('ProfilesController (e2e)', () => {
     // モジュールからインスタンスの作成
     app = moduleFixture.createNestApplication();
     // モジュールの初期化
-    app.init();
-
-    await datasource.initialize();
+    await app.init();
   });
 
   // テストで起動したNestアプリを終了しないとJestで警告が発生するため、以下のコードで終了
-  afterAll(async () => {
+  afterEach(async () => {
     await app.close();
     await moduleFixture.close();
-  });
 
-  afterEach(async () => {
     // テスト毎に、テーブル内のデータを削除する。
     await datasource.synchronize(true);
   });
