@@ -7,6 +7,7 @@ properties:
     type: string
     enum:
       [
+        not_setted,
         immediately,
         withinMonth,
         withinNextMonth,
@@ -21,6 +22,7 @@ properties:
     type: string
     enum:
       [
+        not_setted,
         oneDayToAWeek,
         twoDaysToAWeek,
         threeDaysToAWeek,
@@ -31,6 +33,7 @@ properties:
     type: string
     enum:
       [
+        not_setted,
         oneDayToAWeek,
         twoDaysToAWeek,
         threeDaysToAWeek,
@@ -39,10 +42,10 @@ properties:
       ]
   workingTimeZone:
     type: string
-    enum: [daytimeWorkday, morningNightWorkdayOrHoliday, anytime]
+    enum: [not_setted, daytimeWorkday, morningNightWorkdayOrHoliday, anytime]
   remortWork:
     type: string
-    enum: [noDetailed, office, partRemort, remortMain, fullRemort]
+    enum: [not_setted, noDetailed, office, partRemort, remortMain, fullRemort]
   remarks:
     type: string
   desiredPriorityConditions:
@@ -56,6 +59,7 @@ properties:
           type: string
           enum:
             [
+              not_setted,
               revenue,
               remort,
               working_date,

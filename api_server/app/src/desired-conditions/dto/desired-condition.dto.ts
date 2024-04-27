@@ -15,5 +15,8 @@ export class DesiredConditionDto {
   workingTimeZone: WorkingTimeZones;
   remortWork: RemortWork;
   remarks: string;
-  desiredPriorityConditions: DesiredPriorityCondition[];
+  desiredPriorityConditions: Pick<
+    DesiredPriorityCondition,
+    'priority' | 'condition'
+  >[];
 }

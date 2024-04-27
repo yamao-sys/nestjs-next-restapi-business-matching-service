@@ -133,6 +133,7 @@ components:
         expectedStartTimings:
           type: string
           enum:
+            - not_setted
             - immediately
             - withinMonth
             - withinNextMonth
@@ -145,6 +146,7 @@ components:
         minWorkingTimes:
           type: string
           enum:
+            - not_setted
             - oneDayToAWeek
             - twoDaysToAWeek
             - threeDaysToAWeek
@@ -153,6 +155,7 @@ components:
         maxWorkingTimes:
           type: string
           enum:
+            - not_setted
             - oneDayToAWeek
             - twoDaysToAWeek
             - threeDaysToAWeek
@@ -161,12 +164,14 @@ components:
         workingTimeZone:
           type: string
           enum:
+            - not_setted
             - daytimeWorkday
             - morningNightWorkdayOrHoliday
             - anytime
         remortWork:
           type: string
           enum:
+            - not_setted
             - noDetailed
             - office
             - partRemort
@@ -184,6 +189,7 @@ components:
               condition:
                 type: string
                 enum:
+                  - not_setted
                   - revenue
                   - remort
                   - working_date
@@ -213,6 +219,7 @@ components:
         expectedStartTimings:
           type: string
           enum:
+            - not_setted
             - immediately
             - withinMonth
             - withinNextMonth
@@ -225,6 +232,7 @@ components:
         minWorkingTimes:
           type: string
           enum:
+            - not_setted
             - oneDayToAWeek
             - twoDaysToAWeek
             - threeDaysToAWeek
@@ -233,6 +241,7 @@ components:
         maxWorkingTimes:
           type: string
           enum:
+            - not_setted
             - oneDayToAWeek
             - twoDaysToAWeek
             - threeDaysToAWeek
@@ -241,12 +250,14 @@ components:
         workingTimeZone:
           type: string
           enum:
+            - not_setted
             - daytimeWorkday
             - morningNightWorkdayOrHoliday
             - anytime
         remortWork:
           type: string
           enum:
+            - not_setted
             - noDetailed
             - office
             - partRemort
@@ -264,6 +275,7 @@ components:
               condition:
                 type: string
                 enum:
+                  - not_setted
                   - revenue
                   - remort
                   - working_date
@@ -296,6 +308,7 @@ components:
             expectedStartTimings:
               type: string
               enum:
+                - not_setted
                 - immediately
                 - withinMonth
                 - withinNextMonth
@@ -308,6 +321,7 @@ components:
             minWorkingTimes:
               type: string
               enum:
+                - not_setted
                 - oneDayToAWeek
                 - twoDaysToAWeek
                 - threeDaysToAWeek
@@ -316,6 +330,7 @@ components:
             maxWorkingTimes:
               type: string
               enum:
+                - not_setted
                 - oneDayToAWeek
                 - twoDaysToAWeek
                 - threeDaysToAWeek
@@ -324,12 +339,14 @@ components:
             workingTimeZone:
               type: string
               enum:
+                - not_setted
                 - daytimeWorkday
                 - morningNightWorkdayOrHoliday
                 - anytime
             remortWork:
               type: string
               enum:
+                - not_setted
                 - noDetailed
                 - office
                 - partRemort
@@ -347,6 +364,7 @@ components:
                   condition:
                     type: string
                     enum:
+                      - not_setted
                       - revenue
                       - remort
                       - working_date

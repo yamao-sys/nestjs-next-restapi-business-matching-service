@@ -95,12 +95,12 @@ describe('DesiredConditionsController (e2e)', () => {
           .expect(200)
           .expect({
             engineerId: engineer.id,
-            jobSeekingStatus: JobSeekingStatus.NOT_SEEKING,
-            expectedStartTimings: ExpectedStartTimings.WITHIN_MONTH,
-            minWorkingTimes: WorkingTimes.FIVE_DAYS_TO_A_WEEK,
-            maxWorkingTimes: WorkingTimes.FIVE_DAYS_TO_A_WEEK,
-            workingTimeZone: WorkingTimeZones.DAYTIME_WORKDAY,
-            remortWork: RemortWork.NO_DETAILED,
+            jobSeekingStatus: JobSeekingStatus.SEEKING,
+            expectedStartTimings: ExpectedStartTimings.NOT_SETTED,
+            minWorkingTimes: WorkingTimes.NOT_SETTED,
+            maxWorkingTimes: WorkingTimes.NOT_SETTED,
+            workingTimeZone: WorkingTimeZones.NOT_SETTED,
+            remortWork: RemortWork.NOT_SETTED,
             remarks: '',
             desiredPriorityConditions: [],
           });

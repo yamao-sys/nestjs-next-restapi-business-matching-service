@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { UpdateDesiredConditionDto } from './dto/update-desired-condition.dto';
 import { validate } from 'class-validator';
 import { Engineer } from '../engineers/entities/engineer.entity';
+import { DesiredPriorityCondition } from '../desired-priority-conditions/entities/desired-priority-condition.entity';
 
 @Injectable()
 export class DesiredConditionsService {
@@ -34,8 +35,15 @@ export class DesiredConditionsService {
   ) {
     const assignedAttributesDesiredCondition =
       this.desiredConditionRepository.merge(desiredCondition, params);
-    assignedAttributesDesiredCondition.desiredPriorityConditions =
-      params.desiredPriorityConditions;
+    const inputs: DesiredPriorityCondition[] = [];
+    params.desiredPriorityConditions.forEach((cond) => {
+      const desiredPriorityCondition = new DesiredPriorityCondition();
+      desiredPriorityCondition.priority = cond.priority;
+      desiredPriorityCondition.condition = cond.condition;
+      inputs.push(desiredPriorityCondition);
+    });
+    assignedAttributesDesiredCondition.desiredPriorityConditions = inputs;
+
     return assignedAttributesDesiredCondition;
   }
 

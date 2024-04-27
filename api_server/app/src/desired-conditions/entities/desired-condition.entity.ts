@@ -11,11 +11,13 @@ import {
 } from 'typeorm';
 
 export enum JobSeekingStatus {
+  NOT_SETTED = 'not_setted',
   NOT_SEEKING = 'notSeeking',
   SEEKING = 'seeking',
 }
 
 export enum ExpectedStartTimings {
+  NOT_SETTED = 'not_setted',
   IMMEDIATELY = 'immediately',
   WITHIN_MONTH = 'withinMonth',
   WITHIN_NEXT_MONTH = 'withinNextMonth',
@@ -28,6 +30,7 @@ export enum ExpectedStartTimings {
 }
 
 export enum WorkingTimes {
+  NOT_SETTED = 'not_setted',
   ONE_DAY_TO_A_WEEK = 'oneDayToAWeek',
   TWO_DAYS_TO_A_WEEK = 'twoDaysToAWeek',
   THREE_DAYS_TO_A_WEEK = 'threeDaysToAWeek',
@@ -36,12 +39,14 @@ export enum WorkingTimes {
 }
 
 export enum WorkingTimeZones {
+  NOT_SETTED = 'not_setted',
   DAYTIME_WORKDAY = 'daytimeWorkday',
   MORNING_NIGHT_WORKDAY_OR_HOLIDAY = 'morningNightWorkdayOrHoliday',
   ANYTIME = 'anytime',
 }
 
 export enum RemortWork {
+  NOT_SETTED = 'not_setted',
   NO_DETAILED = 'noDetailed',
   OFFICE = 'office',
   PART_REMORT = 'partRemort',
@@ -79,47 +84,47 @@ export class DesiredCondition extends BaseEntity {
     type: 'enum',
     name: 'expected_start_timing',
     enum: ExpectedStartTimings,
-    default: ExpectedStartTimings.WITHIN_MONTH,
+    default: ExpectedStartTimings.NOT_SETTED,
   })
-  expectedStartTimings!: ExpectedStartTimings;
+  expectedStartTimings: ExpectedStartTimings;
 
   @Column({
     type: 'enum',
     name: 'min_working_time',
     enum: WorkingTimes,
-    default: WorkingTimes.FIVE_DAYS_TO_A_WEEK,
+    default: WorkingTimes.NOT_SETTED,
   })
-  minWorkingTimes!: WorkingTimes;
+  minWorkingTimes: WorkingTimes;
 
   @Column({
     type: 'enum',
     name: 'max_working_time',
     enum: WorkingTimes,
-    default: WorkingTimes.FIVE_DAYS_TO_A_WEEK,
+    default: WorkingTimes.NOT_SETTED,
   })
-  maxWorkingTimes!: WorkingTimes;
+  maxWorkingTimes: WorkingTimes;
 
   @Column({
     type: 'enum',
     name: 'working_time_zone',
     enum: WorkingTimeZones,
-    default: WorkingTimeZones.DAYTIME_WORKDAY,
+    default: WorkingTimeZones.NOT_SETTED,
   })
-  workingTimeZone!: WorkingTimeZones;
+  workingTimeZone: WorkingTimeZones;
 
   @Column({
     type: 'enum',
     name: 'remort_work',
     enum: RemortWork,
-    default: RemortWork.NO_DETAILED,
+    default: RemortWork.NOT_SETTED,
   })
-  remortWork!: RemortWork;
+  remortWork: RemortWork;
 
   @Column({
     type: 'text',
     nullable: true,
   })
-  remarks!: string;
+  remarks: string;
 
   @OneToMany(
     () => DesiredPriorityCondition,
@@ -136,12 +141,12 @@ export class DesiredCondition extends BaseEntity {
     if (engineerId) {
       this.engineerId = engineerId;
     }
-    this.jobSeekingStatus = JobSeekingStatus.NOT_SEEKING;
-    this.expectedStartTimings = ExpectedStartTimings.WITHIN_MONTH;
-    this.minWorkingTimes = WorkingTimes.FIVE_DAYS_TO_A_WEEK;
-    this.maxWorkingTimes = WorkingTimes.FIVE_DAYS_TO_A_WEEK;
-    this.workingTimeZone = WorkingTimeZones.DAYTIME_WORKDAY;
-    this.remortWork = RemortWork.NO_DETAILED;
+    this.jobSeekingStatus = JobSeekingStatus.SEEKING;
+    this.expectedStartTimings = ExpectedStartTimings.NOT_SETTED;
+    this.minWorkingTimes = WorkingTimes.NOT_SETTED;
+    this.maxWorkingTimes = WorkingTimes.NOT_SETTED;
+    this.workingTimeZone = WorkingTimeZones.NOT_SETTED;
+    this.remortWork = RemortWork.NOT_SETTED;
     this.remarks = '';
   }
 }

@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 
 export enum PriorityCondition {
+  NOT_SETTED = 'not_setted',
   REVENUE = 'revenue',
   REMORT = 'remort',
   WORKING_DATE = 'working_date',
@@ -52,7 +53,6 @@ export class DesiredPriorityCondition extends BaseEntity {
     type: 'enum',
     name: 'condition',
     enum: PriorityCondition,
-    default: PriorityCondition.REVENUE,
   })
   condition!: PriorityCondition;
 }
