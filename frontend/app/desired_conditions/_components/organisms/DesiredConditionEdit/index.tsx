@@ -38,17 +38,7 @@ export const DesiredConditionEdit = ({ desiredCondition }: Props) => {
 
 	const updateInputDesiredPriorityCondition = (
 		priority: number,
-		condition: // ENUMとして型にする
-		| 'not_setted'
-			| 'revenue'
-			| 'remort'
-			| 'working_date'
-			| 'industry'
-			| 'skill'
-			| 'experience'
-			| 'want_to_acquire_skill'
-			| 'company_scale'
-			| undefined,
+		condition: DesiredConditionForEditDto['desiredPriorityConditions'][0]['condition'],
 	) => {
 		if (!inputDesiredCondition.desiredPriorityConditions) {
 			setInputDesiredCondition({
@@ -305,17 +295,8 @@ export const DesiredConditionEdit = ({ desiredCondition }: Props) => {
 								onChange={(e) =>
 									updateInputDesiredPriorityCondition(
 										index + 1,
-										e.target.value as
-											| 'not_setted'
-											| 'revenue'
-											| 'remort'
-											| 'working_date'
-											| 'industry'
-											| 'skill'
-											| 'experience'
-											| 'want_to_acquire_skill'
-											| 'company_scale'
-											| undefined,
+										e.target
+											.value as DesiredConditionForEditDto['desiredPriorityConditions'][0]['condition'],
 									)
 								}
 								options={[
