@@ -14,20 +14,7 @@ import { ExperiencedProfession } from '../../experiences/entities/professions.en
 import { ExperiencedProgrammingLanguage } from '../../experiences/entities/programming-languages.entity';
 import { SkillSheet } from '../../skillsheets/entities/skillsheet.entity';
 import { DesiredCondition } from '../../desired-conditions/entities/desired-condition.entity';
-
-export enum CurrentEmployment {
-  FLEELANCE = 'fleelance',
-  FULLTIME = 'fulltime',
-  OTHER = 'other',
-}
-
-export enum ExperiencedDuration {
-  LESS_THAN_ONE_YEAR = 'lessThanOneYear',
-  JUNIOR = 'junior',
-  MIDDLE = 'middle',
-  SENIOR = 'senior',
-  EXPERT = 'expert',
-}
+import { CurrentEmployment, ExperiencedDuration } from '../enums';
 
 @Entity('engineers')
 export class Engineer extends BaseEntity {

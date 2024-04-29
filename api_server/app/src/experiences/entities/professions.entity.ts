@@ -3,14 +3,6 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { BaseExperiencedEntity } from './base';
 import { Profession } from '../../professions/entities/profession.entity';
 
-export enum ExperiencedDuration {
-  LESS_THAN_ONE_YEAR = 'lessThanOneYear',
-  JUNIOR = 'junior',
-  MIDDLE = 'middle',
-  SENIOR = 'senior',
-  EXPERT = 'expert',
-}
-
 @Entity('experienced_professions')
 export class ExperiencedProfession extends BaseExperiencedEntity {
   @ManyToOne(() => Engineer, (engineer) => engineer.experiencedProfessions, {

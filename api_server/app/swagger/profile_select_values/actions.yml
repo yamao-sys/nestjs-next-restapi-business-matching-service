@@ -1,0 +1,29 @@
+openapi: 3.0.0
+info:
+  title: ProfileSelectValues Controller Schema
+  version: 1.0.0
+
+paths:
+  /profileSelectValues:
+    get:
+      operationId: ProfileSelectValues
+      description: プロフィール編集のセレクトボックスのオプション取得
+      parameters: []
+      responses:
+        '200':
+          description: プロフィール編集のセレクトボックスのオプション取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileSelectValues'
+        '400':
+          $ref: '../errors.yml#responses/400'
+        '401':
+          $ref: '../errors.yml#responses/401'
+        '404':
+          $ref: '../errors.yml#responses/404'
+
+components:
+  schemas:
+    ProfileSelectValues:
+      $ref: './components/profile_select_values.dto.yml'

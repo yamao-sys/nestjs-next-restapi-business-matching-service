@@ -1,8 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  CurrentEmployment,
-  ExperiencedDuration,
-} from '../../engineers/entities/engineer.entity';
+import { CurrentEmployment, ExperiencedDuration } from 'src/engineers/enums';
 import { ExperiencedProfession } from 'src/experiences/entities/professions.entity';
 import { ExperiencedProgrammingLanguage } from 'src/experiences/entities/programming-languages.entity';
 

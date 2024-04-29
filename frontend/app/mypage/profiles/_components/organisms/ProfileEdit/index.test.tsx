@@ -14,6 +14,21 @@ jest.mock('../../../_server_actions/postUpdateProfile', () => {
 });
 let postUpdateProfileSpy: jest.SpyInstance<unknown>;
 
+const profileSelectValues = {
+	currentEmployment: [
+		{ value: 'fleelance', name: 'フリーランス' },
+		{ value: 'fulltime', name: '正社員' },
+		{ value: 'other', name: 'その他' },
+	],
+	experiencedDuration: [
+		{ value: 'lessThanOneYear', name: '〜1年' },
+		{ value: 'junior', name: '1〜2年' },
+		{ value: 'middle', name: '2〜3年' },
+		{ value: 'senior', name: '3〜5年' },
+		{ value: 'expert', name: '10年〜' },
+	],
+};
+
 describe('frontend/app/mypage/profiles/_components/organisms/ProfileEdit', () => {
 	it('propsで受け取ったprofileをもとにフォームが初期表示されること', () => {
 		const profile = {
@@ -69,6 +84,7 @@ describe('frontend/app/mypage/profiles/_components/organisms/ProfileEdit', () =>
 		render(
 			<ProfileEdit
 				profile={profile}
+				profileSelectValues={profileSelectValues}
 				experiencedEntityMasters={experiencedEntityMasters}
 			/>,
 		);
@@ -192,6 +208,7 @@ describe('frontend/app/mypage/profiles/_components/organisms/ProfileEdit', () =>
 			render(
 				<ProfileEdit
 					profile={profile}
+					profileSelectValues={profileSelectValues}
 					experiencedEntityMasters={experiencedEntityMasters}
 				/>,
 			);
@@ -257,6 +274,7 @@ describe('frontend/app/mypage/profiles/_components/organisms/ProfileEdit', () =>
 		render(
 			<ProfileEdit
 				profile={profile}
+				profileSelectValues={profileSelectValues}
 				experiencedEntityMasters={experiencedEntityMasters}
 			/>,
 		);
@@ -505,7 +523,6 @@ describe('frontend/app/mypage/profiles/_components/organisms/ProfileEdit', () =>
 				],
 				selfPromotion: 'test selfPromotion',
 			};
-
 			const experiencedEntityMasters = {
 				professions: [
 					{ id: '1', name: 'testProfession1' },
@@ -519,6 +536,7 @@ describe('frontend/app/mypage/profiles/_components/organisms/ProfileEdit', () =>
 			render(
 				<ProfileEdit
 					profile={profile}
+					profileSelectValues={profileSelectValues}
 					experiencedEntityMasters={experiencedEntityMasters}
 				/>,
 			);
@@ -720,6 +738,7 @@ describe('frontend/app/mypage/profiles/_components/organisms/ProfileEdit', () =>
 				render(
 					<ProfileEdit
 						profile={profile}
+						profileSelectValues={profileSelectValues}
 						experiencedEntityMasters={experiencedEntityMasters}
 					/>,
 				);
@@ -831,6 +850,7 @@ describe('frontend/app/mypage/profiles/_components/organisms/ProfileEdit', () =>
 				render(
 					<ProfileEdit
 						profile={profile}
+						profileSelectValues={profileSelectValues}
 						experiencedEntityMasters={experiencedEntityMasters}
 					/>,
 				);

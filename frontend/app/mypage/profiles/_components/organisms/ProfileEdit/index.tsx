@@ -12,7 +12,6 @@ import { ButtonCheckbox } from '@/components/atoms/ButtonCheckbox';
 import { InputFormArea } from '@/components/molecules/InputFormArea';
 import { SelectFormArea } from '@/components/molecules/SelectFormArea';
 import { TextFormArea } from '@/components/molecules/TextFormArea';
-import { ContentWrapper } from '@/components/organisms/ContentWrapper';
 import { getValidationErrorsByKey } from '@/lib/getValidationErrorsByKey';
 import { theme } from '@/styles/theme';
 import { useState } from 'react';
@@ -20,13 +19,19 @@ import styled from 'styled-components';
 import { postUpdateProfile } from '../../../_server_actions/postUpdateProfile';
 import { BaseLayout } from '@/app/mypage/_components/BaseLayout';
 import { LargeHeader } from '@/app/mypage/_components/LargeHeader';
+import { ProfileSelectValues } from '@/api/profile_select_values/@types';
 
 type Props = {
 	profile: ProfileForEditDto;
+	profileSelectValues: ProfileSelectValues;
 	experiencedEntityMasters: FetchExperiencedEntityMasterResponse;
 };
 
-export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
+export const ProfileEdit = ({
+	profile,
+	profileSelectValues,
+	experiencedEntityMasters,
+}: Props) => {
 	const [inputProfile, setInputProfile] = useState<ProfileForEditDto>(profile);
 	const [validationErrors, setValidationErrors] = useState<
 		UpdateProfileResponseDto['errors']
@@ -188,11 +193,7 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 									.value as ProfileForEditDto['currentEmployment'],
 							})
 						}
-						options={[
-							{ value: 'fleelance', name: 'フリーランス' },
-							{ value: 'fulltime', name: '正社員' },
-							{ value: 'other', name: 'その他' },
-						]}
+						options={profileSelectValues.currentEmployment}
 						validationErrors={
 							getValidationErrorsByKey(validationErrors, 'currentEmployment') ??
 							[]
@@ -286,13 +287,7 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 									.value as ProfileForEditDto['experiencedDuration'],
 							})
 						}
-						options={[
-							{ value: 'lessThanOneYear', name: '〜1年' },
-							{ value: 'junior', name: '1〜2年' },
-							{ value: 'middle', name: '2〜3年' },
-							{ value: 'senior', name: '3〜5年' },
-							{ value: 'expert', name: '10年〜' },
-						]}
+						options={profileSelectValues.experiencedDuration}
 						validationErrors={
 							getValidationErrorsByKey(
 								validationErrors,
@@ -352,13 +347,7 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 										experiencedProfessions: newExperiencedProfessions,
 									});
 								}}
-								options={[
-									{ value: 'lessThanOneYear', name: '〜1年' },
-									{ value: 'junior', name: '1〜2年' },
-									{ value: 'middle', name: '2〜3年' },
-									{ value: 'senior', name: '3〜5年' },
-									{ value: 'expert', name: '10年〜' },
-								]}
+								options={profileSelectValues.experiencedEntityDuration}
 								validationErrors={
 									getValidationErrorsByKey(
 										validationErrors,
@@ -429,13 +418,7 @@ export const ProfileEdit = ({ profile, experiencedEntityMasters }: Props) => {
 											newExperiencedProgrammingLanguages,
 									});
 								}}
-								options={[
-									{ value: 'lessThanOneYear', name: '〜1年' },
-									{ value: 'junior', name: '1〜2年' },
-									{ value: 'middle', name: '2〜3年' },
-									{ value: 'senior', name: '3〜5年' },
-									{ value: 'expert', name: '10年〜' },
-								]}
+								options={profileSelectValues.experiencedEntityDuration}
 								validationErrors={
 									getValidationErrorsByKey(
 										validationErrors,
