@@ -2,7 +2,7 @@ import { DesiredConditionForEditDto } from '@/api/desired_conditions/@types';
 import { render, screen, waitFor } from '@testing-library/react';
 import { DesiredConditionEdit } from '.';
 import userEvent from '@testing-library/user-event';
-import * as PostUpdateDesiredCondition from '@/app/desired_conditions/_server_actions/postUpdateDesiredCondition';
+import * as PostUpdateDesiredCondition from '@/app/mypage/desired_conditions/_server_actions/postUpdateDesiredCondition';
 
 jest.mock('../../../_server_actions/postUpdateDesiredCondition', () => {
 	const postUpdateDesiredCondition = jest.requireActual(
@@ -15,7 +15,7 @@ jest.mock('../../../_server_actions/postUpdateDesiredCondition', () => {
 });
 let postUpdateDesiredConditionSpy: jest.SpyInstance<unknown>;
 
-describe('frontend/app/profiles/_components/organisms/DesiredConditionEdit', () => {
+describe('frontend/app/mypage/desired_conditions/_components/organisms/DesiredConditionEdit', () => {
 	it('propsで受け取ったprofileをもとにフォームが初期表示されること', () => {
 		const desiredCondition = {
 			jobSeekingStatus:

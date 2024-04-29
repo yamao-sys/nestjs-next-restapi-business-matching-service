@@ -27,19 +27,17 @@ export const SelectFormArea = ({
 }: Props) => {
 	return (
 		<>
-			<Wrapper $width={width}>
-				{labelText && <Label htmlFor={id}>{labelText}</Label>}
-				<Select id={id} defaultValue={defaultValue} onChange={onChange}>
-					{options.map((option, i) => (
-						<option key={i} value={option.value}>
-							{option.name}
-						</option>
-					))}
-				</Select>
-				{!!validationErrors.length && (
-					<ValidationErrorBox messages={validationErrors} />
-				)}
-			</Wrapper>
+			{labelText && <Label htmlFor={id}>{labelText}</Label>}
+			<Select id={id} defaultValue={defaultValue} onChange={onChange}>
+				{options.map((option, i) => (
+					<option key={i} value={option.value}>
+						{option.name}
+					</option>
+				))}
+			</Select>
+			{!!validationErrors.length && (
+				<ValidationErrorBox messages={validationErrors} />
+			)}
 		</>
 	);
 };

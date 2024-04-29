@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { ProfileEdit } from '.';
 import userEvent from '@testing-library/user-event';
-import * as PostUpdateProfile from '@/app/profiles/_server_actions/postUpdateProfile';
+import * as PostUpdateProfile from '@/app/mypage/profiles/_server_actions/postUpdateProfile';
 
 jest.mock('../../../_server_actions/postUpdateProfile', () => {
 	const postUpdateProfile = jest.requireActual(
@@ -14,7 +14,7 @@ jest.mock('../../../_server_actions/postUpdateProfile', () => {
 });
 let postUpdateProfileSpy: jest.SpyInstance<unknown>;
 
-describe('frontend/app/profiles/_components/organisms/ProfileEdit', () => {
+describe('frontend/app/mypage/profiles/_components/organisms/ProfileEdit', () => {
 	it('propsで受け取ったprofileをもとにフォームが初期表示されること', () => {
 		const profile = {
 			lastName: 'test lastName',
