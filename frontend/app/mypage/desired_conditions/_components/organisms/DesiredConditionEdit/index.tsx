@@ -45,6 +45,7 @@ export const DesiredConditionEdit = ({
 		priority: number,
 		condition: DesiredConditionForEditDto['desiredPriorityConditions'][0]['condition'],
 	) => {
+		// NOTE: 希望条件がまだ0件の場合: 新たに入力値として追加
 		if (!inputDesiredCondition.desiredPriorityConditions) {
 			setInputDesiredCondition({
 				...inputDesiredCondition,
@@ -53,6 +54,7 @@ export const DesiredConditionEdit = ({
 			return;
 		}
 
+		// NOTE: 希望条件は存在するが、指定した優先順位のものはまだ存在しない場合: 新たに入力値として追加
 		if (
 			!inputDesiredCondition.desiredPriorityConditions.find(
 				(dpc) => dpc.priority === priority,
@@ -68,6 +70,7 @@ export const DesiredConditionEdit = ({
 			return;
 		}
 
+		// NOTE: 指定した優先順位の希望条件は存在する場合: 該当する優先順位の入力値を更新
 		const newDesiredPriorityConditions =
 			inputDesiredCondition.desiredPriorityConditions.map((dpc) => {
 				if (dpc.priority !== priority) return dpc;
