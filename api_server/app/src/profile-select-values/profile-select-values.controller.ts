@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ProfileSelectValuesService } from './profile-select-values.service';
 import { ApiCreatedResponse } from '@nestjs/swagger';
-import { CreateProfileSelectValueDto } from './dto/profile-select-value.dto';
+import { ProfileSelectValueDto } from './dto/profile-select-value.dto';
 
 @Controller('profileSelectValues')
 export class ProfileSelectValuesController {
@@ -11,7 +11,7 @@ export class ProfileSelectValuesController {
 
   @Get()
   @ApiCreatedResponse({
-    type: CreateProfileSelectValueDto,
+    type: ProfileSelectValueDto,
     description: 'プロフィール編集のセレクトボックスのオプション取得',
   })
   fetch() {

@@ -10,6 +10,7 @@ import { ProfilesModule } from './profiles/profiles.module';
 import { ExperiencedEntityMastersModule } from './experienced-entity-masters/experienced-entity-masters.module';
 import { DesiredConditionsModule } from './desired-conditions/desired-conditions.module';
 import { ProfileSelectValuesModule } from './profile-select-values/profile-select-values.module';
+import { DesiredConditionSelectValuesModule } from './desired-condition-select-values/desired-condition-select-values.module';
 import * as cookieParser from 'cookie-parser';
 
 @Module({
@@ -22,6 +23,7 @@ import * as cookieParser from 'cookie-parser';
     ExperiencedEntityMastersModule,
     DesiredConditionsModule,
     ProfileSelectValuesModule,
+    DesiredConditionSelectValuesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

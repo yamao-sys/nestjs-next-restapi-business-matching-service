@@ -7,18 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-
-export enum PriorityCondition {
-  NOT_SETTED = 'not_setted',
-  REVENUE = 'revenue',
-  REMORT = 'remort',
-  WORKING_DATE = 'working_date',
-  INDUSTRY = 'industry',
-  SKILL = 'skill',
-  EXPERIENCE = 'experience',
-  WANT_TO_ACQUIRE_SKILL = 'want_to_acquire_skill',
-  COMPANY_SCALE = 'company_scale',
-}
+import { PriorityCondition } from '../enums';
 
 @Entity('desired_priority_conditions')
 export class DesiredPriorityCondition extends BaseEntity {

@@ -9,50 +9,13 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-
-export enum JobSeekingStatus {
-  NOT_SETTED = 'not_setted',
-  NOT_SEEKING = 'notSeeking',
-  SEEKING = 'seeking',
-}
-
-export enum ExpectedStartTimings {
-  NOT_SETTED = 'not_setted',
-  IMMEDIATELY = 'immediately',
-  WITHIN_MONTH = 'withinMonth',
-  WITHIN_NEXT_MONTH = 'withinNextMonth',
-  WITHIN_TWO_MONTH = 'withinTwoMonths',
-  WITHIN_THREE_MONTH = 'withinThreeMonths',
-  WITHIN_FOUR_MONTH = 'withinFourMonths',
-  WITHIN_FIVE_MONTH = 'withinFiveMonths',
-  WITHIN_SIX_MONTH = 'withinSixMonths',
-  ANYTIME = 'anytime',
-}
-
-export enum WorkingTimes {
-  NOT_SETTED = 'not_setted',
-  ONE_DAY_TO_A_WEEK = 'oneDayToAWeek',
-  TWO_DAYS_TO_A_WEEK = 'twoDaysToAWeek',
-  THREE_DAYS_TO_A_WEEK = 'threeDaysToAWeek',
-  FOUR_DAYS_TO_A_WEEK = 'fourDaysToAWeek',
-  FIVE_DAYS_TO_A_WEEK = 'fiveDaysToAWeek',
-}
-
-export enum WorkingTimeZones {
-  NOT_SETTED = 'not_setted',
-  DAYTIME_WORKDAY = 'daytimeWorkday',
-  MORNING_NIGHT_WORKDAY_OR_HOLIDAY = 'morningNightWorkdayOrHoliday',
-  ANYTIME = 'anytime',
-}
-
-export enum RemortWork {
-  NOT_SETTED = 'not_setted',
-  NO_DETAILED = 'noDetailed',
-  OFFICE = 'office',
-  PART_REMORT = 'partRemort',
-  REMORT_MAIN = 'remortMain',
-  FULL_REMORT = 'fullRemort',
-}
+import {
+  ExpectedStartTimings,
+  JobSeekingStatus,
+  RemortWork,
+  WorkingTimeZones,
+  WorkingTimes,
+} from '../enums';
 
 @Entity('desired_conditions')
 export class DesiredCondition extends BaseEntity {

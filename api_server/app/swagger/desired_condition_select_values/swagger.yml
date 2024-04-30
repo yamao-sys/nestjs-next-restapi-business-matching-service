@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  title: DesiredConditionSelectValues Controller Schema
+  version: 1.0.0
+paths:
+  /desiredConditionSelectValues:
+    get:
+      operationId: DesiredConditionSelectValues
+      description: 希望条件編集のセレクトボックスのオプション取得
+      parameters: []
+      responses:
+        '200':
+          description: 希望条件編集のセレクトボックスのオプション取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DesiredConditionSelectValues'
+        '400':
+          description: バリデーションエラー
+          content:
+            application/json:
+              schema:
+                description: バリデーションエラー
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  message:
+                    type: array
+                    items:
+                      description: TODO取得時のレスポンスのDTO
+                      type: string
+                  error:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+                  - error
+        '401':
+          description: 認証エラー
+          content:
+            application/json:
+              schema:
+                description: 認証エラー
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  message:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+        '404':
+          description: Not Foundエラー
+          content:
+            application/json:
+              schema:
+                description: Not Foundエラー
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                  message:
+                    type: string
+                required:
+                  - statusCode
+                  - message
+components:
+  schemas:
+    DesiredConditionSelectValues:
+      description: 希望条件編集のセレクトボックスのoptionの取得レスポンスのDTO
+      type: object
+      properties:
+        jobSeekingStatus:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              name:
+                type: string
+            required:
+              - value
+              - name
+        expectedStartTimings:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              name:
+                type: string
+            required:
+              - value
+              - name
+        workingTimes:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              name:
+                type: string
+            required:
+              - value
+              - name
+        workingTimeZone:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              name:
+                type: string
+            required:
+              - value
+              - name
+        remortWork:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              name:
+                type: string
+            required:
+              - value
+              - name
+        desiredPriorityCondition:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              name:
+                type: string
+            required:
+              - value
+              - name
+      required:
+        - jobSeekingStatus
+        - expectedStartTimings
+        - workingTimes
+        - workingTimeZone
+        - remortWork
+        - desiredPriorityCondition

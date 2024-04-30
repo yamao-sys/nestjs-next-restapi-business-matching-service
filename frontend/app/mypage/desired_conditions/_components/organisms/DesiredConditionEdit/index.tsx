@@ -9,21 +9,23 @@ import { BaseBox } from '@/components/atoms/BaseBox';
 import { BaseButton } from '@/components/atoms/BaseButton';
 import { SelectFormArea } from '@/components/molecules/SelectFormArea';
 import { TextFormArea } from '@/components/molecules/TextFormArea';
-import { ContentWrapper } from '@/components/organisms/ContentWrapper';
 import { getValidationErrorsByKey } from '@/lib/getValidationErrorsByKey';
-import { theme } from '@/styles/theme';
 import { useState } from 'react';
 import { times } from 'remeda';
-import styled from 'styled-components';
 import { postUpdateDesiredCondition } from '../../../_server_actions/postUpdateDesiredCondition';
 import { BaseLayout } from '@/app/mypage/_components/BaseLayout';
 import { LargeHeader } from '@/app/mypage/_components/LargeHeader';
+import { DesiredConditionSelectValues } from '@/api/desired_condition_select_values/@types';
 
 type Props = {
 	desiredCondition: DesiredConditionForEditDto;
+	desiredConditionSelectValues: DesiredConditionSelectValues;
 };
 
-export const DesiredConditionEdit = ({ desiredCondition }: Props) => {
+export const DesiredConditionEdit = ({
+	desiredCondition,
+	desiredConditionSelectValues,
+}: Props) => {
 	const PRIORITY_CONDITIONS_SIZE = 3;
 
 	const [inputDesiredCondition, setInputDesiredCondition] =
@@ -111,10 +113,7 @@ export const DesiredConditionEdit = ({ desiredCondition }: Props) => {
 									.value as DesiredConditionForEditDto['jobSeekingStatus'],
 							})
 						}
-						options={[
-							{ value: 'notSeeking', name: '案件を探していない' },
-							{ value: 'seeking', name: '案件を探している' },
-						]}
+						options={desiredConditionSelectValues.jobSeekingStatus}
 						validationErrors={
 							getValidationErrorsByKey(validationErrors, 'jobSeekingStatus') ??
 							[]
@@ -133,18 +132,7 @@ export const DesiredConditionEdit = ({ desiredCondition }: Props) => {
 									.value as DesiredConditionForEditDto['expectedStartTimings'],
 							})
 						}
-						options={[
-							{ value: 'not_setted', name: '--' },
-							{ value: 'immediately', name: '即時' },
-							{ value: 'withinMonth', name: '今月中' },
-							{ value: 'withinNextMonth', name: '来月中' },
-							{ value: 'withinTwoMonths', name: '2ヶ月以内' },
-							{ value: 'withinThreeMonths', name: '3ヶ月以内' },
-							{ value: 'withinFourMonths', name: '4ヶ月以内' },
-							{ value: 'withinFiveMonths', name: '5ヶ月以内' },
-							{ value: 'withinSixMonths', name: '6ヶ月以内' },
-							{ value: 'anytime', name: 'いつでも' },
-						]}
+						options={desiredConditionSelectValues.expectedStartTimings}
 						validationErrors={
 							getValidationErrorsByKey(
 								validationErrors,
@@ -166,14 +154,7 @@ export const DesiredConditionEdit = ({ desiredCondition }: Props) => {
 									.value as DesiredConditionForEditDto['minWorkingTimes'],
 							})
 						}
-						options={[
-							{ value: 'not_setted', name: '--' },
-							{ value: 'oneDayToAWeek', name: '週1(8時間)' },
-							{ value: 'twoDaysToAWeek', name: '週2(16時間)' },
-							{ value: 'threeDaysToAWeek', name: '週3(24時間)' },
-							{ value: 'fourDaysToAWeek', name: '週4(32時間)' },
-							{ value: 'fiveDaysToAWeek', name: '週5(40時間)' },
-						]}
+						options={desiredConditionSelectValues.workingTimes}
 						validationErrors={
 							getValidationErrorsByKey(validationErrors, 'minWorkingTimes') ??
 							[]
@@ -189,18 +170,11 @@ export const DesiredConditionEdit = ({ desiredCondition }: Props) => {
 						defaultValue={inputDesiredCondition.maxWorkingTimes}
 						onChange={(e) =>
 							updateInputDesiredCondition({
-								minWorkingTimes: e.currentTarget
+								maxWorkingTimes: e.currentTarget
 									.value as DesiredConditionForEditDto['maxWorkingTimes'],
 							})
 						}
-						options={[
-							{ value: 'not_setted', name: '--' },
-							{ value: 'oneDayToAWeek', name: '週1(8時間)' },
-							{ value: 'twoDaysToAWeek', name: '週2(16時間)' },
-							{ value: 'threeDaysToAWeek', name: '週3(24時間)' },
-							{ value: 'fourDaysToAWeek', name: '週4(32時間)' },
-							{ value: 'fiveDaysToAWeek', name: '週5(40時間)' },
-						]}
+						options={desiredConditionSelectValues.workingTimes}
 						validationErrors={
 							getValidationErrorsByKey(validationErrors, 'maxWorkingTimes') ??
 							[]
@@ -220,15 +194,7 @@ export const DesiredConditionEdit = ({ desiredCondition }: Props) => {
 									.value as DesiredConditionForEditDto['workingTimeZone'],
 							})
 						}
-						options={[
-							{ value: 'not_setted', name: '--' },
-							{ value: 'daytimeWorkday', name: '平日日中のみ' },
-							{
-								value: 'morningNightWorkdayOrHoliday',
-								name: '平日朝夜と休日のみ',
-							},
-							{ value: 'anytime', name: 'いつでも' },
-						]}
+						options={desiredConditionSelectValues.workingTimeZone}
 						validationErrors={
 							getValidationErrorsByKey(validationErrors, 'workingTimeZone') ??
 							[]
@@ -248,20 +214,7 @@ export const DesiredConditionEdit = ({ desiredCondition }: Props) => {
 									.value as DesiredConditionForEditDto['remortWork'],
 							})
 						}
-						options={[
-							{ value: 'not_setted', name: '--' },
-							{
-								value: 'noDetailed',
-								name: '特になし(リモート・オフラインどちらも可)',
-							},
-							{
-								value: 'office',
-								name: 'オフラインメイン',
-							},
-							{ value: 'partRemort', name: '一部リモート' },
-							{ value: 'remortMain', name: 'リモートメイン' },
-							{ value: 'fullRemort', name: 'フルリモート' },
-						]}
+						options={desiredConditionSelectValues.remortWork}
 						validationErrors={
 							getValidationErrorsByKey(validationErrors, 'remortWork') ?? []
 						}
@@ -286,26 +239,7 @@ export const DesiredConditionEdit = ({ desiredCondition }: Props) => {
 										.value as DesiredConditionForEditDto['desiredPriorityConditions'][0]['condition'],
 								)
 							}
-							options={[
-								{ value: 'not_setted', name: '--' },
-								{
-									value: 'revenue',
-									name: '収入',
-								},
-								{
-									value: 'remort',
-									name: 'リモート可',
-								},
-								{ value: 'working_date', name: '稼働日・時間' },
-								{ value: 'industry', name: '分野・業界' },
-								{ value: 'skill', name: '活かしたいスキル' },
-								{ value: 'experience', name: '活かしたい経験' },
-								{
-									value: 'want_to_acquire_skill',
-									name: '新たに習得したい技術・経験',
-								},
-								{ value: 'company_scale', name: '企業規模' },
-							]}
+							options={desiredConditionSelectValues.desiredPriorityCondition}
 							validationErrors={
 								getValidationErrorsByKey(validationErrors, 'remortWork') ?? []
 							}
