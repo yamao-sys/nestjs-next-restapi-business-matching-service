@@ -1,0 +1,43 @@
+description: 編集対象のプロフィール取得レスポンスのDTO
+type: object
+properties:
+  currentEmployment:
+    type: array
+    items:
+      type: object
+      properties:
+        value:
+          type: string
+        name:
+          type: string
+      required:
+        - value
+        - name
+  experiencedDuration:
+    type: array
+    items:
+      type: object
+      properties:
+        value:
+          type: string
+        name:
+          type: string
+      required:
+        - value
+        - name
+  experiencedEntityDuration:
+    type: array
+    items:
+      type: object
+      properties:
+        value:
+          type: string
+        name:
+          type: string
+      required:
+        - value
+        - name
+required:
+  - currentEmployment
+  - experiencedDuration
+  - experiencedEntityDuration

@@ -4,10 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { datasource } from '../data-source';
 import { User } from '../src/users/entities/user.entity';
-import {
-  CurrentEmployment,
-  Engineer,
-} from '../src/engineers/entities/engineer.entity';
+import { Engineer } from '../src/engineers/entities/engineer.entity';
 import { ExperiencedDuration } from '../src/experiences/entities/base';
 import {
   DesiredCondition,
@@ -18,6 +15,7 @@ import {
   WorkingTimes,
 } from '../src/desired-conditions/entities/desired-condition.entity';
 import { PriorityCondition } from '../src/desired-priority-conditions/entities/desired-priority-condition.entity';
+import { CurrentEmployment } from 'src/engineers/enums';
 
 describe('DesiredConditionsController (e2e)', () => {
   let app: INestApplication;

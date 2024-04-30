@@ -4,14 +4,12 @@ import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { datasource } from '../data-source';
 import { User } from '../src/users/entities/user.entity';
-import {
-  CurrentEmployment,
-  Engineer,
-} from '../src/engineers/entities/engineer.entity';
+import { Engineer } from '../src/engineers/entities/engineer.entity';
 import { ExperiencedDuration } from '../src/experiences/entities/base';
 import { Profession } from '../src/professions/entities/profession.entity';
 import { ProgrammingLanguage } from '../src/programming-languages/entities/programming-languages.entity';
 import { SkillSheet } from '../src/skillsheets/entities/skillsheet.entity';
+import { CurrentEmployment } from '../src/engineers/enums';
 
 describe('ProfilesController (e2e)', () => {
   let app: INestApplication;

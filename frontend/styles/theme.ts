@@ -14,6 +14,7 @@ export const theme = {
 		full: '100%',
 		threeQuarters: '75%',
 		half: '50%',
+		fortyFive: '45%',
 		quarter: '25%',
 	},
 	border: {

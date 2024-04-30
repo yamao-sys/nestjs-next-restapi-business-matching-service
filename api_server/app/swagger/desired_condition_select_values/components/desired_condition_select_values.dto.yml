@@ -1,0 +1,82 @@
+description: 希望条件編集のセレクトボックスのoptionの取得レスポンスのDTO
+type: object
+properties:
+  jobSeekingStatus:
+    type: array
+    items:
+      type: object
+      properties:
+        value:
+          type: string
+        name:
+          type: string
+      required:
+        - value
+        - name
+  expectedStartTimings:
+    type: array
+    items:
+      type: object
+      properties:
+        value:
+          type: string
+        name:
+          type: string
+      required:
+        - value
+        - name
+  workingTimes:
+    type: array
+    items:
+      type: object
+      properties:
+        value:
+          type: string
+        name:
+          type: string
+      required:
+        - value
+        - name
+  workingTimeZone:
+    type: array
+    items:
+      type: object
+      properties:
+        value:
+          type: string
+        name:
+          type: string
+      required:
+        - value
+        - name
+  remortWork:
+    type: array
+    items:
+      type: object
+      properties:
+        value:
+          type: string
+        name:
+          type: string
+      required:
+        - value
+        - name
+  desiredPriorityCondition:
+    type: array
+    items:
+      type: object
+      properties:
+        value:
+          type: string
+        name:
+          type: string
+      required:
+        - value
+        - name
+required:
+  - jobSeekingStatus
+  - expectedStartTimings
+  - workingTimes
+  - workingTimeZone
+  - remortWork
+  - desiredPriorityCondition

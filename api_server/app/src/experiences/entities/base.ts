@@ -1,12 +1,5 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
-export enum ExperiencedDuration {
-  LESS_THAN_ONE_YEAR = 'lessThanOneYear',
-  JUNIOR = 'junior',
-  MIDDLE = 'middle',
-  SENIOR = 'senior',
-  EXPERT = 'expert',
-}
+import { ExperiencedDuration } from '../enums';
 
 @Entity()
 export class BaseExperiencedEntity extends BaseEntity {

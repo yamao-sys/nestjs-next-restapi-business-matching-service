@@ -20,11 +20,10 @@ export const InputFormArea = ({
 	onChange,
 	validationErrors = [],
 	labelText = '',
-	width = 'threeQuarters',
 }: Props) => {
 	return (
 		<>
-			<Wrapper $width={width}>
+			<Wrapper>
 				<InputForm
 					labelText={labelText}
 					type={type}
@@ -41,8 +40,7 @@ export const InputFormArea = ({
 	);
 };
 
-const Wrapper = styled.div<{ $width: CssProps['width'] }>`
-	width: ${({ $width, theme }) =>
-		$width ? theme.size[$width] : theme.size.threeQuarters};
+const Wrapper = styled.div`
+	width: ${({ theme }) => theme.size.full};
 `;
 Wrapper.defaultProps = { theme: theme };

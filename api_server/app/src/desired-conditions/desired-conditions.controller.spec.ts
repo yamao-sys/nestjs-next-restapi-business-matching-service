@@ -11,7 +11,9 @@ describe('DesiredConditionsController', () => {
       providers: [DesiredConditionsService],
     }).compile();
 
-    controller = module.get<DesiredConditionsController>(DesiredConditionsController);
+    controller = module.get<DesiredConditionsController>(
+      DesiredConditionsController,
+    );
   });
 
   it('should be defined', () => {

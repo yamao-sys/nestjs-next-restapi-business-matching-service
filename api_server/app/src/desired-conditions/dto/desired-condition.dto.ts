@@ -1,11 +1,11 @@
+import { DesiredPriorityCondition } from '../../desired-priority-conditions/entities/desired-priority-condition.entity';
 import {
   ExpectedStartTimings,
   JobSeekingStatus,
   RemortWork,
   WorkingTimeZones,
   WorkingTimes,
-} from '../entities/desired-condition.entity';
-import { DesiredPriorityCondition } from '../../desired-priority-conditions/entities/desired-priority-condition.entity';
+} from '../enums';
 
 export class DesiredConditionDto {
   jobSeekingStatus: JobSeekingStatus;
