@@ -27,6 +27,13 @@ const profileSelectValues = {
 		{ value: 'senior', name: '3〜5年' },
 		{ value: 'expert', name: '10年〜' },
 	],
+	experiencedEntityDuration: [
+		{ value: 'lessThanOneYear', name: '〜1年' },
+		{ value: 'junior', name: '1〜2年' },
+		{ value: 'middle', name: '2〜3年' },
+		{ value: 'senior', name: '3〜5年' },
+		{ value: 'expert', name: '10年〜' },
+	],
 };
 
 describe('frontend/app/mypage/profiles/_components/organisms/ProfileEdit', () => {
