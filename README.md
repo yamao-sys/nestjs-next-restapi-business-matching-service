@@ -193,6 +193,13 @@ npx ts-node ./node_modules/.bin/typeorm migration:run -d ./data-source.ts
 npx ts-node src/commands/cli.ts <commandName> <args>
 ```
 
+スキーマ定義から型を自動生成
+```
+docker-compose exec frontend sh
+
+bash generate_types.sh -e <domain_name>
+```
+
 単体テスト実行(Backend)
 ```
 # コンテナに入る
